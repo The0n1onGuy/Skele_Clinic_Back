@@ -9,9 +9,9 @@ spring:
 
 
     #        Localhost
-    url: jdbc:sqlserver://192.168.8.87;databaseName=TestDatabase
-    username: Jesus
-    password: 250305Jl@
+    url: jdbc:sqlserver://localhost:14000;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
+    username: Darick
+    password: SQLServer1471182005#
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     #driver-class-name: com.mysql.cj.jdbc.Driver
 

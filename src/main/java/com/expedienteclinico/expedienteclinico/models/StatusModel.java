@@ -1,23 +1,17 @@
 package com.expedienteclinico.expedienteclinico.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
-
 import javax.persistence.*;
-
 @Entity
-@Table( appliesTo = "estatus" )
+@Table(name = "estatus")
 @Getter
-
+@Setter
 public class StatusModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Recuerda: IDENTITY es mejor para SQL Server/MySQL
     @Column(nullable = false)
     private Long id;
 
-    private String statusName ;
-
+    private String statusName;
 }
