@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
-
+//Este cambio es una prueba
 @Entity
 @Table( appliesTo = "first_model" )
 @NoArgsConstructor
