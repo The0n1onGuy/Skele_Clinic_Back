@@ -1,9 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
