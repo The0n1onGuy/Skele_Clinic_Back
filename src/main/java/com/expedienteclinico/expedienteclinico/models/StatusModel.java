@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
+//Prueba 1
 
 @Entity
 @Table( appliesTo = "estatus" )
