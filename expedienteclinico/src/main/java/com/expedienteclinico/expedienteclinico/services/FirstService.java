@@ -32,7 +32,7 @@ public class FirstService {
         c.setNombre("Skeleton");
         c.setDireccion("Villas Dorados");
         c.setEdad( 25 );
-        c.setTelefono("9669999999");
+        c.setTelefono("96699999799");
 
         FirstObject d = new FirstObject();
         d.setNombre("Springer");
