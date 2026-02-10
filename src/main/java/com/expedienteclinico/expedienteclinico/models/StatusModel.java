@@ -1,12 +1,11 @@
 package com.expedienteclinico.expedienteclinico.models;
 
 import lombok.Getter;
-import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
 
 @Entity
-@Table( appliesTo = "estatus" )
+@Table
 @Getter
 
 public class StatusModel {
