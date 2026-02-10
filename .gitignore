@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Configuration
+pom.xml
+src/main/resources/
