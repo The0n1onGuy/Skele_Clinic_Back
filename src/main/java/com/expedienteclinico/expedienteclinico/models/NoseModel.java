@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Deprecated
 public class NoseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
+@Deprecated
 public class FirstModel {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )
