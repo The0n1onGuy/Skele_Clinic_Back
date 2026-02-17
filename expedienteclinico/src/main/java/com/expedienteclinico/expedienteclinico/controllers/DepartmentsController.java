@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/departments/")
+@RequestMapping("/rh/departments/")
 @CrossOrigin(origins = "*")
 public class DepartmentsController {
     @Autowired
     DepartmentsService departmentService;
 
-    @GetMapping("all")
+    @GetMapping("get")
     public List<Departments> getAll() {
         return departmentService.getAll();
     }
