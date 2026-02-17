@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
-//Este cambio es una prueba2
 @Entity
 @Table( appliesTo = "first_model" )
 @NoArgsConstructor
@@ -23,3 +22,4 @@ public class FirstModel {
     private String apellido ;
 
 }
+
