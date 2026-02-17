@@ -15,6 +15,9 @@ public class FirstService {
     @Autowired
     IFirstRepository iFirstRepository ;
 
+    @Autowired
+    IRepoJose iRepoJose ;
+
     public ArrayList<Object> getFirstList() {
         ArrayList< Object > myObjectOfObjects = new ArrayList<>() ;
 
@@ -56,6 +59,10 @@ public class FirstService {
         return a ;
     }
 
+    public List<FirstModel> getAll() {
+        return iFirstRepository.findAll() ;
+    }
+
     public void fibonacci( int MAX ) {
 
         int firstNumber = 0 ;
@@ -76,7 +83,7 @@ public class FirstService {
     }
 
 
-    public List< FirstModel > getAll() {
-        return iFirstRepository.findAll() ;
+    public List< PruebaModeljose > getDat() {
+        return iRepoJose.findAll() ;
     }
 }

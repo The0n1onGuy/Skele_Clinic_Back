@@ -56,5 +56,8 @@ public class FirstController {
         return firstService.getAll() ;
     }
 
-
+    @GetMapping( "Jose" )
+    public List<PruebaModeljose> getDat() {
+        return firstService.getDat() ;
+    }
 }
