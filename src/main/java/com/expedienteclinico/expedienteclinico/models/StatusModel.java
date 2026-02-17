@@ -1,24 +1,23 @@
 package com.expedienteclinico.expedienteclinico.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Table;
-
 import javax.persistence.*;
-//Prueba 1
 
 @Entity
-@Table( appliesTo = "estatus" )
-@Getter
-
+@Table(name = "estatus") // Usamos name estándar de JPA
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StatusModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY es mejor para MySQL/Postgres que SEQUENCE
     private Long id;
 
-    private String statusName ;
+    @Column(nullable = false, unique = true)
+    private String statusName; // Ej: "PENDIENTE", "CONFIRMADA", "EMERGENCIA_ROJA"
 
+    // Opcional: Para distinguir si es estatus de cita o de triaje
+    private String tipo; // Ej: "CITA", "TRIAJE"
 }
