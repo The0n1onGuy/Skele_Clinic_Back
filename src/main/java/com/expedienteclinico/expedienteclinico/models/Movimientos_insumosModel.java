@@ -4,24 +4,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table( appliesTo = "first_model" )
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+public class Movimientos_insumosModel {
 
-public class FirstModel {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )
     @Column( nullable = false )
-    private Long id ;
-    private String nombre ;
-    private String apellido ;
 
+    private Long id_movimiento;
+
+    // private Integer id_insumo;
+
+    private String tipo_movimiento; //(Entrada, Consumo, ajuste)
+
+    private Integer cantidad;
+
+    private String fecha;
+
+   // private Integer id_empleado;
+
+    private String observaciones;
 }

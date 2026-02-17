@@ -3,9 +3,14 @@ package com.expedienteclinico.expedienteclinico.controllers;
 import com.expedienteclinico.expedienteclinico.beans.FirstObject;
 import com.expedienteclinico.expedienteclinico.models.FirstModel;
 import com.expedienteclinico.expedienteclinico.services.FirstService;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +21,7 @@ public class FirstController {
 
     @Autowired
     FirstService firstService ;
+
 
     @GetMapping( "first-single" )
     public FirstObject getFirstSingle() {
@@ -40,7 +46,7 @@ public class FirstController {
 
 
 
-
+    @Deprecated
     @GetMapping( "fibonacci" )
     public void fibonacci() {
 
@@ -49,11 +55,17 @@ public class FirstController {
 
     }
 
-
+    @Deprecated
     @GetMapping( "all" )
-    public List< FirstModel > getAll() {
+    public List<FirstModel> getAll() {
         return firstService.getAll() ;
     }
 
+    @PutMapping( "change/{id}" )
+    public ResponseEntity< ? > updateData(@Valid @RequestBody FirstModel firstModel , BindingResult result , @PathVariable Long id){
+
+        return firstService.updateDate(firstModel, result, id);
+
+    }
 
 }

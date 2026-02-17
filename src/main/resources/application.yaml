@@ -1,0 +1,40 @@
+spring:
+  datasource:
+
+    #      Localhost Oracle
+    #      url: jdbc:oracle:thin:@//localhost:11521/OperaUserAccessRequisition
+    #      username: OperaUserAccessRequisitionUser
+    #      password: qwerty2022
+    #      driver-class-name: oracle.jdbc.OracleDriver
+
+
+    #        Remoto
+    #url: jdbc:sqlserver://187.155.175.213;database=test
+    #username: cesar
+    #password: 12345678
+    #driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+
+    #        Localhost
+     url: jdbc:sqlserver://localhost:1433;database=expedienteclinico_pruebas
+     username: JULIOgb
+     password: julio0520
+     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update #create update none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+        #dialect: org.hibernate.dialect.MySQLDialect
+
+        jdbc:
+          time_zone: UTC
+
+#logging.level:
+#Uncomment for extensive SQL logging
+#org.hibernate.SQL: DEBUG
+#org.hibernate.type: TRACE
+#org.hibernate.search.fulltext_query: DEBUG

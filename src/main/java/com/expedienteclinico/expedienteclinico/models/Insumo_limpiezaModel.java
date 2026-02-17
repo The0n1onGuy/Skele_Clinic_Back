@@ -4,24 +4,35 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
 
 
 @Entity
-@Table( appliesTo = "first_model" )
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+public class Insumo_limpiezaModel {
 
-public class FirstModel {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )
     @Column( nullable = false )
-    private Long id ;
-    private String nombre ;
-    private String apellido ;
 
+    private Long id_insumo;
+
+    private String nombre; // (Cloro, Desinfectante, Alcohol)
+
+    private String unidad_medida; //(Kg, L, Ml,)
+
+    private Integer stock_actual;
+
+    private Integer stock_minimo;
+
+    private String fecha_caducidad;
+
+    private String estado;
 }
+
+

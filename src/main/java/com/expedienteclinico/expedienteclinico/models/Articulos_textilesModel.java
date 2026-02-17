@@ -4,24 +4,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
+import javax.persistence.Table;
+
 
 import javax.persistence.*;
 
 
+
 @Entity
-@Table( appliesTo = "first_model" )
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+public class Articulos_textilesModel {
 
-public class FirstModel {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )
     @Column( nullable = false )
-    private Long id ;
-    private String nombre ;
-    private String apellido ;
 
+    private Long id_articulo;
+    private String nombre;
+    private String descripcion;
 }
+
+
