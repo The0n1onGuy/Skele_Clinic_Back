@@ -1,7 +1,7 @@
-package com.expedienteclinico.expedienteclinico.controllers;
+package com.expedienteclinico.expedienteclinico.controllers.rrhh;
 
-import com.expedienteclinico.expedienteclinico.models.Positions;
-import com.expedienteclinico.expedienteclinico.services.PositionsService;
+import com.expedienteclinico.expedienteclinico.models.rrhh.PositionsModel;
+import com.expedienteclinico.expedienteclinico.services.rrhh.PositionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class PositionsController {
     @Autowired
     PositionsService positionsService;
     @GetMapping("get")
-    public List<Positions> getPos(){
+    public List<PositionsModel> getPos(){
         return positionsService.getPos();
     }
 

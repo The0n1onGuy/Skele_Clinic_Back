@@ -1,5 +1,5 @@
 
-package com.expedienteclinico.expedienteclinico.models;
+package com.expedienteclinico.expedienteclinico.models.rrhh;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Positions {
+public class PositionsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(nullable = false)
