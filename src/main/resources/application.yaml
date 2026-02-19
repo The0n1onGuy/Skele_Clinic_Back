@@ -8,15 +8,19 @@ spring:
     #      driver-class-name: oracle.jdbc.OracleDriver
 
     #        Localhost
-    url: jdbc:sqlserver://127.0.0.1:14000;database=TestDatabase
-    username: Jose
-    password: JoseGymBro020526#
+    #url: jdbc:sqlserver://127.0.0.1:14000;database=TestDatabase
+    #username: Jose
+    #password: JoseGymBro020526
+    url: jdbc:sqlserver://localhost:1433;database=clinica
+    username: jose_dev
+    password: joseadmin
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     # driver-class-name: com.mysql.cj.jdbc.Driver
 
+
   jpa:
     hibernate:
-      ddl-auto: update #create update none
+      ddl-auto: uodate #create update none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
