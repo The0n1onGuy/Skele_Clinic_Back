@@ -1,8 +1,8 @@
 package com.expedienteclinico.expedienteclinico.services.rpbi;
 
-import com.expedienteclinico.expedienteclinico.beans.rpbi.RpbiEstadoFisicoObject;
-import com.expedienteclinico.expedienteclinico.repositories.rpbi.IRpbiEstadoFisicoRepository;
-import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiEstadoFisicoModel;
+import com.expedienteclinico.expedienteclinico.beans.rpbi.RpbiPhysicalStateObject;
+import com.expedienteclinico.expedienteclinico.repositories.rpbi.IRpbiPhysicalStateRepository;
+import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiPhysicalStateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RpbiEstadoFisicoService {
+public class RpbiPhysicalStateService {
 
     @Autowired
-    private IRpbiEstadoFisicoRepository repository;
+    private IRpbiPhysicalStateRepository repository;
 
-    public List<RpbiEstadoFisicoObject> getAll(){
+    public List<RpbiPhysicalStateObject> getAll(){
 
-        List<RpbiEstadoFisicoModel> entidades = repository.findAll();
+        List<RpbiPhysicalStateModel> entidades = repository.findAll();
 
-        List<RpbiEstadoFisicoObject> dtos = new ArrayList<>();
+        List<RpbiPhysicalStateObject> dtos = new ArrayList<>();
 
-        for (RpbiEstadoFisicoModel entidad : entidades){
+        for (RpbiPhysicalStateModel entidad : entidades){
 
-            RpbiEstadoFisicoObject dto = new RpbiEstadoFisicoObject();
+            RpbiPhysicalStateObject dto = new RpbiPhysicalStateObject();
 
             dto.setId(entidad.getId());
             dto.setNombre(entidad.getNombre());

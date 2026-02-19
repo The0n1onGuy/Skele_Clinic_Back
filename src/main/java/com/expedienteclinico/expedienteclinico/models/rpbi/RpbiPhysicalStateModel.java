@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "rpbi_cat_estado_fisico")
 @Getter
 @Setter
-public class RpbiEstadoFisicoModel {
+public class RpbiPhysicalStateModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
