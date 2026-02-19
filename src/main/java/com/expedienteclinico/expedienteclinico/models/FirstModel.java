@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
+import javax.persistence.Table;
 
 import javax.persistence.*;
 @Entity
-@Table( appliesTo = "first_model" )
+@Table( name = "first_model" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
