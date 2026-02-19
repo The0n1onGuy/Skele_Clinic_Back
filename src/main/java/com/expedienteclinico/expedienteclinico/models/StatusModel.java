@@ -1,19 +1,19 @@
 package com.expedienteclinico.expedienteclinico.models;
 
 import lombok.Getter;
-
-import javax.persistence.*;
+import lombok.Setter;
+import javax.persistence.*; // USAMOS JAVAX PARA SPRING BOOT 2.6
 
 @Entity
-@Table
+@Table(name = "estatus")
 @Getter
-
+@Setter
 public class StatusModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_estatus", nullable = false) // Buena práctica: nombrar explícitamente la PK
     private Long id;
 
-    private String statusName ;
-
+    @Column(name = "nombre", nullable = false, unique = true)
+    private String statusName;
 }

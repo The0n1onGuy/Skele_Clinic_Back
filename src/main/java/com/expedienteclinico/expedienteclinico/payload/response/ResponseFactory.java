@@ -8,53 +8,53 @@ import java.util.stream.Collectors;
 
 public class ResponseFactory {
 
-    public static Map< String , Object > getErrorResponse(BindingResult result) {
-        Map< String, Object> response = new HashMap<>();
+    public static Map< String , Object > getErrorResponse( BindingResult result){
+
+        Map< String, Object > response = new HashMap<>();
+
 
         List< String > lsErrors = result.getFieldErrors().stream()
                 .map( err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage() )
-                .collect(Collectors.toList() )
-                ;
+                .collect(Collectors.toList());
 
-        response.put("errors" , lsErrors);
+        response.put( "errors" , lsErrors);
+        return response;
 
-        return response ;
     }
 
     public static Map<String, Object> getNotFoundResponse(Object object) {
-        Map< String, Object> response = new HashMap<>();
 
-        response.put( "message" , String.format( "&s no encontrado." , object.getClass().getSimpleName()));
-        response.put( object.getClass().getSimpleName().toLowerCase(), object );
+        Map< String, Object > response = new HashMap<>();
+
+        response.put("message", String.format( "%s no encontrado.", object.getClass().getSimpleName() ));
 
         return response;
     }
 
     public static Map<String, Object> getErrorToUpdateResponse(Object object) {
-        Map< String, Object> response = new HashMap<>();
 
-        response.put( "message" , "");
-        response.put( object.getClass().getSimpleName().toLowerCase(), object );
+        Map< String, Object> response = new HashMap<>();
+        response.put("message", "");
+        response.put( object.getClass().getSimpleName().toLowerCase(), object);
 
         return response;
 
     }
 
     public static Map<String, Object> getUpdateResponse(Object object) {
-        Map< String, Object> response = new HashMap<>();
 
-        response.put( "message" , String.format("%s se actualizo correctamente." , object.getClass().getSimpleName()));
-        response.put( object.getClass().getSimpleName().toLowerCase(), object );
+        Map< String, Object > response = new HashMap<>();
+        response.put("message", String.format("%s se actualió correctamente.", object.getClass().getSimpleName() ) );
+        response.put( object.getClass().getSimpleName().toLowerCase(), object);
 
         return response;
-
     }
 
-    public static Map<String, Object> getSuccessOnceAllResponse(Object data) {
-        Map< String, Object> response = new LinkedHashMap<>();
+    public static Map<String, Object > getSuccessOnGetAllResponse(Object data){
 
-        response.put( "message" , String.format("%s se actualizo correctamente." ));
-        response.put( "data" , data);
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", String.format("Informacón obtenida con éxito."));
+        response.put("data", data);
 
         return response;
 
