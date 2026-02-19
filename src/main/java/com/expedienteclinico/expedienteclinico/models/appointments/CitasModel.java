@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.models;
+package com.expedienteclinico.expedienteclinico.models.appointments;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

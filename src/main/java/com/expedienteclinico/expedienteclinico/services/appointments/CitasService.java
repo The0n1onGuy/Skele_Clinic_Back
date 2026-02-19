@@ -1,7 +1,7 @@
-package com.expedienteclinico.expedienteclinico.services;
+package com.expedienteclinico.expedienteclinico.services.appointments;
 
-import com.expedienteclinico.expedienteclinico.models.CitasModel;
-import com.expedienteclinico.expedienteclinico.repositories.ICitasRepository;
+import com.expedienteclinico.expedienteclinico.models.appointments.CitasModel;
+import com.expedienteclinico.expedienteclinico.repositories.appointments.ICitasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

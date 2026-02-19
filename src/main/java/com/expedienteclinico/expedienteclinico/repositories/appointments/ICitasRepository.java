@@ -1,6 +1,6 @@
-package com.expedienteclinico.expedienteclinico.repositories;
+package com.expedienteclinico.expedienteclinico.repositories.appointments;
 
-import com.expedienteclinico.expedienteclinico.models.CitasModel;
+import com.expedienteclinico.expedienteclinico.models.appointments.CitasModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

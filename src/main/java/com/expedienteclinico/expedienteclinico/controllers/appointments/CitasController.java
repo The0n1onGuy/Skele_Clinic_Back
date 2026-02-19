@@ -1,7 +1,7 @@
-package com.expedienteclinico.expedienteclinico.controllers;
+package com.expedienteclinico.expedienteclinico.controllers.appointments;
 
-import com.expedienteclinico.expedienteclinico.models.CitasModel;
-import com.expedienteclinico.expedienteclinico.services.CitasService;
+import com.expedienteclinico.expedienteclinico.models.appointments.CitasModel;
+import com.expedienteclinico.expedienteclinico.services.appointments.CitasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
