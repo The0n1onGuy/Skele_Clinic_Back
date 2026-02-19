@@ -15,36 +15,36 @@ public class ResponseFactory {
         Map< String , Object > response = new HashMap<>() ;
 
         List< String > lsErrors = result.getFieldErrors().stream()
-                .map(err -> "El campo '"+ err.getField() + "' "+ err.getDefaultMessage() )
-                .collect(Collectors.toList() )
-                ;
+                .map( err -> "El campo '"+ err.getField() +"' "+ err.getDefaultMessage() )
+                .collect( Collectors.toList() )
+            ;
 
-        response.put("errors", lsErrors);
-
-        return response ;
-    }
-
-    public static Map<String, Object> getNotFoundResponse(Object object) {
-        Map< String , Object > response = new HashMap<>() ;
-
-        response.put("message", String.format( "%s no encontrado." , object.getClass().getSimpleName() ) ) ;
+        response.put( "errors" , lsErrors ) ;
 
         return response ;
     }
 
-    public static Map<String, Object> getErrorToUpdateResponse(Object object) {
+    public static Map< String , Object > getNotFoundResponse( Object object ) {
         Map< String , Object > response = new HashMap<>() ;
-        response.put("message", "" ) ;
-        response.put (object.getClass().getSimpleName() .toLowerCase() , object) ;
+
+        response.put( "message" , String.format( "%s no encontrado." , object.getClass().getSimpleName() ) ) ;
 
         return response ;
     }
 
-    public static Map<String, Object> getUpdateResponse( Object object) {
+    public static Map< String , Object > getErrorToUpdateResponse( Object object ) {
+        Map< String , Object > response = new HashMap<>() ;
+        response.put( "message" , "" ) ;
+        response.put ( object.getClass().getSimpleName().toLowerCase() , object ) ;
+
+        return response ;
+    }
+
+    public static Map<String, Object> getUpdateResponse( Object object ) {
         Map< String , Object > response = new HashMap<>() ;
 
-        response.put("message", String.format( "%s se actualizó correctamente." , object.getClass().getSimpleName() ) ) ;
-        response.put (object.getClass().getSimpleName() .toLowerCase() , object ) ;
+        response.put( "message" , String.format( "%s se actualizó correctamente." , object.getClass().getSimpleName() ) ) ;
+        response.put ( object.getClass().getSimpleName().toLowerCase() , object ) ;
 
         return response ;
     }
