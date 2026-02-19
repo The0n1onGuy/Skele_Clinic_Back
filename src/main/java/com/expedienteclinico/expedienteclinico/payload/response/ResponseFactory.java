@@ -1,6 +1,5 @@
 package com.expedienteclinico.expedienteclinico.payload.response;
 
-import com.expedienteclinico.expedienteclinico.models.FirstModel;
 import org.springframework.validation.BindingResult;
 
 import java.util.HashMap;
