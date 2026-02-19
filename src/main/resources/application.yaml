@@ -8,10 +8,16 @@ spring:
     #      driver-class-name: oracle.jdbc.OracleDriver
 
 
+#    #        Localhost
+#    url: jdbc:sqlserver://localhost:14000;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
+#    username: Darick
+#    password: SQLServer1471182005#
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    #driver-class-name: com.mysql.cj.jdbc.Driver
     #        Localhost
-    url: jdbc:sqlserver://localhost:14000;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://localhost:1433;databaseName=RPBI;encrypt=true;trustServerCertificate=true
     username: Darick
-    password: SQLServer1471182005#
+    password: Darick471
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     #driver-class-name: com.mysql.cj.jdbc.Driver
 

@@ -49,4 +49,14 @@ public class ResponseFactory {
 
         return response;
     }
+
+    public static Map<String, Object > getSuccessOnGetAllResponse(Object data){
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", String.format("Informacón obtenida con éxito."));
+        response.put("data", data);
+
+        return response;
+
+    }
 }
