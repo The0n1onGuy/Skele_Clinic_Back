@@ -3,10 +3,7 @@ package com.expedienteclinico.expedienteclinico.payload.response;
 import com.expedienteclinico.expedienteclinico.models.FirstModel;
 import org.springframework.validation.BindingResult;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ResponseFactory {
@@ -48,6 +45,16 @@ public class ResponseFactory {
 
         response.put( "message" , String.format("%s se actualizo correctamente." , object.getClass().getSimpleName()));
         response.put( object.getClass().getSimpleName().toLowerCase(), object );
+
+        return response;
+
+    }
+
+    public static Map<String, Object> getSuccessOnceAllResponse(Object data) {
+        Map< String, Object> response = new LinkedHashMap<>();
+
+        response.put( "message" , String.format("%s se actualizo correctamente." ));
+        response.put( "data" , data);
 
         return response;
 
