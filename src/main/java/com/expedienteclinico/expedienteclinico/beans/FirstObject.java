@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Deprecated
+
 public class FirstObject {
 
     private String nombre ;

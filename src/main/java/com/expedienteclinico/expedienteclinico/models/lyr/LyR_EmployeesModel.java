@@ -1,5 +1,6 @@
-package com.expedienteclinico.expedienteclinico.models;
+package com.expedienteclinico.expedienteclinico.models.lyr;
 
+import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,19 +16,31 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Setter
 @Getter
-public class Empleados_LyRModel {
+public class LyR_EmployeesModel {
 
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )
     @Column( nullable = false )
-
     private Long id_empleado ;
+
+    @Column
     private String nombre;
+
+    @Column
     private String apellido;
+
+    @Column
     private String area;
+
+    @Column
     private String turno;
+
+    @Column
     private Integer telefono;
-    private String estatus;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id" , nullable = false)
+    private StatusModel Status;
 }
 
 

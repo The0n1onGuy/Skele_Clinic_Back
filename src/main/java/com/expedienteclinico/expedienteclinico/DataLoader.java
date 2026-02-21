@@ -1,113 +1,84 @@
 package com.expedienteclinico.expedienteclinico;
 
-import com.expedienteclinico.expedienteclinico.models.*;
-import com.expedienteclinico.expedienteclinico.repositories.*;
+import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.lyr.Cleaning_suppliesModel;
+import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.lyr.ICleaning_suppliesRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private final IArticulos_textilesRepository iArticulos_textilesRepository;
+    private final ICleaning_suppliesRepository cleaningRepository;
+    private final IStatusRepository statusRepository;
 
-    private final IEmpleados_LyRRepository iEmpleados_LyRRepository;
+    @Value("${STATUS1}")
+    private String statusName;
 
-    private final IMovimientos_insumosRepository iMovimientos_insumosRepository;
+    @Value("${STATUS2}")
+    private String StatusName2;
 
-    private final IMovimientos_textilesRepository iMovimientos_textilesRepository;
+    @Value("${ARTICULO1}")
+    private String articuloName;
 
-    private final IInsumo_limpiezaRepository iInsumoLimpiezaRepository;
+    @Value("${STOCK}")
+    private Integer stock;
 
-    public DataLoader(IArticulos_textilesRepository iArticulos_textilesRepository,
-                      IEmpleados_LyRRepository iEmpleados_LyRRepository,
-                      IInsumo_limpiezaRepository iInsumo_LimpiezaRepository,
-                      IMovimientos_insumosRepository iMovimientos_insumosRepository,
-                      IMovimientos_textilesRepository iMovimientos_textilesRepository){
+    @Value("${STOCK_MIN}")
+    private Integer stock_min;
 
+    @Value("${UNIT}")
+    private String unit;
 
-        this.iArticulos_textilesRepository = iArticulos_textilesRepository;
+    @Value("${EXP_DATE}")
+    private String exp_date;
 
-        this.iEmpleados_LyRRepository = iEmpleados_LyRRepository;
+    public DataLoader(ICleaning_suppliesRepository cleaningRepository,
+                      IStatusRepository statusRepository) {
 
-        this.iMovimientos_insumosRepository = iMovimientos_insumosRepository;
-
-        this.iMovimientos_textilesRepository = iMovimientos_textilesRepository;
-
-        this.iInsumoLimpiezaRepository = iInsumo_LimpiezaRepository;
+        this.cleaningRepository = cleaningRepository;
+        this.statusRepository = statusRepository;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
-        if (iArticulos_textilesRepository.count() == 0) {
-            Articulos_textilesModel articulo = new Articulos_textilesModel();
-            articulo.setNombre("Batas");
-            articulo.setDescripcion("Blancas con logotipo de la clinica ");
-
-
-            iArticulos_textilesRepository.save(articulo);
+        if (statusRepository.count() == 0) {
+            StatusModel status = new StatusModel();
+            status.setStatusName(statusName);
+            statusRepository.save(status);
         }
 
-        if (iMovimientos_textilesRepository.count() == 0) {
-            Movimientos_textilesModel movimientot = new Movimientos_textilesModel();
-            movimientot.setTipo_movimiento("Entrada");
-            movimientot.setCantidad(50);
-            movimientot.setFecha("12/10/2026");
-            movimientot.setObservaciones("En perfectas condiciones");
-
-
-            iMovimientos_textilesRepository.save(movimientot);
+        if (statusRepository.count() == 1) {
+            StatusModel status2 = new StatusModel();
+            status2.setStatusName(StatusName2);
+            statusRepository.save(status2);
         }
 
+        StatusModel statusA = statusRepository
+                .findById(1L)
+                .orElseThrow(() -> new RuntimeException("Status no encontrado"));
 
-        if (iEmpleados_LyRRepository.count() == 0 ){
-            Empleados_LyRModel empleado = new Empleados_LyRModel();
-            empleado.setNombre("Juan");
-            empleado.setApellido("Perez");
-            empleado.setArea("Limpieza");
-            empleado.setTurno("Matutino");
-            empleado.setTelefono(998241989);
-            empleado.setEstatus("Activo");
+        if (cleaningRepository.count() == 0) {
 
-            /* empleado.setNombre("Pedro");
-             empleado.setApellido("Santos");
-            empleado.setArea("Roperia");
-            empleado.setTurno("Vespertino");
-            empleado.setTelefono(998240605);
-            empleado.setEstatus("Activo"); */
+            Cleaning_suppliesModel supplies = new Cleaning_suppliesModel();
 
+            supplies.setName(articuloName);
+            supplies.setCurrent_stock(stock);
+            supplies.setStock_min(stock_min);
+            supplies.setUnit_measurement(unit);
+            supplies.setExpiration_date(exp_date);
+            supplies.setStatus(statusA);
 
-            iEmpleados_LyRRepository.save(empleado);
+            cleaningRepository.save(supplies);
         }
 
-
-
-
-        if (iInsumoLimpiezaRepository.count() == 0){
-            Insumo_limpiezaModel insumo = new Insumo_limpiezaModel();
-
-            insumo.setNombre("Cloro");
-            insumo.setStock_actual(50);
-            insumo.setStock_minimo(20);
-            insumo.setUnidad_medida("ml");
-            insumo.setFecha_caducidad("12/10/2026");
-            insumo.setEstado("activo");
-
-            iInsumoLimpiezaRepository.save(insumo);
-        }
-
-        if (iMovimientos_insumosRepository.count() == 0){
-            Movimientos_insumosModel movimientoi = new Movimientos_insumosModel();
-
-            movimientoi.setTipo_movimiento("Entrada");
-            movimientoi.setCantidad (10 );
-            movimientoi.setFecha("02/10/2026");
-            movimientoi.setObservaciones("Llegaron en buen estado");
-
-            iMovimientos_insumosRepository.save(movimientoi);
-        }
-
-        System.out.println("Datos insertados Correctamente");
+        System.out.println("Datos insertados correctamente");
     }
 }
+
+
+//SOLIO BIEN LA EJECUCION AWEBO
+
