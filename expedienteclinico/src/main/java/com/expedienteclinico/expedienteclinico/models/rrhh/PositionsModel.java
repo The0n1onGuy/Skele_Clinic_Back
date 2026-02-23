@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import javax.xml.soap.Text;
+import java.util.UUID;
 
 @Entity
 @Table
@@ -16,10 +19,17 @@ import javax.persistence.Table;
 @Setter
 public class PositionsModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false)
-    private Long UUID;
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long pos_id;
+
+    @Column(name = "uuid", updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID pos_uuid;
+
+    @Column(name = "position_name", length = 100, nullable = false)
     private String pos_name;
-    private String pos_description;
+    @Column(name = "position_description")
+    private Text pos_description;
 }

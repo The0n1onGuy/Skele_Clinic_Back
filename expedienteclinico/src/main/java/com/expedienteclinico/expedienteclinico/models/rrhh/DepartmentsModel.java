@@ -19,18 +19,13 @@ import java.util.UUID;
 public class DepartmentsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false)
-    private Long id;
+    @Column(name = "id", nullable = false)
+    private Long dep_id;
 
-    /*
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "uuid", updatable = false, nullable = false)
-    */
     @Column(name = "uuid", updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID uuid;
+    private UUID dep_uuid;
 
     @Column(name = "department_name", length = 100, nullable = false)
     private String dep_name;
