@@ -21,6 +21,9 @@ public class DepartmentDataloader implements CommandLineRunner {
         // Usamos el orden que establecimos: UUID, luego el resto
         repository.save(new DepartmentsModel(null, UUID.randomUUID(), "Recursos Humanos"));
         repository.save(new DepartmentsModel(null,UUID.randomUUID(), "Sistemas"));
+        repository.save(new DepartmentsModel(null,UUID.randomUUID(), "Urgencias"));
+        repository.save(new DepartmentsModel(null,UUID.randomUUID(), "Quirófanos "));
+        repository.save(new DepartmentsModel(null,UUID.randomUUID(), "Morgue "));
 
         System.out.println(">> DataLoader: Departamentos cargados exitosamente.");
     }

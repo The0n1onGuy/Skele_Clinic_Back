@@ -32,6 +32,6 @@ public class DepartmentsModel {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID uuid;
 
-    @Column(name = "dep_name", length = 100)
+    @Column(name = "department_name", length = 100, nullable = false)
     private String dep_name;
 }

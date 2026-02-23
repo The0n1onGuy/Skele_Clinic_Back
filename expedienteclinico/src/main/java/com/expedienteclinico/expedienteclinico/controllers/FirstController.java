@@ -16,6 +16,8 @@ import java.util.List;
 @CrossOrigin (origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/first-controller/")
+
+//CONTROLADOR
 public class FirstController {
     @Autowired
     FirstService firstService;
@@ -23,7 +25,7 @@ public class FirstController {
     @GetMapping("first-single")
     public FirstObject getFirstSingle(){
         FirstObject a = new FirstObject();
-        a.setNombre("Onion");
+        a.setNombre("Pech");
         a.setDireccion("Villas otoch");
         a.setEdad( 21 );
         a.setTelefono("9999999999");

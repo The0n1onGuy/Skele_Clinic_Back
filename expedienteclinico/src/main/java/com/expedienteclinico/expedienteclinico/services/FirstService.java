@@ -18,11 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+//SERVICIO DEL MODELO FIRST MODEL
 @Service
 public class FirstService {
     @Autowired
     IFirstRepository iFirstRepository;
 
+    //Usaras este metodo para ejecutar en tu controlador el enlace
+    public List<FirstModel> getAll() {
+        return iFirstRepository.findAll() ;
+    }
 
     public ArrayList<Object> getFirstList() {
         ArrayList<Object> objectOfObjects = new ArrayList<>();
@@ -68,9 +74,7 @@ public class FirstService {
         return a;
     }
 
-    public List<FirstModel> getAll() {
-        return iFirstRepository.findAll() ;
-    }
+
 
     public ResponseEntity<Map <String, Object > > updateData(FirstModel firstModel, BindingResult result, Long id){
         FirstModel modelToChange = null;
