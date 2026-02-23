@@ -13,9 +13,9 @@ spring:
     #password: Xb0xisCool.
 
     #CONEXION LOCALES
-    url: jdbc:sqlserver://localhost:3036;databaseName=TestDatabase
-    username: Olanc
-    password: Olanc178
+    url: jdbc:sqlserver://localhost:1433;databaseName=TestDatabase
+    username: Eduardosql
+    password: Josegay1
 
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     # driver-class-name: com.mysql.cj.jdbc.Driver
