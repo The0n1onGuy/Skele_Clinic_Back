@@ -14,6 +14,6 @@ public class StatusModel {
     @Column(nullable = false)
     private Long id;
     @Column(name = "status_name",nullable = false)
-    private String statusName ;
+    private String sta_name ;
 
 }

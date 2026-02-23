@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.persistence.Table;
 import javax.xml.soap.Text;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "positions")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
