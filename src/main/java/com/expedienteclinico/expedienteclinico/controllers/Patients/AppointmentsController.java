@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin( origins = "*" , maxAge = 3600 )
+@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
 @RequestMapping( "/appointments-controller/" )
 public class AppointmentsController {
@@ -32,7 +32,7 @@ public class AppointmentsController {
         return appointmentsService.getAllAppointments() ;
     }
     @PostMapping( "new" )
-    public Object nuevo( @RequestBody AppointmentsBean appointmentsBean ) {
+    public Object nuevo( @Valid @RequestBody AppointmentsBean appointmentsBean ) {
         return appointmentsService.nuevo( appointmentsBean ) ;
     }
 

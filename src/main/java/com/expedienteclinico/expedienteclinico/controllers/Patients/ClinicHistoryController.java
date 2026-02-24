@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin( origins = "*" , maxAge = 3600 )
+@CrossOrigin( origins ="http://localhost:3000", maxAge = 3600 )
 @RestController
 @RequestMapping( "/clinichistory-controller/" )
 public class ClinicHistoryController {
@@ -34,7 +34,7 @@ public class ClinicHistoryController {
     }
 
     @PostMapping( "new" )
-    public Object nuevo( @RequestBody ClinicHistoryBean clinicHistoryBean ) {
+    public Object nuevo( @Valid @RequestBody ClinicHistoryBean clinicHistoryBean ) {
         return clinicHistoryService.nuevo( clinicHistoryBean ) ;
     }
 

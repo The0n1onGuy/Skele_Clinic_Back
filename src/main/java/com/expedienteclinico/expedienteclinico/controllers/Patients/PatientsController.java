@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.time.LocalDate;
 
-@CrossOrigin( origins = "*" , maxAge = 3600 )
+@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
 @RequestMapping( "/patients-controller/" )
 public class PatientsController {
@@ -36,7 +36,7 @@ public class PatientsController {
     }
 
     @PostMapping("new")
-    public Object nuevo(@RequestBody PatientsBean patientsBean) {
+    public Object nuevo(@Valid @RequestBody PatientsBean patientsBean) {
         return patientsService.nuevo(patientsBean);
     }
 

@@ -112,7 +112,7 @@ public class ClinicHistoryService {
 
         } catch (Exception e) {
             response.put("mensaje", "Error al actualizar el historial en la base de datos");
-            response.put("error", e.getMessage());
+            response.put("error", "Ocurrió un error interno en el servidor.";
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
