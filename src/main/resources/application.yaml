@@ -9,9 +9,10 @@ spring:
 
 
     #        Localhost
-    url: jdbc:sqlserver://127.0.0.1:14000;databaseName=TestDatabase
-    username: Jesus
-    password: 250305Jl@
+    url: jdbc:sqlserver://localhost:1433;databaseName=TestDatabase
+    #url: jdbc:sqlserver://127.0.0.1:14000;databaseName=TestDatabase
+    username: Katia
+    password: Kat412849.
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     #driver-class-name: com.mysql.cj.jdbc.Driver
 
