@@ -24,7 +24,6 @@ public class AppointmentsController {
     public AppointmentsBean getAppointmentsSingle() {
         AppointmentsBean a = new AppointmentsBean() ;
         a.setConsultorio( "Consultorio 101" ) ;
-        a.setPacienteId( 1L ) ;
         return a ;
     }
 

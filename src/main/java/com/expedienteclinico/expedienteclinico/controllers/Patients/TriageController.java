@@ -26,7 +26,6 @@ public class TriageController {
         a.setTemperatura( 38.5 ) ;
         a.setPresionArterial( "130/90" ) ;
         a.setFrecuenciaCardiaca( 95 ) ;
-        a.setPacienteId( 1L ) ;
         return a ;
     }
 

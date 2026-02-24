@@ -25,7 +25,6 @@ public class ClinicHistoryController {
         ClinicHistoryBean a = new ClinicHistoryBean() ;
         a.setMotivoConsulta( "Dolor de cabeza severo" ) ;
         a.setDiagnosticoPreliminar( "Migraña" ) ;
-        a.setPacienteId( 1L ) ;
         return a ;
     }
 
