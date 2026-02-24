@@ -38,6 +38,6 @@ public class SchedulesModel {
     private String endTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_estatus", nullable = false) //
+    @JoinColumn(name = "id_status", nullable = false) //
     private StatusModel status;
 }

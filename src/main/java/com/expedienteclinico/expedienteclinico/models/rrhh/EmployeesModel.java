@@ -60,7 +60,7 @@ public class EmployeesModel {
     private DepartmentsModel id_department;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_estatus", nullable = false)
+    @JoinColumn(name = "id_status", nullable = false)
     private StatusModel status;
 
 }

@@ -34,6 +34,6 @@ public class DepartmentsModel {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_estatus", nullable = false) //
+    @JoinColumn(name = "id_status", nullable = false) //
     private StatusModel status;
 }
