@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "rpbi_cat_envase")
+@Table(name = "rpbi_cat_containers")
 @Getter
 @Setter
 public class RpbiContainerModel {
@@ -15,13 +15,16 @@ public class RpbiContainerModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
+
     @Column(nullable = false, length = 100)
-    private String nombre; // "Bolsa de Polietileno", "Recipiente Rígido"
+    private String name; // "Bolsa de Polietileno", "Recipiente Rígido"
 
     @Column(length = 255)
-    private String descripcion; // "Impermeable, calibre 200..."
+    private String description; // "Impermeable, calibre 200..."
 
     @ManyToOne
-    @JoinColumn(name = "estatus_id", nullable = false)
-    private StatusModel estatus;
+    @JoinColumn(name = "status_id", nullable = false)
+    private StatusModel status;
 }

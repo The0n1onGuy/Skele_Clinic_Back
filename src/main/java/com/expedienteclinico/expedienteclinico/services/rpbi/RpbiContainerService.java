@@ -3,17 +3,17 @@ package com.expedienteclinico.expedienteclinico.services.rpbi;
 import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiContainerModel;
 import com.expedienteclinico.expedienteclinico.repositories.rpbi.IRpbiContainerRepository;
 import com.expedienteclinico.expedienteclinico.beans.rpbi.RpbiContainerObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RpbiContainerService {
 
-@Autowired
-    private IRpbiContainerRepository repository;
+    private final IRpbiContainerRepository repository;
 
 public List<RpbiContainerObject> getAll(){
 
@@ -24,13 +24,13 @@ public List<RpbiContainerObject> getAll(){
 
         RpbiContainerObject dto = new RpbiContainerObject();
 
-        dto.setId(entidad.getId());
-        dto.setNombre(entidad.getNombre());
-        dto.setDescripcion(entidad.getDescripcion());
-        if(entidad.getEstatus() != null ){
+        dto.setUuid(entidad.getUuid());
+        dto.setNombre(entidad.getName());
+        dto.setDescripcion(entidad.getDescription());
+        if(entidad.getStatus() != null ){
 
-            dto.setEstatusId(entidad.getEstatus().getId());
-            dto.setEstatusNombre(entidad.getEstatus().getStatusName());
+            dto.setEstatusId(entidad.getStatus().getId());
+            dto.setEstatusNombre(entidad.getStatus().getStatusName());
         }
         dtos.add(dto);
     }

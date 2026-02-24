@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/rpbi/clasificacion") // ruta base del módulo
+@RequestMapping("/api/rpbi/clasifications") // ruta base del módulo
 // @CrossOrigin( origins = "*" , maxAge = 3600 ) // Para pruebas (?) xd
 public class RpbiClasificationController {
 

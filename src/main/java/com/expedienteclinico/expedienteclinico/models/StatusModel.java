@@ -5,15 +5,15 @@ import lombok.Setter;
 import javax.persistence.*; // USAMOS JAVAX PARA SPRING BOOT 2.6
 
 @Entity
-@Table(name = "estatus")
+@Table(name = "status")
 @Getter
 @Setter
 public class StatusModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_estatus", nullable = false) // Buena práctica: nombrar explícitamente la PK
+    @Column(name = "id_status", nullable = false) // Buena práctica: nombrar explícitamente la PK
     private Long id;
 
-    @Column(name = "nombre", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String statusName;
 }

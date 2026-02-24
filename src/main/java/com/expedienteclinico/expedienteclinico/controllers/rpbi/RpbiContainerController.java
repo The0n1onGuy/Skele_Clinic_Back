@@ -14,7 +14,7 @@ import java.util.Map;
 
 // @CrossOrigin( origins = "*" , maxAge = 3600 )
 @RestController
-@RequestMapping("/api/rpbi/envases")
+@RequestMapping("/api/rpbi/containers")
 public class RpbiContainerController {
 
     @Autowired

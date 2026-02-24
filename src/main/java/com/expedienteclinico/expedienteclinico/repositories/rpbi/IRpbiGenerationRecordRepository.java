@@ -1,16 +1,17 @@
 package com.expedienteclinico.expedienteclinico.repositories.rpbi;
 
 import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiClasificationModel;
-import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiContainerModel;
+import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiGenerationRecordModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
 @Repository
-public interface IRpbiContainerRepository extends JpaRepository<RpbiContainerModel, Long>{
+public interface IRpbiGenerationRecordRepository extends JpaRepository<RpbiGenerationRecordModel, Long> {
 
     // Para poder "Traducir" de UUID a ID en las operaciones internas
-    Optional<RpbiContainerModel> findByUuid(String uuid);
+    Optional<RpbiGenerationRecordModel> findByUuid(String uuid);
 
 }

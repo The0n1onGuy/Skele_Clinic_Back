@@ -3,17 +3,17 @@ package com.expedienteclinico.expedienteclinico.services.rpbi;
 import com.expedienteclinico.expedienteclinico.beans.rpbi.RpbiClasificationObject; // Asegúrate de crear este DTO como vimos antes
 import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiClasificationModel;
 import com.expedienteclinico.expedienteclinico.repositories.rpbi.IRpbiClasificationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RpbiClasificationService {
 
-    @Autowired
-    private IRpbiClasificationRepository repository;
+    private final IRpbiClasificationRepository repository;
 
     // Método para obtener todo el catálogo convertido a DTO
     public List<RpbiClasificationObject> getAllClasificaciones() {
@@ -28,16 +28,16 @@ public class RpbiClasificationService {
             RpbiClasificationObject dto = new RpbiClasificationObject();
 
             // mapeo 1 a 1
-            dto.setId(entidad.getId());
-            dto.setNombre(entidad.getNombre());
-            dto.setDescripcion(entidad.getDescripcion());
-            dto.setCodigoColor(entidad.getCodigoColor());
+            dto.setUuid(entidad.getUuid());
+            dto.setNombre(entidad.getName());
+            dto.setDescripcion(entidad.getDescription());
+            dto.setCodigoColor(entidad.getColorCode());
 
             // mapeo relacional
-            if (entidad.getEstatus() != null) {
+            if (entidad.getStatus() != null) {
                 // se separa el id y nombre, segun los campos declarados en el Dto
-                dto.setEstatusId(entidad.getEstatus().getId());
-                dto.setEstatusNombre(entidad.getEstatus().getStatusName());
+                dto.setEstatusId(entidad.getStatus().getId());
+                dto.setEstatusNombre(entidad.getStatus().getStatusName());
             }
 
             dtos.add(dto);

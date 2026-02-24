@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "rpbi_cat_estado_fisico")
+@Table(name = "rpbi_cat_phyisical_state")
 @Getter
 @Setter
 public class RpbiPhysicalStateModel {
@@ -15,14 +15,17 @@ public class RpbiPhysicalStateModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
+
     @Column(nullable = false, length = 50, unique = true)
-    private String nombre; // "Sólido", "Líquido"
+    private String name; // "Sólido", "Líquido"
 
     @Column(nullable = false, length = 10)
-    private String unidadMedida; // "kg", "L" (Simplificamos aquí para no crear otra tabla)
+    private String measureUnit; // "kg", "L" (Simplificamos aquí para no crear otra tabla)
 
     // Relación obligatoria con Estatus
     @ManyToOne
-    @JoinColumn(name = "estatus_id", nullable = false)
-    private StatusModel estatus;
+    @JoinColumn(name = "status_id", nullable = false)
+    private StatusModel status;
 }

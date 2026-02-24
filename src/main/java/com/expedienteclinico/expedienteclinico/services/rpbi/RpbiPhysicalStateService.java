@@ -3,17 +3,17 @@ package com.expedienteclinico.expedienteclinico.services.rpbi;
 import com.expedienteclinico.expedienteclinico.beans.rpbi.RpbiPhysicalStateObject;
 import com.expedienteclinico.expedienteclinico.repositories.rpbi.IRpbiPhysicalStateRepository;
 import com.expedienteclinico.expedienteclinico.models.rpbi.RpbiPhysicalStateModel;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RpbiPhysicalStateService {
 
-    @Autowired
-    private IRpbiPhysicalStateRepository repository;
+    private final IRpbiPhysicalStateRepository repository;
 
     public List<RpbiPhysicalStateObject> getAll(){
 
@@ -25,14 +25,14 @@ public class RpbiPhysicalStateService {
 
             RpbiPhysicalStateObject dto = new RpbiPhysicalStateObject();
 
-            dto.setId(entidad.getId());
-            dto.setNombre(entidad.getNombre());
-            dto.setUnidadMedida(entidad.getUnidadMedida());
+            dto.setUuid(entidad.getUuid());
+            dto.setNombre(entidad.getName());
+            dto.setUnidadMedida(entidad.getMeasureUnit());
 
-            if(entidad.getEstatus() != null ){
+            if(entidad.getStatus() != null ){
 
-                dto.setEstatusId(entidad.getEstatus().getId());
-                dto.setEstatusNombre(entidad.getEstatus().getStatusName());
+                dto.setEstatusId(entidad.getStatus().getId());
+                dto.setEstatusNombre(entidad.getStatus().getStatusName());
             }
             dtos.add(dto);
         }
