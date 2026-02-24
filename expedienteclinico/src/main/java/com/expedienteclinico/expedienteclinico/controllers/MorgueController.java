@@ -25,4 +25,16 @@ public class MorgueController {
     public List<Morgue> getAll() {
         return morgueService.getAll();
     }
+
+    // /morgue-controller/buscar-paciente/id de coffe
+    @GetMapping("buscar-paciente/{id}")
+    public Morgue getByPaciente(@PathVariable Long id) {
+        // pide al servicio que busque al fallecido vinculado a ese ID de paciente
+        return morgueService.buscarPorPaciente(id);
+    }
+    //prueba mck
+    @GetMapping("buscar-paciente-local/{id}")
+    public Morgue buscarLocal(@PathVariable Long id) {
+        return morgueService.buscarPorPacienteLocal(id);
+    }
 }

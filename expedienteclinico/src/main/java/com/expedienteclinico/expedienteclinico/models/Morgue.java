@@ -17,10 +17,19 @@ public class Morgue {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(nullable = false)
     private Long id;
-
-    private Long id_paciente;
+//referencia a pacientes
+    @OneToOne
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id")
+    private FirstModel paciente; //cambiar
     private String causa_defuncion;
     private String fecha_ingreso;
-    private String estado;
+
+    @ManyToOne
+    @JoinColumn (name = "estado" , nullable = false)
+    private StatusModel estado;
     private Integer numero_gaveta;
+
+    // pruebas mock
+    private Long idPacienteLocal; // Usaremos esto para simular el ID de Natalia
+    private String nombrePacienteSimulado; // Para ver un nombre en las pruebas
 }

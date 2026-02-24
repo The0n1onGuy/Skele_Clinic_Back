@@ -25,4 +25,19 @@ public class MorgueService {
     public List<Morgue> getAll() {
         return iMorgueRepository.findAll();
     }
+    // este metodo recibe el id de coffe y usa el repo para encontrar el registro
+    public Morgue buscarPorPaciente(Long idPaciente) {
+        return iMorgueRepository.findByPacienteId(idPaciente);
+    }
+    //prueba mck
+    public Morgue buscarPorPacienteLocal(Long idRecibido) {
+        // Simulamos que buscamos en una lista y encontramos uno
+        Morgue prueba = new Morgue();
+        prueba.setId(1L);
+        prueba.setIdPacienteLocal(idRecibido); // El ID que tú le des en la URL
+        prueba.setNombrePacienteSimulado("Paciente de Prueba " + idRecibido);
+        prueba.setCausa_defuncion("Causa Simulada");
+        return prueba;
+    }
+
 }
