@@ -1,0 +1,50 @@
+package com.expedienteclinico.expedienteclinico.controllers.Patients;
+
+import com.expedienteclinico.expedienteclinico.beans.Patients.ClinicHistoryBean;
+import com.expedienteclinico.expedienteclinico.models.Patients.ClinicHistoryModel;
+import com.expedienteclinico.expedienteclinico.services.Patients.ClinicHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@CrossOrigin( origins = "*" , maxAge = 3600 )
+@RestController
+@RequestMapping( "/clinichistory-controller/" )
+public class ClinicHistoryController {
+
+    @Autowired
+    ClinicHistoryService clinicHistoryService ;
+
+    @GetMapping( "clinichistory-single" )
+    public ClinicHistoryBean getClinicHistorySingle() {
+        ClinicHistoryBean a = new ClinicHistoryBean() ;
+        a.setMotivoConsulta( "Dolor de cabeza severo" ) ;
+        a.setDiagnosticoPreliminar( "Migraña" ) ;
+        a.setPacienteId( 1L ) ;
+        return a ;
+    }
+
+    @GetMapping( "clinichistory-list" )
+    public List<ClinicHistoryBean> getClinicHistoryList() { // <-- Cambiado a List
+        return clinicHistoryService.getAllClinicHistory() ;
+    }
+
+    @PostMapping( "new" )
+    public Object nuevo( @RequestBody ClinicHistoryBean clinicHistoryBean ) {
+        return clinicHistoryService.nuevo( clinicHistoryBean ) ;
+    }
+
+    @GetMapping( "all" )
+    public List<ClinicHistoryModel> getAll() {
+        return clinicHistoryService.getAll() ;
+    }
+
+    @PutMapping ( "change/{id}" )
+    public ResponseEntity < ? > updateData (@Valid @RequestBody ClinicHistoryModel clinicHistoryModel , BindingResult result, @PathVariable Long id ) {
+        return clinicHistoryService.updateData(clinicHistoryModel, result, id);
+    }
+}

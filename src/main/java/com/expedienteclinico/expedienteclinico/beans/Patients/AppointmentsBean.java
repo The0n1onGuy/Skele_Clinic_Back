@@ -1,0 +1,15 @@
+package com.expedienteclinico.expedienteclinico.beans.Patients;
+
+import com.expedienteclinico.expedienteclinico.models.Patients.StatusAppointment;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+@Data
+public class AppointmentsBean {
+    private Long id;
+    private Long pacienteId; // Solo pedimos el ID del paciente
+    private LocalDateTime fechaHoraInicio;
+    private LocalDateTime fechaHoraFin;
+    private StatusAppointment estado;
+    private String consultorio;
+}
