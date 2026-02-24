@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin( origins = "http://localhost:3000", maxAge = 3600 )
 @RestController
@@ -45,7 +46,7 @@ public class TriageController {
     }
 
     @PutMapping ( "change/{id}" )
-    public ResponseEntity < ? > updateData (@Valid @RequestBody TriageBean triageBean, BindingResult result, @PathVariable Long id ) {
+    public ResponseEntity < ? > updateData (@Valid @RequestBody TriageBean triageBean, BindingResult result, @PathVariable UUID id ) {
         return triageService.updateData(triageBean, result, id);
     }
 }

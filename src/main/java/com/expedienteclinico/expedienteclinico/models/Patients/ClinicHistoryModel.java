@@ -3,16 +3,16 @@ package com.expedienteclinico.expedienteclinico.models.Patients;
 import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "clinic_history")
 @Data
 public class ClinicHistoryModel {
-
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(updatable = false, nullable = false)
+    private UUID id;  // ← CAMBIO: Long → UUID
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
@@ -25,7 +25,7 @@ public class ClinicHistoryModel {
     private String motivoConsulta;
 
     @Column(length = 5000)
-    private String enfermedadActual;
+    private String padecimientoActual;
 
     private String diagnosticoPreliminar;
 

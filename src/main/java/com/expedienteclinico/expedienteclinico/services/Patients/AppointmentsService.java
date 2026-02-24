@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +38,8 @@ public class AppointmentsService {
             dto.setConsultorio(entidad.getConsultorio());
 
             if (entidad.getPaciente() != null) {
-                dto.setPacienteId(entidad.getPaciente().getId());
+                dto.setPacienteId(entidad.getPaciente().getId());  // UUID → UUID (funciona)
+
             }
             dtos.add(dto);
         }
@@ -74,7 +72,7 @@ public class AppointmentsService {
     }
 
     // 4. PUT: Actualizar una cita existente
-    public ResponseEntity<?> updateData(AppointmentsBean bean, BindingResult result, Long id) {
+    public ResponseEntity<?> updateData(AppointmentsBean bean, BindingResult result, UUID id) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {

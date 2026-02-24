@@ -10,11 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PatientsService {
@@ -27,9 +24,9 @@ public class PatientsService {
         List<PatientsModel> entidades = repository.findAll();
         List<PatientsBean> dtos = new ArrayList<>();
 
+        PatientsBean dto = null;
         for (PatientsModel entidad : entidades) {
-            PatientsBean dto = new PatientsBean();
-            dto.setId(entidad.getId());
+            dto = new PatientsBean();
             dto.setNombre(entidad.getNombre());
             dto.setApellidos(entidad.getApellidos());
             dto.setCurp(entidad.getCurp());
@@ -40,6 +37,7 @@ public class PatientsService {
             dto.setDireccion(entidad.getDireccion());
             dto.setTipoSangre(entidad.getTipoSangre());
             dtos.add(dto);
+
         }
         return dtos;
     }
@@ -62,7 +60,7 @@ public class PatientsService {
     }
 
     // 3. Método para actualizar un paciente (Para PUT /change/{id}) //
-    public ResponseEntity<?> updateData(PatientsBean bean, BindingResult result, Long id) {
+    public ResponseEntity<?> updateData(PatientsBean bean, BindingResult result, UUID id) {
         Map<String, Object> response = new HashMap<>();
 
         // Revisar si el JSON venía con errores de formato

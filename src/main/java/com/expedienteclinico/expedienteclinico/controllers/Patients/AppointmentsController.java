@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
@@ -42,7 +43,7 @@ public class AppointmentsController {
     }
 
     @PutMapping ( "change/{id}" )
-    public ResponseEntity < ? > updateData (@Valid @RequestBody AppointmentsBean appointmentsBean , BindingResult result, @PathVariable Long id ) {
+    public ResponseEntity < ? > updateData (@Valid @RequestBody AppointmentsBean appointmentsBean , BindingResult result, @PathVariable UUID id ) {
         return appointmentsService.updateData(appointmentsBean, result, id);
     }
 }

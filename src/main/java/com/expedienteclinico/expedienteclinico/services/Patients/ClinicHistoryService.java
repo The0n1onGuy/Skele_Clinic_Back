@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +71,7 @@ public class ClinicHistoryService {
     }
 
     // 4. PUT: Actualizar un historial existente
-    public ResponseEntity<?> updateData(@Valid ClinicHistoryModel bean, BindingResult result, Long id) {
+    public ResponseEntity<?> updateData(@Valid ClinicHistoryModel bean, BindingResult result, UUID id) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {

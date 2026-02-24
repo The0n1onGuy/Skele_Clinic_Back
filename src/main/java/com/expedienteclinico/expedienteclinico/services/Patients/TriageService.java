@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +30,6 @@ public class TriageService {
 
         for (TriageModel entidad : entidades) {
             TriageBean dto = new TriageBean();
-            dto.setId(entidad.getId());
             dto.setFechaHora(entidad.getFechaHora());
             dto.setTemperatura(entidad.getTemperatura());
             dto.setPresionArterial(entidad.getPresionArterial());
@@ -42,7 +38,7 @@ public class TriageService {
             dto.setNivel(entidad.getNivel());
 
             if (entidad.getPaciente() != null) {
-                dto.setPacienteId(entidad.getPaciente().getId());
+                dto.setPacienteId (entidad.getPaciente().getId());  // Long
             }
             dtos.add(dto);
         }
@@ -77,7 +73,7 @@ public class TriageService {
     }
 
     // 4. PUT: Actualizar un triaje existente
-    public ResponseEntity<?> updateData(TriageBean bean, BindingResult result, Long id) {
+    public ResponseEntity<?> updateData(TriageBean bean, BindingResult result, UUID id) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {

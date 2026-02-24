@@ -4,7 +4,9 @@ import com.expedienteclinico.expedienteclinico.models.Patients.TriageModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface ITriageRepository  extends JpaRepository<TriageModel, Long> {
+public interface ITriageRepository  extends JpaRepository<TriageModel, UUID> {
 
 }

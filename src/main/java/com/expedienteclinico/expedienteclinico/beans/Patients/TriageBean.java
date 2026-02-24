@@ -3,11 +3,11 @@ package com.expedienteclinico.expedienteclinico.beans.Patients;
 import com.expedienteclinico.expedienteclinico.models.Patients.UrgencyLevel;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 public class TriageBean {
-    private Long id;
-    private Long pacienteId;
+    private UUID pacienteId;
     private LocalDateTime fechaHora;
     private Double temperatura;
     private String presionArterial;

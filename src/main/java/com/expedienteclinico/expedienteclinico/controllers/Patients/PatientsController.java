@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
@@ -45,9 +46,10 @@ public class PatientsController {
         return patientsService.getAllPatients();
     }
 
-    @PutMapping("change/{id}")
-    public ResponseEntity<?> updateData(@Valid @RequestBody PatientsBean patientsBean, BindingResult result, @PathVariable Long id) {
-        // Le pasamos el Bean al servicio
-        return patientsService.updateData(patientsBean, result, id);
+    @PutMapping("/change/{id}")
+    public ResponseEntity<?> updateData(@Valid @RequestBody PatientsBean bean, BindingResult result, @PathVariable UUID id  // ← Long → UUID
+    ) {
+        return patientsService.updateData(bean, result, id);
     }
+
 }
