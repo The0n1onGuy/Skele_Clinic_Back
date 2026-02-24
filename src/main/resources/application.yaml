@@ -7,23 +7,22 @@ spring:
     #      password: qwerty2022
     #      driver-class-name: oracle.jdbc.OracleDriver
 
+    #CONEXION REMOTA
+    #url: jdbc:sqlserver://127.0.0.1:14000;databaseName=TestDatabase
+    #username: Olan
+    #password: Xb0xisCool.
 
-#    #        Localhost
-#    url: jdbc:sqlserver://localhost:14000;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
-#    username: Darick
-#    password: SQLServer1471182005#
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    #driver-class-name: com.mysql.cj.jdbc.Driver
-    #        Localhost
-    url: jdbc:sqlserver://localhost:1433;databaseName=RPBI;encrypt=true;trustServerCertificate=true
-    username: Darick
-    password: Darick471
+    #CONEXION LOCALES
+    url: jdbc:sqlserver://localhost:3036;databaseName=TestDatabase
+    username: Olanc
+    password: Olanc178
+
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    #driver-class-name: com.mysql.cj.jdbc.Driver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create #create update none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
@@ -37,3 +36,5 @@ spring:
 #org.hibernate.SQL: DEBUG
 #org.hibernate.type: TRACE
 #org.hibernate.search.fulltext_query: DEBUG
+
+
