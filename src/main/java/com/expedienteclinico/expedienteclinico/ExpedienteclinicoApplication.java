@@ -20,7 +20,7 @@ public class ExpedienteclinicoApplication extends SpringBootServletInitializer i
 	}
 
 	public void init() {
-		TimeZone.setDefault( TimeZone.getTimeZone( "UTC" ) ) ;
+		TimeZone.setDefault( TimeZone.getTimeZone( "UTC-5" ) ) ;
 		System.out.println( "SpringBoot Application running in UTC timezone: "+ new Date() ) ;
 	}
 

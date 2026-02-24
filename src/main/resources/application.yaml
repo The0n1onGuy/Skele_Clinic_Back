@@ -2,16 +2,23 @@ spring:
   datasource:
 
     #      Localhost Oracle
-    #      url: jdbc:oracle:thin:@//localhost:11521/OperaUserAccessRequisition
-    #      username: OperaUserAccessRequisitionUser
-    #      password: qwerty2022
-    #      driver-class-name: oracle.jdbc.OracleDriver
+#    url: jdbc:oracle:thin:@//localhost:11521/OperaUserAccessRequisition
+#    username: OperaUserAccessRequisitionUser
+#    password: qwerty2022
+#    driver-class-name: oracle.jdbc.OracleDriver
 
+
+    #        Remote (Olan's server)
+#    url: jdbc:sqlserver://127.0.0.1:14000;databaseName=TestDatabase
+#    username: Jesus
+#    password: 250305Jl@
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    #driver-class-name: com.mysql.cj.jdbc.Driver
 
     #        Localhost
-    url: jdbc:sqlserver://127.0.0.1:14000;databaseName=TestDatabase
-    username: Jesus
-    password: 250305Jl@
+    url: jdbc:sqlserver://localhost:1433;database=ExpedienteClinicoUniSurEneAbr2026
+    username: sa
+    password: 12345
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     #driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -24,7 +31,7 @@ spring:
         #dialect: org.hibernate.dialect.MySQLDialect
 
         jdbc:
-          time_zone: UTC
+          time_zone: UTC-5
 
 #logging.level:
 #Uncomment for extensive SQL logging
