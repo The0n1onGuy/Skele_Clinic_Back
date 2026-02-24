@@ -61,7 +61,7 @@ public class PatientsService {
         return repository.save(entidad);
     }
 
-    // 3. Mé) //
+    // 3. Método para actualizar un paciente (Para PUT /change/{id}) //
     public ResponseEntity<?> updateData(PatientsBean bean, BindingResult result, Long id) {
         Map<String, Object> response = new HashMap<>();
 
