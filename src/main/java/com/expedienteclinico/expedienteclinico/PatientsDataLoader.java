@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Component
 @Profile("dev")
-public class PatientsDataLoader  implements CommandLineRunner {
+public class PatientsDataLoader implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(PatientsDataLoader.class);
 
@@ -23,10 +23,7 @@ public class PatientsDataLoader  implements CommandLineRunner {
     private final ITriageRepository triageRepository;
     private final IClinicHistoryRepository clinicHistoryRepository;
 
-    public PatientsDataLoader (IPatientsRepository patientsRepository,
-                              IAppointmentsRepository appointmentsRepository,
-                              ITriageRepository triageRepository,
-                              IClinicHistoryRepository clinicHistoryRepository) {
+    public PatientsDataLoader(IPatientsRepository patientsRepository, IAppointmentsRepository appointmentsRepository, ITriageRepository triageRepository, IClinicHistoryRepository clinicHistoryRepository) {
         this.patientsRepository = patientsRepository;
         this.appointmentsRepository = appointmentsRepository;
         this.triageRepository = triageRepository;
@@ -36,14 +33,16 @@ public class PatientsDataLoader  implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
+        // Al usar UUID, count() sigue funcionando igual
         if (patientsRepository.count() > 0) {
             log.info("Módulo clínico ya poblado. Se omite el seeding.");
             return;
         }
 
-        log.info("🎬 Iniciando populado del Módulo Clínico...");
+        log.info("Iniciando populado del Módulo Clínico con soporte UUID...");
 
         // 1. PACIENTE JUAN
+        // No asignamos ID, Hibernate generará el UUID automáticamente
         PatientsModel juan = new PatientsModel();
         juan.setNombre("Juan");
         juan.setApellidos("Pérez Automático");
@@ -54,21 +53,22 @@ public class PatientsDataLoader  implements CommandLineRunner {
         juan.setEmail("juan.seeder@email.com");
         juan.setDireccion("Villas Jotoch, Cancún");
         juan.setTipoSangre("O+");
-        juan = patientsRepository.save(juan);
-        log.info("✅ Paciente Juan creado (ID: {})", juan.getId());
 
-        // Timestamp fijo para consistencia
+        // Al guardar, JPA llena el campo 'id' de la variable 'juan' con un UUID real
+        juan = patientsRepository.save(juan);
+        log.info("Paciente Juan creado con UUID: {}", juan.getId());
+
         LocalDateTime ahora = LocalDateTime.now();
 
         // 2. CITA DE JUAN
         AppointmentsModel cita = new AppointmentsModel();
-        cita.setPaciente(juan);
+        cita.setPaciente(juan); // Pasamos el objeto completo, JPA extrae el UUID de la relación
         cita.setFechaHoraInicio(ahora.plusDays(1).withHour(10).withMinute(0));
         cita.setFechaHoraFin(ahora.plusDays(1).withHour(11).withMinute(0));
         cita.setEstado(StatusAppointment.PENDIENTE);
         cita.setConsultorio("Consultorio 101");
         appointmentsRepository.save(cita);
-        log.info("✅ Cita de Juan creada");
+        log.info("Cita vinculada al UUID del paciente");
 
         // 3. TRIAJE DE JUAN
         TriageModel triaje = new TriageModel();
@@ -80,18 +80,18 @@ public class PatientsDataLoader  implements CommandLineRunner {
         triaje.setSaturacionOxigeno(96);
         triaje.setNivel(UrgencyLevel.URGENCY);
         triageRepository.save(triaje);
-        log.info("✅ Triaje de Juan creado");
+        log.info("Triaje vinculado al UUID del paciente");
 
         // 4. HISTORIAL DE JUAN
         ClinicHistoryModel historial = new ClinicHistoryModel();
         historial.setPaciente(juan);
         historial.setFechaRegistro(ahora);
         historial.setMotivoConsulta("Fiebre persistente y dolor de cabeza");
-        historial.setEnfermedadActual("Dolor de cabeza punzante desde hace 48 horas");
+        historial.setPadecimientoActual("Dolor de cabeza punzante desde hace 48 horas");
         historial.setDiagnosticoPreliminar("Infección viral a descartar dengue");
         clinicHistoryRepository.save(historial);
-        log.info("✅ Historial clínico de Juan creado");
+        log.info("Historial vinculado al UUID del paciente");
 
-        log.info("🎉 Módulo Clínico completado exitosamente!");
+        log.info("Seeding completado exitosamente con identificadores UUID!");
     }
 }
