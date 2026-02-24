@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.persistence.Table;
-import javax.xml.soap.Text;
 import java.util.UUID;
 
 @Entity
@@ -19,16 +18,16 @@ import java.util.UUID;
 public class PositionsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long pos_id;
+    @Column(nullable = false)
+    private Long id;
 
-    @Column(name = "uuid", updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID pos_uuid;
+    private UUID uuid;
 
-    @Column(name = "position_name", length = 100, nullable = false)
-    private String pos_name;
-    @Column(name = "position_description")
-    private Text pos_description;
+    @Column(length = 100, nullable = false)
+    private String name;
+    @Column(columnDefinition = "VARCHAR(MAX)", nullable = true)
+    private String description;
 }

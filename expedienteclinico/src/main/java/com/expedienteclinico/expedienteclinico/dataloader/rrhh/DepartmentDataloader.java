@@ -1,6 +1,7 @@
+/*
 package com.expedienteclinico.expedienteclinico.dataloader.rrhh;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
-import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepo;
+import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import java.util.UUID;
 @Component // Esto lo convierte en un "DataLoader" manejado por Spring
 public class DepartmentDataloader implements CommandLineRunner {
     @Autowired
-    private IDepartmentsRepo repository;
+    private IDepartmentsRepository repository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -33,3 +34,4 @@ public class DepartmentDataloader implements CommandLineRunner {
 
 
 
+*/
