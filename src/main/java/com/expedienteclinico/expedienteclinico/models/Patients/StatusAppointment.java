@@ -1,4 +1,8 @@
 package com.expedienteclinico.expedienteclinico.models.Patients;
 
-public class StatusAppointment {
+public enum StatusAppointment {
+    PENDIENTE,
+    CONFIRMADA,
+    CANCELADA,
+    COMPLETADA
 }
