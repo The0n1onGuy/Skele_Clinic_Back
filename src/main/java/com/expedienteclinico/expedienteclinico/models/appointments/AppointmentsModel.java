@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Setter
 @Getter
-public class CitasModel {
+public class AppointmentsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
