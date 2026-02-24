@@ -11,9 +11,11 @@ import javax.persistence.*;
 public class StatusModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false)
+    @Column(name = "id_estatus", nullable = false)
     private Long id;
-    @Column(name = "status_name",nullable = false)
-    private String sta_name ;
+    @Column(name = "Nombre",nullable = false)
+    private String statusName ;
 
 }
+
+
