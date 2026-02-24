@@ -8,15 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="expedienteclinico" />
-        <module name="mvw-osd-cyclops-api-server-v2" />
+        <module name="com.expedientemedico" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="expedienteclinico" target="1.8" />
+      <module name="mvw-osd-cyclops-api-server-v2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="com.expedientemedico" options="-parameters" />
       <module name="expedienteclinico" options="-parameters" />
       <module name="mvw-osd-cyclops-api-server-v2" options="-parameters" />
     </option>

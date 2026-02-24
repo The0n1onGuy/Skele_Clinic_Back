@@ -1,23 +1,19 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
+
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-//@Table(appliesTo = "Departments")
-//@Table
-@Table(name = "rrhh_departments")
+@Table(name = "rrhh_clinic_details")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class DepartmentsModel {
+public class ClinicDetailsModel {
 
     @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
     @GeneratedValue(generator = "uuid2")
@@ -26,14 +22,24 @@ public class DepartmentsModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_department", nullable = false)
+    @Column(name = "id_clinic_details", nullable = false)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "id_employee", unique = true, nullable = false)
+    private EmployeesModel employee;
 
-    @Column(length = 100, nullable = false)
-    private String name;
+    @Column(name = "professional_license", unique = true, length = 20)
+    private String professionalLicense;
+
+    @Column(name = "graduation_institution", length = 150)
+    private String graduationInstitution;
+
+    @Column(length = 100)
+    private String specialty;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_estatus", nullable = false) //
     private StatusModel status;
+
 }

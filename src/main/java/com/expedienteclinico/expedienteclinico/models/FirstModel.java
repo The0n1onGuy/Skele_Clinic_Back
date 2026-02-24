@@ -8,14 +8,13 @@ import org.hibernate.annotations.Table;
 
 import javax.persistence.*;
 
-@Deprecated
 @Entity
 @Table( appliesTo = "first_model" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@Deprecated
+
 public class FirstModel {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )

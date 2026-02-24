@@ -1,23 +1,18 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
+
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-//@Table(appliesTo = "Departments")
-//@Table
-@Table(name = "rrhh_departments")
+@Table(name = "rrhh_schedules")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class DepartmentsModel {
+public class SchedulesModel {
 
     @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
     @GeneratedValue(generator = "uuid2")
@@ -26,12 +21,21 @@ public class DepartmentsModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_department", nullable = false)
+    @Column(name = "id_schedule", nullable = false)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_employee", nullable = false)
+    private EmployeesModel employee;
 
-    @Column(length = 100, nullable = false)
-    private String name;
+    @Column(name = "day_week", nullable = false, length = 15)
+    private String dayOfWeek;
+
+    @Column(name = "start_time", nullable = false)
+    private String startTime;
+
+    @Column(name = "end_time", nullable = false)
+    private String endTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_estatus", nullable = false) //

@@ -1,20 +1,22 @@
 package com.expedienteclinico.expedienteclinico.services.rrhh;
+
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
+import com.expedienteclinico.expedienteclinico.models.rrhh.EmployeesModel;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
+import com.expedienteclinico.expedienteclinico.repositories.rrhh.IEmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+
 @Service
-public class DepartmentsService {
+public class EmployeesService {
     @Autowired
-    IDepartmentsRepository departmentsRepo;
+    IEmployeesRepository employeesRepository;
 
-    public List<DepartmentsModel> getAll() {
-        return departmentsRepo.findAll();
+    public List<EmployeesModel> getAll() {
+        return employeesRepository.findAll();
     }
 
-    //Metodo para guardar datos despues
-    public DepartmentsModel saveInfo(DepartmentsModel depto) {
-        return departmentsRepo.save(depto);
-    }
+
 }
