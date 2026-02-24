@@ -25,8 +25,8 @@ public class Morgue {
     private String fecha_ingreso;
 
     @ManyToOne
-    @JoinColumn (name = "estado" , nullable = false)
-    private StatusModel estado;
+    @JoinColumn (name = "id_status" , nullable = false)
+    private StatusModel idStatus;
     private Integer numero_gaveta;
 
     // pruebas mock

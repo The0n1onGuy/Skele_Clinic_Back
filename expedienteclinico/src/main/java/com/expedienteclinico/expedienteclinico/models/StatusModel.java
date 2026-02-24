@@ -12,7 +12,7 @@ public class StatusModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(nullable = false)
-    private Long id;
+    private Long idStatus;
     @Column(name = "status_name",nullable = false)
     private String statusName ;
 
