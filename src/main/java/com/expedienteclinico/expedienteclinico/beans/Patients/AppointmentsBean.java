@@ -2,10 +2,14 @@ package com.expedienteclinico.expedienteclinico.beans.Patients;
 
 import com.expedienteclinico.expedienteclinico.models.Patients.StatusAppointment;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 public class AppointmentsBean {
     private UUID pacienteId;  // Solo pedimos el ID del paciente
     private LocalDateTime fechaHoraInicio;

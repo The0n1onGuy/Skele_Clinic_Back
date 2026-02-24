@@ -2,10 +2,14 @@ package com.expedienteclinico.expedienteclinico.beans.Patients;
 
 import com.expedienteclinico.expedienteclinico.models.Patients.UrgencyLevel;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 public class TriageBean {
     private UUID pacienteId;
     private LocalDateTime fechaHora;

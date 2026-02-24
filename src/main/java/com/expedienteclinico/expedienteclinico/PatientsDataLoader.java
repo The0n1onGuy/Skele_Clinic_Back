@@ -41,7 +41,6 @@ public class PatientsDataLoader implements CommandLineRunner {
 
         log.info("Iniciando populado del Módulo Clínico con soporte UUID...");
 
-        // 1. PACIENTE JUAN
         // No asignamos ID, Hibernate generará el UUID automáticamente
         PatientsModel juan = new PatientsModel();
         juan.setNombre("Juan");
@@ -60,7 +59,6 @@ public class PatientsDataLoader implements CommandLineRunner {
 
         LocalDateTime ahora = LocalDateTime.now();
 
-        // 2. CITA DE JUAN
         AppointmentsModel cita = new AppointmentsModel();
         cita.setPaciente(juan); // Pasamos el objeto completo, JPA extrae el UUID de la relación
         cita.setFechaHoraInicio(ahora.plusDays(1).withHour(10).withMinute(0));
@@ -82,7 +80,6 @@ public class PatientsDataLoader implements CommandLineRunner {
         triageRepository.save(triaje);
         log.info("Triaje vinculado al UUID del paciente");
 
-        // 4. HISTORIAL DE JUAN
         ClinicHistoryModel historial = new ClinicHistoryModel();
         historial.setPaciente(juan);
         historial.setFechaRegistro(ahora);

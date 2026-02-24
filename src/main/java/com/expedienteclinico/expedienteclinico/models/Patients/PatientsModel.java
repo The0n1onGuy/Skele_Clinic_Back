@@ -1,8 +1,7 @@
 package com.expedienteclinico.expedienteclinico.models.Patients;
 
-import lombok.AllArgsConstructor;
-import lombok.Data; // Incluye Getter, Setter, toString, etc.
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "patient")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
