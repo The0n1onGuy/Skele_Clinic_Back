@@ -6,14 +6,13 @@ import com.expedienteclinico.expedienteclinico.repositories.Patients.IPatientsRe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// Importaciones nuevas necesarias para el updateData
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class PatientsService {
     // 2. Método para crear un nuevo paciente (Para POST /new)
     public PatientsModel nuevo(PatientsBean bean) {
         PatientsModel entidad = new PatientsModel();
+
         entidad.setNombre(bean.getNombre());
         entidad.setApellidos(bean.getApellidos());
         entidad.setCurp(bean.getCurp());
@@ -61,7 +61,7 @@ public class PatientsService {
         return repository.save(entidad);
     }
 
-    // 4. Método para actualizar un paciente (Para PUT /change/{id})
+    // 3. Mé) //
     public ResponseEntity<?> updateData(PatientsBean bean, BindingResult result, Long id) {
         Map<String, Object> response = new HashMap<>();
 
@@ -101,8 +101,10 @@ public class PatientsService {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
 
         } catch (Exception e) {
+            // Brecha de seguridad 3 cerrada: Mensaje genérico en lugar de e.getMessage()
+            System.out.println("Error interno: " + e.getMessage()); // Log para ti como desarrollador
             response.put("mensaje", "Error al actualizar el paciente en la base de datos");
-            response.put("error", "Ocurrió un error interno en el servidor.");
+            response.put("error", "Ocurrió un error interno en el servidor."); // Mensaje seguro para el frontend
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
