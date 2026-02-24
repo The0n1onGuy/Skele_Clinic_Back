@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 //@Table(appliesTo = "Departments")
 //@Table
-@Table(name = "department")
+@Table(name = "departments")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

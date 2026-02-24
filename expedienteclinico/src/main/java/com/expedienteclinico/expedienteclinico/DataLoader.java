@@ -32,6 +32,7 @@ public class DataLoader implements CommandLineRunner {
     private void PosData() {
         // Usamos el orden que establecimos: UUID, luego el resto
         Prepository.save(new PositionsModel(null, UUID.randomUUID(), "Gerente", "Encargado de funciones internas"));
+        Prepository.save(new PositionsModel(null, UUID.randomUUID(), "Secretaria", "Gestor de juntas"));
         System.out.println("Posiciones cargados exitosamente.");
     }
 
