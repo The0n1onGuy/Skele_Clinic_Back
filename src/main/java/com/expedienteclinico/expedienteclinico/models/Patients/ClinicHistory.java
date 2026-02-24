@@ -1,24 +1,22 @@
-package com.expedienteclinico.expedienteclinico.models;
+package com.expedienteclinico.expedienteclinico.models.Patients;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "historial_clinico")
+@Table(name = "clinic_history")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class HistorialesClinicosModel {
+public class ClinicHistory {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "paciente_id", nullable = false)
-    private PacientesModel paciente;
+    @JoinColumn(name = "patient_id", nullable = false)
+    private PatientsModel paciente;
 
     @Column(nullable = false)
     private LocalDateTime fechaRegistro;
@@ -30,4 +28,7 @@ public class HistorialesClinicosModel {
     private String enfermedadActual;
 
     private String diagnosticoPreliminar;
+
+    // Relación con el médico que atendió (Ver punto 5)
+    // private Long medicoId;
 }
