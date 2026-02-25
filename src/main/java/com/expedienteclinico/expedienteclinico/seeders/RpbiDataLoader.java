@@ -81,10 +81,10 @@ public class RpbiDataLoader implements CommandLineRunner {
         }
     }
 
-    /**
-     * Busca un estatus por nombre. Si no existe, lo crea.
-     * Esto evita conflictos si otro loader ya insertó el estatus 'Activo'.
-     */
+    //
+    // Busca un estatus por nombre. Si no existe, lo crea.
+    // Esto evita conflictos si otro loader ya insertó el estatus 'Activo'.
+    //
     private StatusModel resolveStatus(String name) {
         return statusRepository.findAll().stream()
                 .filter(s -> s.getStatusName().equalsIgnoreCase(name))
