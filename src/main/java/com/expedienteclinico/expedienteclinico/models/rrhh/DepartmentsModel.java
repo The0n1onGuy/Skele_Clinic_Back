@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -19,10 +17,13 @@ import java.util.UUID;
 @Setter
 public class DepartmentsModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    /*@Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID uuid;
+    private UUID uuid;*/
+
+    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,7 @@ public class DepartmentsModel {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_status", nullable = false) //
-    private StatusModel status;
+    private StatusModel id_status;
 }

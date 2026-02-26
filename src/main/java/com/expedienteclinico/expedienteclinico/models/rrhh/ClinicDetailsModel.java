@@ -2,9 +2,7 @@ package com.expedienteclinico.expedienteclinico.models.rrhh;
 
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -16,9 +14,7 @@ import java.util.UUID;
 public class ClinicDetailsModel {
 
     @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

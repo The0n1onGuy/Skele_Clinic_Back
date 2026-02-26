@@ -1,10 +1,8 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
 
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -17,9 +15,7 @@ import java.util.UUID;
 public class ContractsModel {
 
     @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
