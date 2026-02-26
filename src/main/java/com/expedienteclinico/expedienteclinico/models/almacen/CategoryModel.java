@@ -1,17 +1,17 @@
 package com.expedienteclinico.expedienteclinico.models.almacen;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 
 @Entity
 @Table(name = "categories")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Schema(description = "Modelo que representa la categoría de artículos en el almacén (Farmacia, Clínica o Equipamiento Médico)")
@@ -29,6 +29,5 @@ public class CategoryModel {
     @Column(columnDefinition = "TEXT")
     @Schema(description = "Descripción detallada de lo que incluye esta categoría", example = "Todas las maquinas especializadas y herramientas medicas.")
     private String description;
-
 
 }

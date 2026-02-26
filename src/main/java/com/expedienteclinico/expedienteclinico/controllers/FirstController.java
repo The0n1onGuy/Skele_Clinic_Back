@@ -15,10 +15,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
+@Deprecated
 @CrossOrigin( origins = "*" , maxAge = 3600 )
 @RestController
 @RequestMapping( "/first-controller/" )

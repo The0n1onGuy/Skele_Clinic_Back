@@ -26,9 +26,9 @@ public class CategoryService {
         return iCategoryRepository.findById(id);
     }
 
-    public void deleteCategory(Long id) {
-        iCategoryRepository.deleteById(id);
-    }
+//    public void cambiarstatus(Long id) {
+//
+//    }
 
     public List<CategoryModel> findByNameContaining(String name) {
         return iCategoryRepository.findByNameContainingIgnoreCase(name);
