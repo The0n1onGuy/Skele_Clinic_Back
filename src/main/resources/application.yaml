@@ -1,7 +1,5 @@
 spring:
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
+
   datasource:
 
     #      Localhost Oracle

@@ -2,7 +2,7 @@ package com.expedienteclinico.expedienteclinico.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "status")
