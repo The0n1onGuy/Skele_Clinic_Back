@@ -16,5 +16,6 @@ public class FirstObject {
     private Integer edad ;
     private String direccion ;
     private String telefono ;
+    private String ghf ;
 
 }
