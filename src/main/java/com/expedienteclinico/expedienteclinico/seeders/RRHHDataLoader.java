@@ -45,17 +45,33 @@ public class RRHHDataLoader implements CommandLineRunner {
     }
 
     private void DepData() {
-        Drepository.save(new DepartmentsModel( UUID.randomUUID(), null,"Recursos Humanos", Active));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Sistemas", Active));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Urgencias", Active));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Quirófanos ", Active));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Morgue ", Active));
+        DepartmentsModel deptoRH = new DepartmentsModel();
+// 2. Setear únicamente la data útil del negocio
+        deptoRH.setName("Recursos Humanos");
+        deptoRH.setStatus(Active); // Asigna el valor o enum que corresponda a "Active"
+        deptoRH.setName("Sistemas");
+        deptoRH.setStatus(Active);
+        deptoRH.setName("Urgencias");
+        deptoRH.setStatus(Active);
+        deptoRH.setName("Quirófanos");
+        deptoRH.setStatus(Active);
+        deptoRH.setName("Morgue");
+        deptoRH.setStatus(Active);
+// 3. Guardar
+        Drepository.save(deptoRH);
         System.out.println("Departamentos cargados exitosamente.");
     }
 
     private void PosData() {
-        Prepository.save(new PositionsModel(UUID.randomUUID(), null,"Gerente", "Encargado de funciones internas", Active));
-        Prepository.save(new PositionsModel(UUID.randomUUID(),null, "Secretaria", "Gestor de juntas", Active));
+
+        PositionsModel Posis = new PositionsModel();
+        Posis.setName("Gerente");
+        Posis.setDescription("Encargado de funciones internas");
+        Posis.setStatus(Active);
+        Posis.setName("Secretaria");
+        Posis.setDescription("Gestor de juntas");
+        Posis.setStatus(Active);
+        Prepository.save(Posis);
         System.out.println("Posiciones cargados exitosamente.");
     }
 
