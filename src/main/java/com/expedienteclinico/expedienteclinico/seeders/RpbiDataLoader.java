@@ -19,10 +19,10 @@ public class RpbiDataLoader implements CommandLineRunner {
     private final IRpbiComplianceMatrixRepository matrixRepository;
 
     // 1. Inyección de Variables con Fallbacks Defensivos
-    @Value("${STATUS1:Activo}")
+    @Value("${STATUS1:Active}")
     private String statusActiveName;
 
-    @Value("${STATUS2:Inactivo}")
+    @Value("${STATUS2:Inactive}")
     private String statusInactiveName;
 
     @Value("${RPBI_CLASIF_NAME:Punzocortantes}")

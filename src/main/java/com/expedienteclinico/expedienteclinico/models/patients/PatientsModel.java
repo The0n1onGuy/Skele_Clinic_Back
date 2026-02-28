@@ -39,6 +39,6 @@ public class PatientsModel {
     private String tipoSangre;
 
     // Relación con el Historial (Uno a muchos)
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ClinicHistoryModel> historiales;
 }

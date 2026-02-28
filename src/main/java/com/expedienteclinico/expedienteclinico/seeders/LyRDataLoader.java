@@ -14,25 +14,25 @@ public class LyRDataLoader implements CommandLineRunner {
     private final ICleaning_suppliesRepository cleaningRepository;
     private final IStatusRepository statusRepository;
 
-    @Value("${STATUS1}")
+    @Value("${STATUS1:Active}")
     private String statusName;
 
-    @Value("${STATUS2}")
+    @Value("${STATUS2:Inactive}")
     private String StatusName2;
 
-    @Value("${ARTICULO1}")
+    @Value("${ARTICULO1:Cloro}")
     private String articuloName;
 
-    @Value("${STOCK}")
+    @Value("${STOCK:50}")
     private Integer stock;
 
-    @Value("${STOCK_MIN}")
+    @Value("${STOCK_MIN:20}")
     private Integer stock_min;
 
-    @Value("${UNIT}")
+    @Value("${UNIT:ml}")
     private String unit;
 
-    @Value("${EXP_DATE}")
+    @Value("${EXP_DATE:10/12/2028}")
     private String exp_date;
 
     public LyRDataLoader(ICleaning_suppliesRepository cleaningRepository,
