@@ -8,11 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="com.expedientemedico" />
-        <module name="mvw-osd-cyclops-api-server-v2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="expedienteclinico" target="21" />
+      <module name="mvw-osd-cyclops-api-server-v2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
