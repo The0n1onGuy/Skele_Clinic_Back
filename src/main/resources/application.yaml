@@ -9,22 +9,23 @@ spring:
     #      driver-class-name: oracle.jdbc.OracleDriver
 
 
-#    #        Localhost
-#    url: jdbc:sqlserver://localhost:14000;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
-#    username: Darick
-#    password: SQLServer1471182005#
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #        Remoto
+    #url: jdbc:sqlserver://187.155.175.213;database=test
+    #username: cesar
+    #password: 12345678
+    #driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+
     #        Localhost
-    url: jdbc:sqlserver://localhost:1433;databaseName=RPBI;encrypt=true;trustServerCertificate=true
-    username: Darick
-    password: Darick471
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    #driver-class-name: com.mysql.cj.jdbc.Driver
+     url: ${URL}
+     username: ${USERNAME}
+     password: ${PASS}
+     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update #create update none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
