@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico;
+package com.expedienteclinico.expedienteclinico.seeders;
 
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 
 @Component
-public class DataLoader implements CommandLineRunner {
+public class RRHHDataLoader implements CommandLineRunner {
 
     StatusModel Active;
     StatusModel Inactive;
