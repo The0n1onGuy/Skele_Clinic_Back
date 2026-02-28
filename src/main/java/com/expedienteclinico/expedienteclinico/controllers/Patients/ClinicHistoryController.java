@@ -1,7 +1,7 @@
 package com.expedienteclinico.expedienteclinico.controllers.Patients;
 
 import com.expedienteclinico.expedienteclinico.beans.Patients.ClinicHistoryBean;
-import com.expedienteclinico.expedienteclinico.models.Patients.ClinicHistoryModel;
+import com.expedienteclinico.expedienteclinico.models.patients.ClinicHistoryModel;
 import com.expedienteclinico.expedienteclinico.services.Patients.ClinicHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

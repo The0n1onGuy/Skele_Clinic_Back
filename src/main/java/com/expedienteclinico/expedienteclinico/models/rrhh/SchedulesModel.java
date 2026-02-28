@@ -13,16 +13,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class SchedulesModel {
-
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID uuid;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_schedule", nullable = false)
     private Long id;
+
+    // CÓDIGO CORREGIDO
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_employee", nullable = false)

@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.models.Patients;
+package com.expedienteclinico.expedienteclinico.models.patients;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor // Obligatorio para JPA
 @AllArgsConstructor
-public class AppointmentsModel {
+public class PatientsAppointmentsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)

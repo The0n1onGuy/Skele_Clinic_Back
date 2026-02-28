@@ -1,8 +1,8 @@
 package com.expedienteclinico.expedienteclinico.controllers.Patients;
 
 import com.expedienteclinico.expedienteclinico.beans.Patients.AppointmentsBean;
-import com.expedienteclinico.expedienteclinico.models.Patients.AppointmentsModel;
-import com.expedienteclinico.expedienteclinico.services.Patients.AppointmentsService;
+import com.expedienteclinico.expedienteclinico.models.patients.PatientsAppointmentsModel;
+import com.expedienteclinico.expedienteclinico.services.Patients.PatientsAppointmentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,10 +15,10 @@ import java.util.UUID;
 @CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
 @RequestMapping( "/appointments-controller/" )
-public class AppointmentsController {
+public class PatientsAppointmentsController {
 
     @Autowired
-    AppointmentsService appointmentsService ;
+    PatientsAppointmentsService appointmentsService ;
 
     @GetMapping( "appointments-single" )
     public AppointmentsBean getAppointmentsSingle() {
@@ -37,7 +37,7 @@ public class AppointmentsController {
     }
 
     @GetMapping( "all" )
-    public List< AppointmentsModel > getAll() {
+    public List<PatientsAppointmentsModel> getAll() {
         return appointmentsService.getAll() ;
     }
 

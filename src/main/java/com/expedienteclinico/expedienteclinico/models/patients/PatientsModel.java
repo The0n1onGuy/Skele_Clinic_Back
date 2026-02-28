@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.models.Patients;
+package com.expedienteclinico.expedienteclinico.models.patients;
 
 import lombok.*;
 

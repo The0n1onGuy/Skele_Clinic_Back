@@ -1,9 +1,9 @@
 package com.expedienteclinico.expedienteclinico.services.Patients;
 
 import com.expedienteclinico.expedienteclinico.beans.Patients.AppointmentsBean;
-import com.expedienteclinico.expedienteclinico.models.Patients.AppointmentsModel;
-import com.expedienteclinico.expedienteclinico.models.Patients.PatientsModel; // Revisa que este import coincida con tu modelo real
-import com.expedienteclinico.expedienteclinico.repositories.Patients.IAppointmentsRepository;
+import com.expedienteclinico.expedienteclinico.models.patients.PatientsAppointmentsModel;
+import com.expedienteclinico.expedienteclinico.models.patients.PatientsModel; // Revisa que este import coincida con tu modelo real
+import com.expedienteclinico.expedienteclinico.repositories.Patients.IPatientsAppointmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.Patients.IPatientsRepository; // Asumo que así se llama tu repo de pacientes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class AppointmentsService {
+public class PatientsAppointmentsService {
 
     @Autowired
-    private IAppointmentsRepository repository;
+    private IPatientsAppointmentsRepository repository;
 
     // Inyectamos el repo de pacientes para poder buscar al paciente cuando creamos una cita
     @Autowired
@@ -26,10 +26,10 @@ public class AppointmentsService {
 
     // 1. GET: Obtener lista convertida a DTO
     public List<AppointmentsBean> getAllAppointments() {
-        List<AppointmentsModel> entidades = repository.findAll();
+        List<PatientsAppointmentsModel> entidades = repository.findAll();
         List<AppointmentsBean> dtos = new ArrayList<>();
 
-        for (AppointmentsModel entidad : entidades) {
+        for (PatientsAppointmentsModel entidad : entidades) {
             AppointmentsBean dto = new AppointmentsBean();
             dto.setId(entidad.getId());
             dto.setFechaHoraInicio(entidad.getFechaHoraInicio());
@@ -48,7 +48,7 @@ public class AppointmentsService {
 
     // 2. POST: Crear una cita nueva vinculada a un paciente
     public Object nuevo(AppointmentsBean bean) {
-        AppointmentsModel entidad = new AppointmentsModel();
+        PatientsAppointmentsModel entidad = new PatientsAppointmentsModel();
 
         entidad.setFechaHoraInicio(bean.getFechaHoraInicio());
         entidad.setFechaHoraFin(bean.getFechaHoraFin());
@@ -67,7 +67,7 @@ public class AppointmentsService {
     }
 
     // 3. GET: Obtener todos en crudo (Para el método "all")
-    public List<AppointmentsModel> getAll() {
+    public List<PatientsAppointmentsModel> getAll() {
         return repository.findAll();
     }
 
@@ -84,7 +84,7 @@ public class AppointmentsService {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        AppointmentsModel citaActual = repository.findById(id).orElse(null);
+        PatientsAppointmentsModel citaActual = repository.findById(id).orElse(null);
 
         if (citaActual == null) {
             response.put("mensaje", "Error: no se pudo editar, la cita ID: " + id + " no existe.");

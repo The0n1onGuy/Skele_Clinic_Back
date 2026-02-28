@@ -1,7 +1,6 @@
 package com.expedienteclinico.expedienteclinico.beans.Patients;
 
-import com.expedienteclinico.expedienteclinico.models.Patients.UrgencyLevel;
-import lombok.Data;
+import com.expedienteclinico.expedienteclinico.models.patients.UrgencyLevel;
 import lombok.Getter;
 import lombok.Setter;
 

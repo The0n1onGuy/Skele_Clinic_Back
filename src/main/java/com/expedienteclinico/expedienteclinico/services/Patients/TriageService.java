@@ -1,8 +1,8 @@
 package com.expedienteclinico.expedienteclinico.services.Patients;
 
 import com.expedienteclinico.expedienteclinico.beans.Patients.TriageBean;
-import com.expedienteclinico.expedienteclinico.models.Patients.PatientsModel;
-import com.expedienteclinico.expedienteclinico.models.Patients.TriageModel;
+import com.expedienteclinico.expedienteclinico.models.patients.PatientsModel;
+import com.expedienteclinico.expedienteclinico.models.patients.TriageModel;
 import com.expedienteclinico.expedienteclinico.repositories.Patients.ITriageRepository; // O TriageRepository
 import com.expedienteclinico.expedienteclinico.repositories.Patients.IPatientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

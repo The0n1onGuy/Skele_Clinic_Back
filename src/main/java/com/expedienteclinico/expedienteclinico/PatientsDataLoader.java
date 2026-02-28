@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico;
 
-import com.expedienteclinico.expedienteclinico.models.Patients.*;
+import com.expedienteclinico.expedienteclinico.models.patients.*;
 import com.expedienteclinico.expedienteclinico.repositories.Patients.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +19,11 @@ public class PatientsDataLoader implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(PatientsDataLoader.class);
 
     private final IPatientsRepository patientsRepository;
-    private final IAppointmentsRepository appointmentsRepository;
+    private final IPatientsAppointmentsRepository appointmentsRepository;
     private final ITriageRepository triageRepository;
     private final IClinicHistoryRepository clinicHistoryRepository;
 
-    public PatientsDataLoader(IPatientsRepository patientsRepository, IAppointmentsRepository appointmentsRepository, ITriageRepository triageRepository, IClinicHistoryRepository clinicHistoryRepository) {
+    public PatientsDataLoader(IPatientsRepository patientsRepository, IPatientsAppointmentsRepository appointmentsRepository, ITriageRepository triageRepository, IClinicHistoryRepository clinicHistoryRepository) {
         this.patientsRepository = patientsRepository;
         this.appointmentsRepository = appointmentsRepository;
         this.triageRepository = triageRepository;
@@ -59,7 +59,7 @@ public class PatientsDataLoader implements CommandLineRunner {
 
         LocalDateTime ahora = LocalDateTime.now();
 
-        AppointmentsModel cita = new AppointmentsModel();
+        PatientsAppointmentsModel cita = new PatientsAppointmentsModel();
         cita.setPaciente(juan); // Pasamos el objeto completo, JPA extrae el UUID de la relación
         cita.setFechaHoraInicio(ahora.plusDays(1).withHour(10).withMinute(0));
         cita.setFechaHoraFin(ahora.plusDays(1).withHour(11).withMinute(0));

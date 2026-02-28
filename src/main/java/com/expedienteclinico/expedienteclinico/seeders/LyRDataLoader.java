@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico;
+package com.expedienteclinico.expedienteclinico.seeders;
 
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.lyr.Cleaning_suppliesModel;
@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataLoader implements CommandLineRunner {
+public class LyRDataLoader implements CommandLineRunner {
 
     private final ICleaning_suppliesRepository cleaningRepository;
     private final IStatusRepository statusRepository;
@@ -35,8 +35,8 @@ public class DataLoader implements CommandLineRunner {
     @Value("${EXP_DATE}")
     private String exp_date;
 
-    public DataLoader(ICleaning_suppliesRepository cleaningRepository,
-                      IStatusRepository statusRepository) {
+    public LyRDataLoader(ICleaning_suppliesRepository cleaningRepository,
+                         IStatusRepository statusRepository) {
 
         this.cleaningRepository = cleaningRepository;
         this.statusRepository = statusRepository;

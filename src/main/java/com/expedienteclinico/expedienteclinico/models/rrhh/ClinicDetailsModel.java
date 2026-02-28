@@ -2,10 +2,8 @@ package com.expedienteclinico.expedienteclinico.models.rrhh;
 
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import java.util.UUID;
 
 @Entity
 @Table(name = "rrhh_clinic_details")
@@ -15,15 +13,15 @@ import java.util.UUID;
 @Setter
 public class ClinicDetailsModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private UUID uuid;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_clinic_details", nullable = false)
     private Long id;
+
+    // CÓDIGO CORREGIDO
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
 
     @OneToOne
     @JoinColumn(name = "id_employee", unique = true, nullable = false)
