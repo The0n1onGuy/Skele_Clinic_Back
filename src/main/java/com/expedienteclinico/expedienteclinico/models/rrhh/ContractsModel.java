@@ -1,8 +1,10 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
 
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
-import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -13,14 +15,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ContractsModel {
-
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    private UUID uuid = UUID.randomUUID();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_contract", nullable = false)
     private Long id;
+
+    // CÓDIGO CORREGIDO
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_employee", nullable = false)
@@ -39,6 +41,6 @@ public class ContractsModel {
     private BigDecimal baseSalary;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_status", nullable = false) //
+    @JoinColumn(name = "id_estatus", nullable = false) //
     private StatusModel status;
 }

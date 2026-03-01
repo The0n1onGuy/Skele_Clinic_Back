@@ -3,7 +3,7 @@ package com.expedienteclinico.expedienteclinico.models.rrhh;
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import lombok.*;
 import jakarta.persistence.*;
-import java.util.UUID;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rrhh_clinic_details")
@@ -13,13 +13,15 @@ import java.util.UUID;
 @Setter
 public class ClinicDetailsModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_clinic_details", nullable = false)
     private Long id;
+
+    // CÓDIGO CORREGIDO
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
 
     @OneToOne
     @JoinColumn(name = "id_employee", unique = true, nullable = false)
@@ -35,7 +37,7 @@ public class ClinicDetailsModel {
     private String specialty;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_status", nullable = false) //
+    @JoinColumn(name = "id_estatus", nullable = false) //
     private StatusModel status;
 
 }
