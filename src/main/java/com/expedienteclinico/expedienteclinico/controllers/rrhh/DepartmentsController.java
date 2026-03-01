@@ -15,7 +15,7 @@ public class DepartmentsController {
     @Autowired
     DepartmentsService departmentService;
 
-    @GetMapping("get")
+    @GetMapping("all")
     public List<DepartmentsModel> getAll() {
         return departmentService.getAll();
     }
