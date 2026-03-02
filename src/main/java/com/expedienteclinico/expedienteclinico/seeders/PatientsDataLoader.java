@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico;
+package com.expedienteclinico.expedienteclinico.seeders;
 
 import com.expedienteclinico.expedienteclinico.models.patients.*;
 import com.expedienteclinico.expedienteclinico.repositories.Patients.*;
