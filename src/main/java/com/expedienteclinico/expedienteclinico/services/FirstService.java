@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 @Service
 public class FirstService {
 
@@ -87,24 +87,28 @@ public class FirstService {
         return iFirstRepository.findAll() ;
     }
 
-    public ResponseEntity< Map< String , Object > > updateData( FirstModel firstModel, BindingResult result, Long id ) {
-        FirstModel modelToChange = null ;
+    public ResponseEntity< Map< String , Object > > updateData(FirstModel firstModel, BindingResult result, Long id) {
 
-        if ( result.hasErrors() ) return new ResponseEntity< Map< String , Object > >( ResponseFactory.getErrorResponse( result ) , HttpStatus.BAD_REQUEST ) ;
+        FirstModel ModelToChange = null;
+
+        if( result.hasErrors() ) return new ResponseEntity< Map< String, Object> >( ResponseFactory.getErrorResponse( result ), HttpStatus.BAD_REQUEST );
 
         try {
-            modelToChange = iFirstRepository.findById( id ).orElse( null ) ;
+            ModelToChange = iFirstRepository.findById( id ).orElse(null );
 
-            if ( modelToChange == null )  return new ResponseEntity< Map< String , Object > >( ResponseFactory.getNotFoundResponse( modelToChange ) , HttpStatus.NOT_FOUND ) ;
+            if ( ModelToChange == null ) return new  ResponseEntity<Map< String, Object> >( ResponseFactory.getNotFoundResponse( ModelToChange ) , HttpStatus.NOT_FOUND );
 
-            modelToChange.setNombre( firstModel.getNombre() ) ;
-            modelToChange.setApellido( firstModel.getApellido() ) ;
+            ModelToChange.setNombre( firstModel.getNombre() );
+            ModelToChange.setApellido(firstModel.getApellido());
 
-            iFirstRepository.save( modelToChange ) ;
-        } catch( DataAccessException e ) {
-            return new ResponseEntity< Map< String , Object > >( ResponseFactory.getErrorToUpdateResponse( firstModel ) , HttpStatus.INTERNAL_SERVER_ERROR ) ;
+            iFirstRepository.save( ModelToChange );
+        } catch ( DataAccessException e ) {
+
+            return new  ResponseEntity<Map<String, Object>>( ResponseFactory.getErrorToUpdateResponse(firstModel) , HttpStatus.INTERNAL_SERVER_ERROR );
+
         }
 
-        return new ResponseEntity< Map< String , Object > >( ResponseFactory.getUpdateResponse( modelToChange ) , HttpStatus.CREATED ) ;
+        return new  ResponseEntity<Map<String, Object>>( ResponseFactory.getUpdateResponse(ModelToChange) , HttpStatus.CREATED );
+
     }
 }

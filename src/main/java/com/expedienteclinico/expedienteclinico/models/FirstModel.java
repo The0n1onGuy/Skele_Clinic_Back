@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Table;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Deprecated
 @Entity
-@Table( appliesTo = "first_model" )
+@Table( name = "first_model" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+
 public class FirstModel {
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE )

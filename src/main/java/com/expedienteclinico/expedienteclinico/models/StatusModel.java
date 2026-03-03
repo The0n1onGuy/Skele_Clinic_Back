@@ -1,19 +1,22 @@
 package com.expedienteclinico.expedienteclinico.models;
 
 import lombok.Getter;
-
-import javax.persistence.*;
+import lombok.Setter;
+import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "status")
 @Getter
-
+@Setter
 public class StatusModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_status", nullable = false) // Buena práctica: nombrar explícitamente la PK
     private Long id;
 
-    private String statusName ;
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
+    private String uuid = java.util.UUID.randomUUID().toString();
 
+    @Column(name = "name", nullable = false, unique = true)
+    private String statusName;
 }
