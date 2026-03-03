@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import jakarta.persistence.*;
 
-@Deprecated
 @Entity
 @Table( name = "first_model" )
 @NoArgsConstructor
