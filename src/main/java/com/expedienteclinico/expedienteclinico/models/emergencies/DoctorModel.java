@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table( name = "first_model" )
+@Table( name = "doctor_model" )
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
