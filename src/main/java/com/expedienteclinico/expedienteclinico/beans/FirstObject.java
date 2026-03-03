@@ -1,20 +1,22 @@
 package com.expedienteclinico.expedienteclinico.beans;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Getter
-@Deprecated
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class FirstObject {
 
     private String nombre ;
     private Integer edad ;
     private String direccion ;
     private String telefono ;
+    private String ghf ;
+
+
 }

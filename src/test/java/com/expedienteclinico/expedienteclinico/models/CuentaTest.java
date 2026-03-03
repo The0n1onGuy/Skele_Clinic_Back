@@ -7,35 +7,40 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CuentaTest {
+
     @Test
     void testNombreCuenta(){
-        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
-        cuenta.setPersona("Lex");
 
-        String esperado ="Lex";
+        Cuenta cuenta = new Cuenta("Alex", new BigDecimal("1500.471"));
+        cuenta.setPersona("Alex");
+
+
+        String esperado = "Alex";
         String real = cuenta.getPersona();
 
-        assertEquals(esperado, real);
-        assertTrue(real.equals("Lex"));
+        assertEquals( esperado, real);
+        assertTrue( real.equals( "Alex") );
+
     }
+
     @Test
-    void testSaldocuenta(){
-        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
+    void testSaldoCuenta(){
 
-        assertEquals(1000.12345, cuenta.getSaldo().doubleValue());
+        Cuenta cuenta = new Cuenta("Alex", new BigDecimal("1500.471"));
+        assertEquals( 1500.471, cuenta.getSaldo().doubleValue() );
+        assertFalse( cuenta.getSaldo().compareTo(BigDecimal.ZERO) < 0 );
+        assertTrue( cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0 );
 
-        assertFalse(cuenta.getSaldo().compareTo(BigDecimal.ZERO)<0);
-        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
     }
 
     @Test
     void testReferenciaDeCuenta(){
-        Cuenta cuenta = new Cuenta("John Doe", new BigDecimal("8000.12345"));
-        Cuenta cuenta2 = new Cuenta("John Doe", new BigDecimal("8000.12345"));
-//        assertNotEquals(cuenta2, cuenta);
-        assertEquals(cuenta2, cuenta);
+
+        Cuenta cuenta = new Cuenta("Darikson", new BigDecimal("1471.471"));
+        Cuenta cuenta2 = new Cuenta("Darikson", new BigDecimal("1471.471"));
+
+        assertNotEquals( cuenta2 , cuenta ) ;
 
     }
-
 
 }

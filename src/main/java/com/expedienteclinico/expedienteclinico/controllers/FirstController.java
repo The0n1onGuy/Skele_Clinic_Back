@@ -8,21 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-//Organizacion de EndPoints (usaremos Tag)
-import io.swagger.v3.oas.annotations.tags.Tag;
-//Usa @Operation para explicar el propósito de cada metodo y @ApiResponse para documentar los posibles errores
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+
 @Deprecated
 @CrossOrigin( origins = "*" , maxAge = 3600 )
 @RestController
 @RequestMapping( "/first-controller/" )
-@Tag(name = "Módulo de Pruebas", description = "Endpoints iniciales para validación del sistema")
 public class FirstController {
 
     @Autowired
@@ -38,11 +31,7 @@ public class FirstController {
 
         return a ;
     }
-    @Operation(summary = "Obtener lista completa", description = "Consulta la base de datos y retorna todos los registros de estado actuales.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista recuperada con éxito"),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor al consultar la base de datos")
-    })
+
     @GetMapping( "first-list" )
     public ArrayList< Object > getFirstList() {
         return firstService.getFirstList() ;
@@ -70,10 +59,13 @@ public class FirstController {
         return firstService.getAll() ;
     }
 
-    @PutMapping("change/{id}")
-    public ResponseEntity<?> updateData(@Valid @RequestBody FirstModel firstModel, BindingResult result, @PathVariable Long id){
+
+    @PutMapping( "change/{id}" )
+    public ResponseEntity< ? > updateData(@Valid @RequestBody FirstModel firstModel , BindingResult result , @PathVariable Long id){
+
         return firstService.updateData(firstModel, result, id);
+
     }
 
 
-}
+    }

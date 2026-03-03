@@ -2,8 +2,9 @@ package com.expedienteclinico.expedienteclinico.services;
 
 import com.expedienteclinico.expedienteclinico.beans.FirstObject;
 import com.expedienteclinico.expedienteclinico.models.FirstModel;
-import com.expedienteclinico.expedienteclinico.paylod.response.ResponseFactory;
+import com.expedienteclinico.expedienteclinico.payload.response.ResponseFactory;
 import com.expedienteclinico.expedienteclinico.repositories.IFirstRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -83,24 +83,37 @@ public class FirstService {
     }
 
 
-    public List< FirstModel > getAll() {
+    public List<FirstModel> getAll() {
         return iFirstRepository.findAll() ;
     }
 
-    public ResponseEntity< Map< String, Object> > updateData(FirstModel firstModel, BindingResult result, Long id) {
+    public ResponseEntity<Map< String , Object >> updateDate(FirstModel firstModel, BindingResult result, Long id){
         FirstModel modelToChange = null;
-        if (result.hasErrors()) return new ResponseEntity<  Map< String, Object> >(ResponseFactory.getErrorResponse(result), HttpStatus.BAD_REQUEST);
-        try {
-            modelToChange = iFirstRepository.findById(id).orElse(null);
 
-            if (modelToChange == null) return new ResponseEntity< Map< String, Object >>(ResponseFactory.getNotFoundResponse(modelToChange), HttpStatus.NOT_FOUND);
-            modelToChange.setNombre(firstModel.getNombre());
-            modelToChange.setApellido(firstModel.getApellido());
+        if( result.hasErrors()) return new ResponseEntity<Map <String , Object>>( ResponseFactory.getErrorResponse(result), HttpStatus.BAD_REQUEST);
 
-            iFirstRepository.save(modelToChange);
-        } catch ( DataAccessException e) {
-            return new ResponseEntity<Map<String, Object>>(ResponseFactory.getErrorToUpdateResponse(firstModel), HttpStatus.INTERNAL_SERVER_ERROR);
+        try{
+            modelToChange = iFirstRepository.findById( id ).orElse(null);
+
+            if(modelToChange == null) return new ResponseEntity<Map<String, Object>>( ResponseFactory.getNotFoundResponse( modelToChange ), HttpStatus.NOT_FOUND );
+
+            modelToChange.setNombre( firstModel.getNombre());
+
+            modelToChange.setApellido( firstModel.getApellido());
+
+            iFirstRepository.save( modelToChange);
+
+        } catch (DataAccessException e ) {
+            return new ResponseEntity<Map<String, Object>>( ResponseFactory.getErrorToUpdateResponse( firstModel ), HttpStatus.INTERNAL_SERVER_ERROR );
         }
-        return new ResponseEntity< Map< String, Object >>(ResponseFactory.getUpdateResponse(modelToChange), HttpStatus.CREATED);
+
+        return new ResponseEntity<Map<String, Object>>( ResponseFactory.getUpdateResponse( modelToChange ), HttpStatus.CREATED );
+
+    }
+
+    public ResponseEntity<?> updateData(@Valid FirstModel firstModel, BindingResult result, Long id) {
+    // nosequeivaaquí
+
+        return null;
     }
 }
