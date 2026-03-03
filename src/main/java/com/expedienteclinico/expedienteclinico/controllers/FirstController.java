@@ -18,54 +18,54 @@ import java.util.List;
 @RequestMapping( "/first-controller/" )
 public class FirstController {
 
-    @Autowired
-    FirstService firstService ;
+//    @Autowired
+//    FirstService firstService ;
+//
+//    @GetMapping( "first-single" )
+//    public FirstObject getFirstSingle() {
+//        FirstObject a = new FirstObject() ;
+//            a.setNombre( "Juanito" ) ;
+//            a.setDireccion( "Villas Jotoch" ) ;
+//            a.setEdad( 21 ) ;
+//            a.setTelefono( "9999999999" ) ;
+//
+//        return a ;
+//    }
+//
+//    @GetMapping( "first-list" )
+//    public ArrayList< Object > getFirstList() {
+//        return firstService.getFirstList() ;
+//    }
+//
+//    @PostMapping( "new" )
+//    public Object nuevo( @RequestBody FirstObject firstObject ) {
+//        return firstService.nuevo( firstObject ) ;
+//    }
+//
+//
+//
+//
+//    @GetMapping( "fibonacci" )
+//    public void fibonacci() {
+//
+//        System.out.println("Serie de Fibonacci" ) ;
+//        firstService.fibonacci(50);
+//
+//    }
+//
+//
+//    @GetMapping( "all" )
+//    public List< FirstModel > getAll() {
+//        return firstService.getAll() ;
+//    }
+//
+//
+//    @PutMapping( "change/{id}" )
+//    public ResponseEntity< ? > updateData(@Valid @RequestBody FirstModel firstModel , BindingResult result , @PathVariable Long id){
+//
+//        return firstService.updateData(firstModel, result, id);
+//
+//    }
+//
 
-    @GetMapping( "first-single" )
-    public FirstObject getFirstSingle() {
-        FirstObject a = new FirstObject() ;
-            a.setNombre( "Juanito" ) ;
-            a.setDireccion( "Villas Jotoch" ) ;
-            a.setEdad( 21 ) ;
-            a.setTelefono( "9999999999" ) ;
-
-        return a ;
-    }
-
-    @GetMapping( "first-list" )
-    public ArrayList< Object > getFirstList() {
-        return firstService.getFirstList() ;
-    }
-
-    @PostMapping( "new" )
-    public Object nuevo( @RequestBody FirstObject firstObject ) {
-        return firstService.nuevo( firstObject ) ;
-    }
-
-
-
-
-    @GetMapping( "fibonacci" )
-    public void fibonacci() {
-
-        System.out.println("Serie de Fibonacci" ) ;
-        firstService.fibonacci(50);
-
-    }
-
-
-    @GetMapping( "all" )
-    public List< FirstModel > getAll() {
-        return firstService.getAll() ;
-    }
-
-
-    @PutMapping( "change/{id}" )
-    public ResponseEntity< ? > updateData(@Valid @RequestBody FirstModel firstModel , BindingResult result , @PathVariable Long id){
-
-        return firstService.updateData(firstModel, result, id);
-
-    }
-
-
-    }
+}

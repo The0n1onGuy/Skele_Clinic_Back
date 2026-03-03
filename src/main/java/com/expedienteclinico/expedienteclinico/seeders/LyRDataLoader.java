@@ -58,7 +58,7 @@ public class LyRDataLoader implements CommandLineRunner {
         }
 
         StatusModel statusA = statusRepository
-                .findById(1L)
+                .findById(3L)
                 .orElseThrow(() -> new RuntimeException("Status no encontrado"));
 
         if (cleaningRepository.count() == 0) {

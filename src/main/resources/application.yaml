@@ -16,7 +16,7 @@ spring:
     #driver-class-name: com.mysql.cj.jdbc.Driver
 
     #        Localhost
-    url: jdbc:sqlserver://localhost:1433;database=ExpedienteClinicoUniSurEneAbr2026
+    url: jdbc:sqlserver://localhost:1433;database=ExpedienteClinicoUniSurEneAbr2026;encrypt=true;trustServerCertificate=true
     username: sa
     password: 12345
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

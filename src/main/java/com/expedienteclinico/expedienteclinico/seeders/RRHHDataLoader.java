@@ -80,7 +80,7 @@ public class RRHHDataLoader implements CommandLineRunner {
         if (Srepository.count() == 0) {
             StaData();
         }
-        Active = Srepository.findById(1L)
+        Active = Srepository.findById(3L)
                 .orElseThrow(() -> new RuntimeException("Error: Estado 'Activo' no encontrado"));
 
         if (Drepository.count() == 0) {
