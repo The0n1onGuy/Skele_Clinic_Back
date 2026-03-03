@@ -1,4 +1,5 @@
 package com.expedienteclinico.expedienteclinico.services.rrhh;
+import com.expedienteclinico.expedienteclinico.beans.rrhh.DepartmentObject;
 import com.expedienteclinico.expedienteclinico.models.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
 import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
@@ -16,8 +17,8 @@ public class DepartmentsService {
     @Autowired
     IStatusRepository statusRepo;
 
-    @Autowired
-    AuditLogsService auditService; // Inyección del auditor
+    //@Autowired
+//    AuditLogsService auditService; // Inyección del auditor
 
     @Value("${STATUS1:Activo}") private String Active;
     @Value("${STATUS2:Inactivo}") private String Inactive;
@@ -30,27 +31,54 @@ public class DepartmentsService {
                 .orElseThrow(() -> new RuntimeException("Error: El estado '" + statusName + "' no existe en la base de datos."));
     }
 
-    public List<DepartmentsModel> getAll() {
-        return departmentsRepo.findAll();
+    public DepartmentObject convertToDTO(DepartmentsModel model) {
+        DepartmentObject dto = new DepartmentObject();
+        dto.setId(model.getId());
+        dto.setName(model.getName());
+        dto.setUuid(model.getUuid());
+        dto.setStatusName(model.getId_status().getStatusName());
+        return dto;
     }
 
-    public DepartmentsModel saveInfo(DepartmentsModel depto) {
-        if (depto.getId_status() == null) {
-            StatusModel statusActive = getStatusByName(Active);
-            depto.setId_status(statusActive);
-        }
-        DepartmentsModel saved =departmentsRepo.save(depto);
-        auditService.registrarAccion("CREACION: " + saved.getName(), Added);
-        return saved;
+    public List<DepartmentObject> getAll() {
+        return departmentsRepo.findAll().stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
-    public DepartmentsModel updateInfo(Long id, DepartmentsModel deptoUpdate) {
-        return departmentsRepo.findById(id).map(depto -> {
-            depto.setName(deptoUpdate.getName());
-            depto.setId_status(deptoUpdate.getId_status());
-            DepartmentsModel updated = departmentsRepo.save(depto);
-            auditService.registrarAccion("CAMBIOS: " + id, Edited);
-            return updated;
+//    public DepartmentsModel saveInfo(DepartmentsModel depto) {
+//        if (depto.getId_status() == null) {
+//            StatusModel statusActive = getStatusByName(Active);
+//            depto.setId_status(statusActive);
+//        }
+    ////        DepartmentsModel saved =departmentsRepo.save(depto);
+    ////        auditService.registrarAccion("CREACION: " + saved.getName(), Added);
+    ////        return saved;
+//
+//
+//        return departmentsRepo.save(depto);
+//    }
+    public DepartmentObject saveInfo(DepartmentObject dto) {
+        DepartmentsModel model = new DepartmentsModel();
+        model.setName(dto.getName());
+
+        // Buscamos el estado por defecto (Activo)
+        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Activo")
+                .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
+        model.setId_status(status);
+
+        // Hibernate genera el UUID automáticamente gracias a @UuidGenerator
+        DepartmentsModel saved = departmentsRepo.save(model);
+        return convertToDTO(saved);
+    }
+
+    public DepartmentObject updateInfo(Long id, DepartmentObject dto) {
+        return departmentsRepo.findById(id).map(model -> {
+            model.setName(dto.getName());
+            // El estatus usualmente no cambia en un update de nombre,
+            // pero si fuera necesario, se buscaría aquí.
+            DepartmentsModel updated = departmentsRepo.save(model);
+            return convertToDTO(updated);
         }).orElse(null);
     }
 
@@ -58,8 +86,11 @@ public class DepartmentsService {
         return departmentsRepo.findById(id).map(depto -> {
             StatusModel statusInactive = getStatusByName(Inactive);
             depto.setId_status(statusInactive);
+//            departmentsRepo.save(depto);
+//            auditService.registrarAccion("ELIMINACION: " + id, Deleted);
+//            return true;
+
             departmentsRepo.save(depto);
-            auditService.registrarAccion("ELIMINACION: " + id, Deleted);
             return true;
         }).orElse(false);
     }
