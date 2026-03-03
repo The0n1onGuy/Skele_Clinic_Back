@@ -33,12 +33,12 @@ public class RRHHDataLoader implements CommandLineRunner {
         // 1. Instanciamos vacío (Hibernate se encargará del ID y la clase generará el UUID)
         StatusModel statusActivo = new StatusModel();
         // 2. Seteamos únicamente el nombre
-        statusActivo.setStatusName("Activo");
+        statusActivo.setStatusName("Active");
         // 3. Guardamos
         Srepository.save(statusActivo);
 
         StatusModel statusInactivo = new StatusModel();
-        statusInactivo.setStatusName("Inactivo");
+        statusInactivo.setStatusName("Inactive");
         Srepository.save(statusInactivo);
 
         System.out.println("Estados cargados");
