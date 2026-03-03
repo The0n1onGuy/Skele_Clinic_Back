@@ -17,15 +17,15 @@ import java.util.UUID;
 @Component
 public class RRHHDataLoader implements CommandLineRunner {
 
-    @Value("${STATUS1:Activo}")
+    @Value("${STATUS1:Active}")
     private String Active;
-    @Value("${STATUS2:Inactivo}")
+    @Value("${STATUS2:Inactive}")
     private String Inactive;
-    @Value("${STATUS3:Editado}")
+    @Value("${STATUS3:Edited}")
     private String Edited;
-    @Value("${STATUS4:Eliminado}")
+    @Value("${STATUS4:Deleted}")
     private String Deleted;
-    @Value("${STATUS5:Agregado}")
+    @Value("${STATUS5:Added}")
     private String Added;
 
     @Autowired
@@ -78,6 +78,7 @@ public class RRHHDataLoader implements CommandLineRunner {
         // LINEAS QUE EJECUTAN LOS ESTATUS
         StatusModel activeStatus = resolveStatus(Active);
         StatusModel inactiveStatus = resolveStatus(Inactive);
+
 
         if (Drepository.count() == 0) {
             DepData(activeStatus);
