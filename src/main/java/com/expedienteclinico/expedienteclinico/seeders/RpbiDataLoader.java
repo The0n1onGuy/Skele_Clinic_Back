@@ -34,7 +34,7 @@ public class RpbiDataLoader implements CommandLineRunner {
     @Value("${RPBI_CLASIF_COLOR:Rojo}")
     private String clasifColor;
 
-    @Value("${RPBI_PHYS_STATE_NAME:Sólido}")
+    @Value("${RPBI_PHYS_STATE_NAME:Solido}")
     private String physStateName;
 
     @Value("${RPBI_PHYS_STATE_UNIT:kg}")

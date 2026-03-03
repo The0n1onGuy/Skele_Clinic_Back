@@ -7,6 +7,7 @@ import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
@@ -16,8 +17,16 @@ import java.util.UUID;
 @Component
 public class RRHHDataLoader implements CommandLineRunner {
 
-    StatusModel Active;
-    StatusModel Inactive;
+    @Value("${STATUS1:Activo}")
+    private String Active;
+    @Value("${STATUS2:Inactivo}")
+    private String Inactive;
+    @Value("${STATUS3:Editado}")
+    private String Edited;
+    @Value("${STATUS4:Eliminado}")
+    private String Deleted;
+    @Value("${STATUS5:Agregado}")
+    private String Added;
 
     @Autowired
     private IStatusRepository Srepository;
@@ -28,66 +37,53 @@ public class RRHHDataLoader implements CommandLineRunner {
     @Autowired
     private IPositionsRepository Prepository;
 
+    //EL CREADOR DE LOS STATUS
+//    private StatusModel resolveStatus(String name) {
+//        return Srepository.findAll().stream()
+//                .filter(s -> s.getStatusName().equalsIgnoreCase(name))
+//                .findFirst()
+//                .orElseGet(() -> {
+//                    StatusModel nuevo = new StatusModel();
+//                    nuevo.setStatusName(name);
+//                    return Srepository.save(nuevo);
+//                });
+//    }
 
-    private void StaData() {
-        // 1. Instanciamos vacío (Hibernate se encargará del ID y la clase generará el UUID)
-        StatusModel statusActivo = new StatusModel();
-        // 2. Seteamos únicamente el nombre
-        statusActivo.setStatusName("Activo");
-        // 3. Guardamos
-        Srepository.save(statusActivo);
 
-        StatusModel statusInactivo = new StatusModel();
-        statusInactivo.setStatusName("Inactivo");
-        Srepository.save(statusInactivo);
-
-        System.out.println("Estados cargados");
+    private StatusModel resolveStatus(String name) {
+        return Srepository.findByStatusNameIgnoreCase(name)
+                .orElseThrow(() -> new RuntimeException(
+                        "ERROR CRÍTICO: El estado de sistema '" + name + "' no ha sido precargado. " +
+                                "Asegúrese de que SystemDataLoader se ejecute primero."
+                ));
     }
 
-    private void DepData() {
-        DepartmentsModel deptoRH = new DepartmentsModel();
-// 2. Setear únicamente la data útil del negocio
-        deptoRH.setName("Recursos Humanos");
-        deptoRH.setStatus(Active); // Asigna el valor o enum que corresponda a "Active"
-        deptoRH.setName("Sistemas");
-        deptoRH.setStatus(Active);
-        deptoRH.setName("Urgencias");
-        deptoRH.setStatus(Active);
-        deptoRH.setName("Quirófanos");
-        deptoRH.setStatus(Active);
-        deptoRH.setName("Morgue");
-        deptoRH.setStatus(Active);
-// 3. Guardar
-        Drepository.save(deptoRH);
+    private void DepData(StatusModel status) {
+        Drepository.save(new DepartmentsModel( UUID.randomUUID(), null,"Recursos Humanos", status));
+        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Sistemas", status));
+        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Urgencias", status));
+        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Quirófanos ", status));
+        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Morgue ", status));
         System.out.println("Departamentos cargados exitosamente.");
     }
 
-    private void PosData() {
-
-        PositionsModel Posis = new PositionsModel();
-        Posis.setName("Gerente");
-        Posis.setDescription("Encargado de funciones internas");
-        Posis.setStatus(Active);
-        Posis.setName("Secretaria");
-        Posis.setDescription("Gestor de juntas");
-        Posis.setStatus(Active);
-        Prepository.save(Posis);
+    private void PosData(StatusModel status) {
+        Prepository.save(new PositionsModel(UUID.randomUUID(), null,"Gerente", "Encargado de funciones internas", status));
+        Prepository.save(new PositionsModel(UUID.randomUUID(),null, "Secretaria", "Gestor de juntas", status));
         System.out.println("Posiciones cargados exitosamente.");
     }
 
     @Override
     public void run(String... args) throws Exception {
-        if (Srepository.count() == 0) {
-            StaData();
-        }
-        Active = Srepository.findById(3L)
-                .orElseThrow(() -> new RuntimeException("Error: Estado 'Activo' no encontrado"));
+        // LINEAS QUE EJECUTAN LOS ESTATUS
+        StatusModel activeStatus = resolveStatus(Active);
+        StatusModel inactiveStatus = resolveStatus(Inactive);
 
         if (Drepository.count() == 0) {
-            DepData();
+            DepData(activeStatus);
         }
         if (Prepository.count() == 0) {
-            PosData();
+            PosData(activeStatus);
         }
     }
 }
