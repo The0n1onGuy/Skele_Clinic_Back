@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Se permite el acceso público (sin token) a las rutas de autenticación y pruebas
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/rrhh/departments/**").permitAll()
                         // Cualquier otra ruta en el sistema exigirá estar autenticado
                         .anyRequest().authenticated()
                 );
