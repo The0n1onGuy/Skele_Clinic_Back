@@ -34,4 +34,4 @@ build/
 
 ### Configuration
 pom.xml
-src/main/resources/
+src/main/resources/application.yaml
