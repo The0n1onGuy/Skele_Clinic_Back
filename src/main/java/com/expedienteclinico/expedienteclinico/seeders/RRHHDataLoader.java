@@ -9,23 +9,25 @@ import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 
 
 @Component
+@Order(2)
 public class RRHHDataLoader implements CommandLineRunner {
 
-    @Value("${STATUS1:Activo}")
+    @Value("${STATUS1:Active}")
     private String Active;
-    @Value("${STATUS2:Inactivo}")
+    @Value("${STATUS2:Inactive}")
     private String Inactive;
-    @Value("${STATUS3:Editado}")
+    @Value("${STATUS3:Edited}")
     private String Edited;
-    @Value("${STATUS4:Eliminado}")
+    @Value("${STATUS4:Deleted}")
     private String Deleted;
-    @Value("${STATUS5:Agregado}")
+    @Value("${STATUS5:Added}")
     private String Added;
 
     @Autowired
