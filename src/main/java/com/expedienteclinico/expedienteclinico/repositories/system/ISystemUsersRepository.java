@@ -8,6 +8,6 @@ import java.util.Optional;
 @Repository
 public interface ISystemUsersRepository extends JpaRepository<SystemUsersModel, Long> { // Cambiado de Integer a Long
 
-    // Método esencial para que Spring Security busque usuarios por su username
+    // Metodo esencial para que Spring Security busque usuarios por su username
     Optional<SystemUsersModel> findByUserName(String userName);
 }
