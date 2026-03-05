@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models.morgue;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 
 import com.expedienteclinico.expedienteclinico.models.emergencies.DoctorModel;
 import lombok.AllArgsConstructor;

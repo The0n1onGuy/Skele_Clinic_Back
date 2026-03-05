@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.models;
+package com.expedienteclinico.expedienteclinico.models.system;
 //Si documentas el modelo, Swagger mostrará ejemplos automáticos en la sección de Schemas (abajo en la web).
 import io.swagger.v3.oas.annotations.media.Schema;
 

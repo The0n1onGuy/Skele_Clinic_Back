@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.UUID;

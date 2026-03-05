@@ -1,9 +1,9 @@
 package com.expedienteclinico.expedienteclinico.seeders;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.PositionsModel;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class RRHHDataLoader implements CommandLineRunner {
 //                .findFirst()
 //                .orElseGet(() -> {
 //                    StatusModel nuevo = new StatusModel();
-//                    nuevo.setStatusName(name);
+//                    nuevo.setStatusName(name);po
 //                    return Srepository.save(nuevo);
 //                });
 //    }

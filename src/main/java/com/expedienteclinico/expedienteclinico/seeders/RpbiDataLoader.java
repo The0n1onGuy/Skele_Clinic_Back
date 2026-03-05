@@ -1,8 +1,8 @@
 package com.expedienteclinico.expedienteclinico.seeders;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rpbi.*;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rpbi.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
