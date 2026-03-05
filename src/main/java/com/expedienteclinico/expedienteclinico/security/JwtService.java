@@ -22,8 +22,8 @@ public class JwtService {
     @Value("${JWT_SECRET_KEY:QE5jUmZValhuMnIyNXU4eC9BM0QoRytLYlBkU2dWb1k=}")
     private String secretKey;
 
-    // Tiempo de vida del token: 24 horas en milisegundos
-    @Value("${JWT_EXPIRATION_TIME:86400000}")
+    // Tiempo de vida del token
+    @Value("${JWT_EXPIRATION_TIME:900000}")
     private long jwtExpiration;
 
     /**

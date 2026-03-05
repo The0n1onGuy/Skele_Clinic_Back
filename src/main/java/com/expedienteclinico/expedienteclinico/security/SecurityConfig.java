@@ -1,67 +1,77 @@
 package com.expedienteclinico.expedienteclinico.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
-                // 1. Desactivar CSRF: Obligatorio para APIs REST sin estado (Stateless) que usan JWT.
-                // Si no se desactiva, Spring bloqueará todos los métodos POST, PUT y DELETE.
                 .csrf(AbstractHttpConfigurer::disable)
-
-                // 2. Configuración CORS: Evita bloqueos del navegador cuando el frontend (React/Angular) consuma la API.
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-                // 3. Gestión de Sesiones: Se instruye a Spring para que NO cree sesiones en el servidor (JSESSIONID).
-                // Cada petición deberá ser autorizada independientemente mediante su token JWT.
+                // .cors(...) -> Mantén tu configuración CORS original aquí
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // 4. Reglas de Autorización de Rutas (RBAC perimetral)
                 .authorizeHttpRequests(auth -> auth
-                        // Se permite el acceso público (sin token) a las rutas de autenticación y pruebas
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/rpbi/**").permitAll()
-                        .requestMatchers("/api/rrhh/departments/**").permitAll()
-                        // Cualquier otra ruta en el sistema exigirá estar autenticado
+                        .requestMatchers("/api/auth/**", "/error").permitAll() // Login abierto
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger abierto
+                        // RBAC estricto:
+                        .requestMatchers("/api/rpbi/**").hasAnyRole("ADMIN", "RPBI")
+                        .requestMatchers("/api/rrhh/**").hasAnyRole("ADMIN", "RRHH")
+                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "PATIENTS")
+                        .requestMatchers("/api/emergencias/**").hasAnyRole("ADMIN", "EMERGENCIAS")
+                        .requestMatchers("/api/morgue/**").hasAnyRole("ADMIN", "MORGUE")
+                        .requestMatchers("/api/lyr/**").hasAnyRole("ADMIN", "LYR")
+                        .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "APPOINTMENTS")
+                        .requestMatchers("/api/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
                         .anyRequest().authenticated()
-                );
-
-        // Nota: En la siguiente fase inyectaremos aquí el filtro personalizado que leerá el JWT.
+                )
+                .authenticationProvider(authenticationProvider())
+                // Inyectar nuestro filtro ANTES del filtro estándar de Spring
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    /**
-     * Definición estricta de orígenes permitidos (Whitelisting).
-     */
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+    public AuthenticationProvider authenticationProvider() {
+        // 1. Se inyecta el servicio directamente en el constructor
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
 
-        // En producción, reemplazar "*" por los dominios reales del frontend (Ej. "https://hospital.com")
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        // 2. Se mantiene la asignación del encriptador de contraseñas
+        authProvider.setPasswordEncoder(passwordEncoder());
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Hashing seguro estándar de la industria
     }
 }
