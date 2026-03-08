@@ -1,10 +1,9 @@
 package com.expedienteclinico.expedienteclinico.services.rrhh;
 import com.expedienteclinico.expedienteclinico.beans.rrhh.DepartmentObject;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
-import com.expedienteclinico.expedienteclinico.services.audit.AuditLogsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

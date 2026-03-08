@@ -1,9 +1,9 @@
 package com.expedienteclinico.expedienteclinico.services.audit;
 
 import com.expedienteclinico.expedienteclinico.models.audit.AuditLogsModel;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.repositories.audit.IAuditLogsRepository;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

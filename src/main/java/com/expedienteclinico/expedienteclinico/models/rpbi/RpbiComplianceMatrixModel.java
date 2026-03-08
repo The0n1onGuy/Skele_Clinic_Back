@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models.rpbi;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,18 +18,18 @@ public class RpbiComplianceMatrixModel {
 
     // Relaciones estrictas (LAZY para optimizar el grafo de memoria)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clasificacion_id", nullable = false)
+    @JoinColumn(name = "classification_id", nullable = false)
     private RpbiClasificationModel classification;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estado_fisico_id", nullable = false)
+    @JoinColumn(name = "physical_state_id", nullable = false)
     private RpbiPhysicalStateModel physicalState;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "envase_id", nullable = false)
+    @JoinColumn(name = "container_id", nullable = false)
     private RpbiContainerModel container;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estatus_id", nullable = false)
+    @JoinColumn(name = "status_id", nullable = false)
     private StatusModel status;
 }

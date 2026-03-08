@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models.rpbi;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;

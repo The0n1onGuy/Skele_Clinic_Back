@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico;
+package com.expedienteclinico.expedienteclinico.seeders;
 
 import com.expedienteclinico.expedienteclinico.models.patients.*;
 import com.expedienteclinico.expedienteclinico.repositories.Patients.*;
@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 
 @Component
 @Profile("dev")
+@Order(2)
 public class PatientsDataLoader implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(PatientsDataLoader.class);

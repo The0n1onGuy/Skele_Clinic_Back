@@ -39,13 +39,13 @@ public class GlobalAuditAspect {
         // LÓGICA BASADA EN ANOTACIONES DE SPRING WEB (MAPPINGS)
         if (method.isAnnotationPresent(PostMapping.class)) {
 //            action = "CREACION";
-            statusLabel = "Agregado";
+            statusLabel = "Added";
         } else if (method.isAnnotationPresent(PutMapping.class) || method.isAnnotationPresent(PatchMapping.class)) {
             //          action = "CAMBIOS";
-            statusLabel = "Editado";
+            statusLabel = "Edited";
         } else if (method.isAnnotationPresent(DeleteMapping.class)) {
             //        action = "ELIMINACION";
-            statusLabel = "Eliminado";
+            statusLabel = "Deleted";
         } else {
             // Casos Ignoramos GetMapping y cualquier otro que no sea de escritura
             return;
