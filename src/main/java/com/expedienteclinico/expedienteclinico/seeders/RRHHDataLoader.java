@@ -37,7 +37,9 @@ public class RRHHDataLoader implements CommandLineRunner {
     @Autowired
     private IPositionsRepository Prepository;
 
-    //EL CREADOR DE LOS STATUS
+////    EL CREADOR DE LOS STATUS
+//
+//
 //    private StatusModel resolveStatus(String name) {
 //        return Srepository.findAll().stream()
 //                .filter(s -> s.getStatusName().equalsIgnoreCase(name))
@@ -49,6 +51,7 @@ public class RRHHDataLoader implements CommandLineRunner {
 //                });
 //    }
 
+//  VERSION DE SOLO TRANSFERENCIA.
 
     private StatusModel resolveStatus(String name) {
         return Srepository.findByStatusNameIgnoreCase(name)
@@ -78,6 +81,9 @@ public class RRHHDataLoader implements CommandLineRunner {
         // LINEAS QUE EJECUTAN LOS ESTATUS
         StatusModel activeStatus = resolveStatus(Active);
         StatusModel inactiveStatus = resolveStatus(Inactive);
+        StatusModel editedStatus = resolveStatus(Edited);
+        StatusModel deletedStatus = resolveStatus(Deleted);
+        StatusModel addedStatus = resolveStatus(Added);
 
 
         if (Drepository.count() == 0) {
