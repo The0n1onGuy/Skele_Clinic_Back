@@ -6,6 +6,8 @@ import com.expedienteclinico.expedienteclinico.repositories.audit.IAuditLogsRepo
 import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,16 +21,24 @@ public class AuditLogsService {
     @Autowired
     IStatusRepository statusRepo;
 
-    @Value("${DBUSER:Olan}")
-    private String dbUser;
+    private String defaultUser = "Usuario NO encontrado";
 
-    public void registrarAccion(String concept, String nameStatus) {
+    public void logAction(String concept, String nameStatus) {
         StatusModel status = statusRepo.findByStatusNameIgnoreCase(nameStatus)
                 .orElseThrow(() -> new RuntimeException("Estado no encontrado: " + nameStatus));
 
+        //OBTEN CULPABLE POR TOKEN
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username;
+        if (auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser")) {
+            username = auth.getName(); // El usuario que obtuvimos
+        } else {
+            username = defaultUser; // Si no lo encontramos por lo menos registra que se modifico y es hora de Sherlock
+        }
+
         AuditLogsModel log = new AuditLogsModel();
         log.setConcept_audit(concept);
-        log.setUser_blamed(dbUser);
+        log.setUser_blamed(username);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         log.setDate_ocurrence(LocalDateTime.now().format(dtf));

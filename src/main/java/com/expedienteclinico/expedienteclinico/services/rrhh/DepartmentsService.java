@@ -62,7 +62,7 @@ public class DepartmentsService {
         model.setName(dto.getName());
 
         // Buscamos el estado por defecto (Activo)
-        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Activo")
+        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
         model.setId_status(status);
 
