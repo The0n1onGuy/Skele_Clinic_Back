@@ -1,6 +1,5 @@
-package com.expedienteclinico.expedienteclinico.models.audit;
+package com.expedienteclinico.expedienteclinico.models.system;
 
-import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

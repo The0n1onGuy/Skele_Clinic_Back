@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico;
+package com.expedienteclinico.expedienteclinico.audit;
 
 
 import com.expedienteclinico.expedienteclinico.services.audit.AuditLogsService;

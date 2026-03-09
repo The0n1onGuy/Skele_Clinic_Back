@@ -1,11 +1,10 @@
 package com.expedienteclinico.expedienteclinico.services.audit;
 
-import com.expedienteclinico.expedienteclinico.models.audit.AuditLogsModel;
+import com.expedienteclinico.expedienteclinico.models.system.AuditLogsModel;
 import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
-import com.expedienteclinico.expedienteclinico.repositories.audit.IAuditLogsRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IAuditLogsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
