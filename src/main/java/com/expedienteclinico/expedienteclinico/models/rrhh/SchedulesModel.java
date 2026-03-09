@@ -1,9 +1,8 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import jakarta.persistence.*;
+import lombok.*;
 import java.util.UUID;
 
 @Entity
@@ -13,14 +12,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class SchedulesModel {
+
+    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    private UUID uuid = UUID.randomUUID();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_schedule", nullable = false)
     private Long id;
-
-    // CÓDIGO CORREGIDO
-    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid = java.util.UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_employee", nullable = false)
@@ -36,6 +35,6 @@ public class SchedulesModel {
     private String endTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_estatus", nullable = false) //
+    @JoinColumn(name = "id_status", nullable = false) //
     private StatusModel status;
 }

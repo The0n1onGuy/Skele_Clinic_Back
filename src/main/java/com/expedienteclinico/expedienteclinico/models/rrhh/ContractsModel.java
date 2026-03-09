@@ -1,12 +1,10 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
 @Table(name = "rrhh_contracts")

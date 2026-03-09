@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models.rpbi;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
@@ -25,6 +25,6 @@ public class RpbiContainerModel {
     private String description; // "Impermeable, calibre 200..."
 
     @ManyToOne
-    @JoinColumn(name = "status_id", nullable = false)
+    @JoinColumn(name = "id_status", nullable = false)
     private StatusModel status;
 }

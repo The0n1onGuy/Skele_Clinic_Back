@@ -1,8 +1,8 @@
 package com.expedienteclinico.expedienteclinico.models.morgue;
 
-import com.expedienteclinico.expedienteclinico.models.FirstModel;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 
+import com.expedienteclinico.expedienteclinico.models.emergencies.DoctorModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class Morgue {
 //referencia a pacientes
     @OneToOne
     @JoinColumn(name = "id_paciente", referencedColumnName = "id")
-    private FirstModel paciente; //cambiar
+    private DoctorModel paciente; //cambiar
     private String causa_defuncion;
     private String fecha_ingreso;
 

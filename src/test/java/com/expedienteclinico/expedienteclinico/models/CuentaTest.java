@@ -1,9 +1,17 @@
 package com.expedienteclinico.expedienteclinico.models;
 
 import com.expedienteclinico.expedienteclinico.exceptions.DineroInsuficienteException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,6 +51,21 @@ class CuentaTest {
         assertEquals( cuenta2 , cuenta ) ;
 
     }
+    @Test
+    @DisplayName("Ensure that two temporary directories with same files names and content have same hash")
+    void hashTwoDynamicDirectoryWhichHaveSameContent(@TempDir Path tempDir, @TempDir Path tempDir2) throws IOException {
+
+        Path file1 = tempDir.resolve("myfile.txt");
+
+        List<String> input = Arrays.asList("input1", "input2", "input3");
+        Files.write(file1, input);
+
+        assertTrue(Files.exists(file1), "File should exist");
+
+        Path file2 = tempDir2.resolve("myfile.txt");
+
+        Files.write(file2, input);
+        assertTrue(Files.exists(file2), "File should exist");
 
     @Test
     public void tesDebitoCuenta(){

@@ -4,6 +4,7 @@
     <data-source source="LOCAL" name="TestDatabase@localhost" uuid="3d38665a-5401-4a4f-91c9-0805c02be3ca">
       <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
+      <remarks>My local database</remarks>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://localhost:3036;database=TestDatabase</jdbc-url>
       <jdbc-additional-properties>
