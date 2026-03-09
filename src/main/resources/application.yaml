@@ -2,11 +2,15 @@ spring:
 
   datasource:
     #        Localhost
-     url: ${DB_URL:jdbc:sqlserver://localhost:1433;databaseName=RPBI;encrypt=true;trustServerCertificate=true;}
-     username: ${DB_USERNAME:Darick}
-     password: ${DB_PASS:Darick471}
-     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    # driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:sqlserver://127.0.0.1:14000;databaseName=Almacen
+    #    username: Jesus
+    #    password: 250305Jl@
+    #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    #    # driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:sqlserver://localhost:1433;database=Prueba;encrypt=true;trustServerCertificate=true
+    username: Jesus
+    password: "250305Jl@"
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
     hibernate:
