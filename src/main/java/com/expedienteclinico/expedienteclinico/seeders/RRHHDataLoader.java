@@ -1,8 +1,10 @@
 package com.expedienteclinico.expedienteclinico.seeders;
 
+import com.expedienteclinico.expedienteclinico.models.rrhh.EmployeesModel;
 import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.PositionsModel;
+import com.expedienteclinico.expedienteclinico.repositories.rrhh.IEmployeesRepository;
 import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepository;
@@ -38,7 +40,8 @@ public class RRHHDataLoader implements CommandLineRunner {
 
     @Autowired
     private IPositionsRepository Prepository;
-
+    @Autowired
+    private IEmployeesRepository Erepository;
 ////    EL CREADOR DE LOS STATUS
 //
 //
@@ -78,14 +81,25 @@ public class RRHHDataLoader implements CommandLineRunner {
         System.out.println("Posiciones cargados exitosamente.");
     }
 
+    private void EmpData(StatusModel status, DepartmentsModel dept, PositionsModel pos) {
+        Erepository.save(new EmployeesModel(
+                UUID.randomUUID(), null, "Juan", "Pérez", "López", "PELJ900101HDFRRN01"
+                , "PELJ900101123"
+                , "1990-01-01"
+                ,"2026-03-11"
+                ,"M"
+                ,pos
+                ,dept
+                ,status
+        ));
+        System.out.println("Empleados base cargados exitosamente.");
+    }
+
     @Override
     public void run(String... args) throws Exception {
         // LINEAS QUE EJECUTAN LOS ESTATUS
         StatusModel activeStatus = resolveStatus(Active);
         StatusModel inactiveStatus = resolveStatus(Inactive);
-        StatusModel editedStatus = resolveStatus(Edited);
-        StatusModel deletedStatus = resolveStatus(Deleted);
-        StatusModel addedStatus = resolveStatus(Added);
 
 
         if (Drepository.count() == 0) {
@@ -93,6 +107,14 @@ public class RRHHDataLoader implements CommandLineRunner {
         }
         if (Prepository.count() == 0) {
             PosData(activeStatus);
+        }
+        if (Erepository.count() == 0) {
+            DepartmentsModel defaultDept = Drepository.findAll().stream().findFirst()
+                    .orElseThrow(() -> new RuntimeException("No hay departamentos para asignar al empleado."));
+            PositionsModel defaultPos = Prepository.findAll().stream().findFirst()
+                    .orElseThrow(() -> new RuntimeException("No hay posiciones para asignar al empleado."));
+
+            EmpData(activeStatus, defaultDept, defaultPos);
         }
     }
 }
