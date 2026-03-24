@@ -1,5 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models;
 
+import com.expedienteclinico.expedienteclinico.exceptions.DineroInsuficienteException;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +13,12 @@ public class Cuenta {
 
     private String persona;
     private BigDecimal saldo;
-
+    private Banco banco;
     public Cuenta(String persona, BigDecimal saldo){
 
         this.persona = persona;
         this.saldo = saldo;
+
 
     }
 
@@ -38,4 +40,20 @@ public class Cuenta {
 
     }
 
+    public void debito( BigDecimal debito ){
+
+        BigDecimal nuevosaldo = this.saldo.subtract(debito);
+        if ( nuevosaldo.compareTo(BigDecimal.ZERO) < 0 ){
+            throw new DineroInsuficienteException("C jodido.");
+        }
+
+        this.saldo = nuevosaldo;
+
+    }
+
+    public void credito( BigDecimal credito ){
+
+        this.saldo = this.saldo.add(credito);
+
+    }
 }

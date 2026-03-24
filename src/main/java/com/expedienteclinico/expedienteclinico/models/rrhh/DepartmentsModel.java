@@ -1,5 +1,5 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,6 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-//@Table(appliesTo = "Departments")
-//@Table
 @Table(name = "rrhh_departments")
 @NoArgsConstructor
 @AllArgsConstructor

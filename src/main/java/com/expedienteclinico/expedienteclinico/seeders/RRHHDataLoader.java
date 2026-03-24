@@ -1,31 +1,35 @@
 package com.expedienteclinico.expedienteclinico.seeders;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.rrhh.EmployeesModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.PositionsModel;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.rrhh.IEmployeesRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 
 
 @Component
+@Order(2)
 public class RRHHDataLoader implements CommandLineRunner {
 
-    @Value("${STATUS1:Activo}")
+    @Value("${STATUS1:Active}")
     private String Active;
-    @Value("${STATUS2:Inactivo}")
+    @Value("${STATUS2:Inactive}")
     private String Inactive;
-    @Value("${STATUS3:Editado}")
+    @Value("${STATUS3:Edited}")
     private String Edited;
-    @Value("${STATUS4:Eliminado}")
+    @Value("${STATUS4:Deleted}")
     private String Deleted;
-    @Value("${STATUS5:Agregado}")
+    @Value("${STATUS5:Added}")
     private String Added;
 
     @Autowired
@@ -36,19 +40,23 @@ public class RRHHDataLoader implements CommandLineRunner {
 
     @Autowired
     private IPositionsRepository Prepository;
-
-    //EL CREADOR DE LOS STATUS
+    @Autowired
+    private IEmployeesRepository Erepository;
+////    EL CREADOR DE LOS STATUS
+//
+//
 //    private StatusModel resolveStatus(String name) {
 //        return Srepository.findAll().stream()
 //                .filter(s -> s.getStatusName().equalsIgnoreCase(name))
 //                .findFirst()
 //                .orElseGet(() -> {
 //                    StatusModel nuevo = new StatusModel();
-//                    nuevo.setStatusName(name);
+//                    nuevo.setStatusName(name);po
 //                    return Srepository.save(nuevo);
 //                });
 //    }
 
+//  VERSION DE SOLO TRANSFERENCIA.
 
     private StatusModel resolveStatus(String name) {
         return Srepository.findByStatusNameIgnoreCase(name)
@@ -73,17 +81,40 @@ public class RRHHDataLoader implements CommandLineRunner {
         System.out.println("Posiciones cargados exitosamente.");
     }
 
+    private void EmpData(StatusModel status, DepartmentsModel dept, PositionsModel pos) {
+        Erepository.save(new EmployeesModel(
+                UUID.randomUUID(), null, "Juan", "Pérez", "López", "PELJ900101HDFRRN01"
+                , "PELJ900101123"
+                , "1990-01-01"
+                ,"2026-03-11"
+                ,"M"
+                ,pos
+                ,dept
+                ,status
+        ));
+        System.out.println("Empleados base cargados exitosamente.");
+    }
+
     @Override
     public void run(String... args) throws Exception {
         // LINEAS QUE EJECUTAN LOS ESTATUS
         StatusModel activeStatus = resolveStatus(Active);
         StatusModel inactiveStatus = resolveStatus(Inactive);
 
+
         if (Drepository.count() == 0) {
             DepData(activeStatus);
         }
         if (Prepository.count() == 0) {
             PosData(activeStatus);
+        }
+        if (Erepository.count() == 0) {
+            DepartmentsModel defaultDept = Drepository.findAll().stream().findFirst()
+                    .orElseThrow(() -> new RuntimeException("No hay departamentos para asignar al empleado."));
+            PositionsModel defaultPos = Prepository.findAll().stream().findFirst()
+                    .orElseThrow(() -> new RuntimeException("No hay posiciones para asignar al empleado."));
+
+            EmpData(activeStatus, defaultDept, defaultPos);
         }
     }
 }

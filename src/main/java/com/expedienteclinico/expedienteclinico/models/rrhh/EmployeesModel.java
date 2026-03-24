@@ -1,5 +1,5 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,9 +55,9 @@ public class EmployeesModel {
     @JoinColumn(name = "id_department" , nullable = false)
     private DepartmentsModel id_department;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_status", nullable = false)
-    private StatusModel status;
+    private StatusModel id_status;
 
 }
 

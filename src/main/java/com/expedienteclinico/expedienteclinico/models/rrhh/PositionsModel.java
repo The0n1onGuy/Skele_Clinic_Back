@@ -1,6 +1,6 @@
 
 package com.expedienteclinico.expedienteclinico.models.rrhh;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -31,5 +31,5 @@ public class PositionsModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_status", nullable = false) //
-    private StatusModel status;
+    private StatusModel id_status;
 }
