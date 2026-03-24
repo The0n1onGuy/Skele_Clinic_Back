@@ -20,14 +20,14 @@ public class Banco {
 
     public void transferir( Cuenta origen , Cuenta destino , BigDecimal monto ) {
 
-        origen.debito( monto ) ;
-        destino.credito( monto ) ;
+//        origen.debito( monto ) ;
+//        destino.credito( monto ) ;
 
     }
 
     public void addCuenta( Cuenta cuenta ) {
         cuentas.add( cuenta ) ;
-        cuenta.setBanco( this ) ;
+//        cuenta.setBanco( this ) ;
     }
 
 }
