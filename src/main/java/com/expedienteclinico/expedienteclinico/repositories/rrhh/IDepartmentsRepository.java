@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface IDepartmentsRepository extends JpaRepository<DepartmentsModel, Long> {
     boolean existsByNameIgnoreCase(String name);
 
-    // Útil para validaciones en actualizaciones
     Optional<DepartmentsModel> findByNameIgnoreCase(String name);
 }

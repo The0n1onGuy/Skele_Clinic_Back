@@ -1,5 +1,8 @@
 package com.expedienteclinico.expedienteclinico.beans.rrhh;
 import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
@@ -9,10 +12,10 @@ public class SchedulesObject {
 
     private Long employeeId;
     private String employeeFullName;
-
+//Campo para fechas: private LocalDateTime
     private String dayOfWeek;
-    private String startTime;
-    private String endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     private String statusName;
 }

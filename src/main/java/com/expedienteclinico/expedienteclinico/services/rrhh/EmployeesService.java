@@ -1,8 +1,15 @@
 package com.expedienteclinico.expedienteclinico.services.rrhh;
 
+import com.expedienteclinico.expedienteclinico.beans.rrhh.DepartmentObject;
 import com.expedienteclinico.expedienteclinico.beans.rrhh.EmployeesObject;
+import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.EmployeesModel;
+import com.expedienteclinico.expedienteclinico.models.rrhh.PositionsModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
+import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IEmployeesRepository;
+import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +19,22 @@ import java.util.List;
 public class EmployeesService {
     @Autowired
     IEmployeesRepository employeesRepository;
+
+    @Autowired
+    IDepartmentsRepository departmentsRepository;
+
+    @Autowired
+    IPositionsRepository positionsRepository;
+
+    @Autowired
+    IStatusRepository statusRepo;
+
+    //Filtro por nombre del estado
+    private StatusModel getStatusByName(String statusName) {
+        return statusRepo.findByStatusNameIgnoreCase(statusName)
+                .orElseThrow(() -> new RuntimeException("Error: El estado '" + statusName + "' no existe en la base de datos."));
+    }
+
     public EmployeesObject convertToDTO(EmployeesModel model) {
         EmployeesObject dto = new EmployeesObject();
         dto.setId(model.getId());
@@ -38,8 +61,8 @@ public class EmployeesService {
             dto.setDepartmentName(model.getId_department().getName());
         }
 
-        if (model.getStatus() != null) {
-            dto.setStatusName(model.getStatus().getStatusName());
+        if (model.getId_status() != null) {
+            dto.setStatusName(model.getId_status().getStatusName());
         }
 
         return dto;
@@ -50,5 +73,75 @@ public class EmployeesService {
                 .toList();
     }
 
+    public EmployeesObject saveInfo(EmployeesObject dto) {
+        if (employeesRepository.existsByNameIgnoreCase(dto.getName())) {
+            throw new RuntimeException("Error: Ya existe este empleado '" + dto.getName() + "'.");
+        }
+
+        EmployeesModel model = new EmployeesModel();
+        //Nombre de la persona, atomizado
+        model.setName(dto.getName());
+        model.setPatname(dto.getPatname());
+        model.setMatname(dto.getMatname());
+
+        //Detalles personales
+        model.setCurp(dto.getCurp());
+        model.setRfc(dto.getRfc());
+        model.setDatebirth(dto.getDatebirth());
+        model.setDatereg(dto.getDatereg());
+
+        DepartmentsModel dept = departmentsRepository.findById(dto.getDepartmentId())
+                .orElseThrow(() -> new RuntimeException("Error: El departamento seleccionado no existe."));
+        PositionsModel pos = positionsRepository.findById(dto.getPositionId())
+                .orElseThrow(() -> new RuntimeException("Error: El puesto/posición seleccionada no existe."));
+        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Active")
+                .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
+        model.setId_department(dept);
+        model.setId_position(pos);
+        model.setId_status(status);
+
+        EmployeesModel saved = employeesRepository.save(model);
+        return convertToDTO(saved);
+    }
+
+    public EmployeesObject updateInfo(Long id, EmployeesObject dto) {
+        return employeesRepository.findById(id).map(model -> {
+            if (!model.getName().equalsIgnoreCase(dto.getName())) {
+                if (employeesRepository.existsByNameIgnoreCase(dto.getName())) {
+                    throw new RuntimeException("Error: No se puede actualizar. El nombre '" + dto.getName() + "' ya está en uso por otro departamento.");
+                }
+                model.setName(dto.getName());
+                model.setPatname(dto.getPatname());
+                model.setMatname(dto.getMatname());
+                //Detalles personales
+                model.setCurp(dto.getCurp());
+                model.setRfc(dto.getRfc());
+                model.setDatebirth(dto.getDatebirth());
+                model.setDatereg(dto.getDatereg());
+                DepartmentsModel dept = departmentsRepository.findById(dto.getDepartmentId())
+                        .orElseThrow(() -> new RuntimeException("Error: El departamento seleccionado no existe."));
+                PositionsModel pos = positionsRepository.findById(dto.getPositionId())
+                        .orElseThrow(() -> new RuntimeException("Error: El puesto/posición seleccionada no existe."));
+                StatusModel status = statusRepo.findByStatusNameIgnoreCase("Active")
+                        .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
+                model.setId_department(dept);
+                model.setId_position(pos);
+                model.setId_status(status);
+
+
+            }
+            EmployeesModel  updated = employeesRepository.save(model);
+            return convertToDTO(updated);
+        }).orElse(null);
+    }
+
+    public boolean deleteInfo(Long id) {
+        return employeesRepository.findById(id).map(employee -> {
+            StatusModel statusInactive = getStatusByName("Inactive");
+            employee.setId_status(statusInactive);
+            employeesRepository.save(employee);
+            return true;
+        }).orElse(false);
+    }
 
 }

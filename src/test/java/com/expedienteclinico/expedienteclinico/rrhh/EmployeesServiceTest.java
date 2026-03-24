@@ -2,6 +2,7 @@ package com.expedienteclinico.expedienteclinico.rrhh;
 import com.expedienteclinico.expedienteclinico.beans.rrhh.EmployeesObject;
 import com.expedienteclinico.expedienteclinico.models.rrhh.DepartmentsModel;
 import com.expedienteclinico.expedienteclinico.models.rrhh.EmployeesModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IDepartmentsRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IEmployeesRepository;
 import com.expedienteclinico.expedienteclinico.repositories.rrhh.IPositionsRepository;
@@ -33,6 +34,22 @@ class EmployeesServiceTest {
     @Mock private IStatusRepository statusRepo;
 
     @InjectMocks private EmployeesService employeesService;
+    private StatusModel activeStatus;
+    private EmployeesModel employeesModel;
+    @BeforeEach
+    void setUp() {
+        activeStatus = new StatusModel();
+        activeStatus.setId(1L);
+        activeStatus.setStatusName("Active");
+
+        employeesModel = new EmployeesModel();
+        employeesModel.setId(1L);
+        employeesModel.setName("Sistemas");
+        employeesModel.setUuid(UUID.randomUUID());
+        employeesModel.setId_status(activeStatus);
+        ReflectionTestUtils.setField(employeesService, "Active", "Active");
+        ReflectionTestUtils.setField(employeesService, "Inactive", "Inactive");
+    }
 
     @Test
     @DisplayName("GET: Conversión exitosa con todas las llaves foráneas")

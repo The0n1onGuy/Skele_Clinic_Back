@@ -18,13 +18,12 @@ public class ContractsModel {
     @Column(name = "id_contract", nullable = false)
     private Long id;
 
-    // CÓDIGO CORREGIDO
     @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
     private String uuid = java.util.UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_employee", nullable = false)
-    private EmployeesModel employee;
+    private EmployeesModel id_employee;
 
     @Column(name = "contract_type", nullable = false, length = 50)
     private String contractType;
@@ -39,6 +38,6 @@ public class ContractsModel {
     private BigDecimal baseSalary;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_estatus", nullable = false) //
-    private StatusModel status;
+    @JoinColumn(name = "id_status", nullable = false) //
+    private StatusModel id_status;
 }

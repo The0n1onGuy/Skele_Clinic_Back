@@ -18,12 +18,12 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/rrhh/clinic-details/")
+@RequestMapping("/api/rrhh/clinic-details")
 public class ClinicDetailsController {
     @Autowired
     ClinicDetailsService clinicDetailsService;
 
-    @GetMapping("get")
+    @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getAll() {
         List<ClinicDetailsObject> lista = clinicDetailsService.getAll();
         return new ResponseEntity<Map<String, Object>>( ResponseFactory.getSuccessOnGetAllResponse(lista) , HttpStatus.OK );

@@ -69,7 +69,6 @@ public class DepartmentServiceTest {
         DepartmentObject dto = new DepartmentObject();
         dto.setName("Sistemas");
 
-        // Simulamos que el repositorio encuentra que el nombre ya existe
         when(departmentsRepo.existsByNameIgnoreCase("Sistemas")).thenReturn(true);
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {

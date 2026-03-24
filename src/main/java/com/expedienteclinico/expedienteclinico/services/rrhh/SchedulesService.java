@@ -30,8 +30,8 @@ public class SchedulesService {
         dto.setStartTime(model.getStartTime());
         dto.setEndTime(model.getEndTime());
 
-        if (model.getStatus() != null) {
-            dto.setStatusName(model.getStatus().getStatusName());
+        if (model.getId_status() != null) {
+            dto.setStatusName(model.getId_status().getStatusName());
         }
 
         return dto;

@@ -39,7 +39,7 @@ class PositionsServiceTest {
 
         StatusModel status = new StatusModel();
         status.setStatusName("Active");
-        model.setStatus(status);
+        model.setId_status(status);
 
         PositionsObject dto = positionsService.convertToDTO(model);
 
@@ -53,7 +53,7 @@ class PositionsServiceTest {
     void testConvertToDTONullStatus() {
         PositionsModel model = new PositionsModel();
         model.setName("Secretaria");
-        model.setStatus(null);
+        model.setId_status(null);
 
         PositionsObject dto = positionsService.convertToDTO(model);
 

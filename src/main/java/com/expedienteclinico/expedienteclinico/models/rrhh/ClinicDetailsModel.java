@@ -37,7 +37,7 @@ public class ClinicDetailsModel {
     private String specialty;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_estatus", nullable = false) //
-    private StatusModel status;
+    @JoinColumn(name = "id_status", nullable = false) //
+    private StatusModel id_status;
 
 }
