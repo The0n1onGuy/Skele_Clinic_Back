@@ -1,0 +1,42 @@
+spring:
+  datasource:
+#
+#    #      Localhost Oracle
+#    #      url: jdbc:oracle:thin:@//localhost:11521/OperaUserAccessRequisition
+#    #      username: OperaUserAccessRequisitionUser
+#    #      password: qwerty2022
+#    #      driver-class-name: oracle.jdbc.OracleDriver
+#
+    #CONEXION REMOTA MODEM
+     #url: jdbc:sqlserver://127.0.0.1:14000;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
+    #CONEXION REMOTA VPN
+     url: jdbc:sqlserver://100.71.199.34;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true
+#    #CONEXION LOCALES
+     #url: ${DBLINK:jdbc:sqlserver://localhost:3036;databaseName=TestDatabase;encrypt=true;trustServerCertificate=true}
+     username: ${DBUSER:Olan}
+     password: ${DBPASS:Xb0xisCool.}
+#    #username: Olanc
+#    #password: Olanc178
+#
+#
+     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    # driver-class-name: com.mysql.cj.jdbc.Driver
+#
+  jpa:
+     hibernate:
+      ddl-auto: create #create update none
+     properties:
+      hibernate:
+        #dialect: org.hibernate.dialect.SQLServerDialect
+#        #dialect: org.hibernate.dialect.MySQLDialect
+#
+        jdbc:
+          time_zone: UTC
+#
+##logging.level:
+##Uncomment for extensive SQL logging
+##org.hibernate.SQL: DEBUG
+##org.hibernate.type: TRACE
+##org.hibernate.search.fulltext_query: DEBUG
+#
+#
