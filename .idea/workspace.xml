@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bdf5cd97-601b-4872-a158-c0773e0fb3aa" name="Changes" comment="Cambios de diversos modelos - Olan" />
+    <list default="true" id="bdf5cd97-601b-4872-a158-c0773e0fb3aa" name="Changes" comment="Update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,64 +80,64 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.ExpedienteclinicoApplication.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ClinicDetailsServiceTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ContractsServiceTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.CuentaTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CuentaTest.testReferenciaDeCuenta.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CuentaTest.testSaldoCuenta.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DepartmentServiceTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.EmployeesServiceTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ExpedienteclinicoApplicationTests.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.PositionsServiceTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.SchedulesServiceTest.executor&quot;: &quot;Debug&quot;,
-    &quot;Maven. [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.com.expedientemedico [clean,install,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.com.expedientemedico [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.com.expedientemedico [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.com.expedientemedico [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.expedienteclinico [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mvw-osd-cyclops-api-server-v2 [clean...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mvw-osd-cyclops-api-server-v2 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.mvw-osd-cyclops-api-server-v2 [install].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.ExpedienteclinicoApplication (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.ExpedienteclinicoApplication.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Olan__RH&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rober/OneDrive/Documentos/SCHOOL STUFF/JAVA WORKSPACES/expedienteclinico&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ExpedienteclinicoApplication.executor": "Run",
+    "JUnit.ClinicDetailsServiceTest.executor": "Debug",
+    "JUnit.ContractsServiceTest.executor": "Debug",
+    "JUnit.CuentaTest.executor": "Run",
+    "JUnit.CuentaTest.testReferenciaDeCuenta.executor": "Run",
+    "JUnit.CuentaTest.testSaldoCuenta.executor": "Run",
+    "JUnit.DepartmentServiceTest.executor": "Debug",
+    "JUnit.EmployeesServiceTest.executor": "Debug",
+    "JUnit.ExpedienteclinicoApplicationTests.executor": "Debug",
+    "JUnit.PositionsServiceTest.executor": "Debug",
+    "JUnit.SchedulesServiceTest.executor": "Debug",
+    "Maven. [clean,install].executor": "Run",
+    "Maven.com.expedientemedico [clean,install,-X].executor": "Run",
+    "Maven.com.expedientemedico [clean,install].executor": "Run",
+    "Maven.com.expedientemedico [clean].executor": "Run",
+    "Maven.com.expedientemedico [install].executor": "Run",
+    "Maven.expedienteclinico [clean].executor": "Run",
+    "Maven.mvw-osd-cyclops-api-server-v2 [clean...].executor": "Run",
+    "Maven.mvw-osd-cyclops-api-server-v2 [clean].executor": "Run",
+    "Maven.mvw-osd-cyclops-api-server-v2 [install].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.ExpedienteclinicoApplication (1).executor": "Debug",
+    "Spring Boot.ExpedienteclinicoApplication.executor": "Run",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/rober/OneDrive/Documentos/SCHOOL STUFF/JAVA WORKSPACES/expedienteclinico",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlserver&quot;,
-      &quot;sqlserver.localdb&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlserver",
+      "sqlserver.localdb"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\rober\OneDrive\Documentos\SCHOOL STUFF\JAVA WORKSPACES\expedienteclinico" />
@@ -582,7 +582,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774361725453</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Update">
+      <option name="closed" value="true" />
+      <created>1774679699855</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1774679699855</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -636,7 +644,8 @@
     <MESSAGE value="Cambios con el Auditor 2, Reestructuracion de archivos para optmizar espacios entre ellos" />
     <MESSAGE value="Implementacion de pruebas unitarias en todos mis modelos y reestrucutracion de controlador y servicio (fuera de departmets aun con unicamente metodos GET) para uso de Beans en cada una + Response Factory" />
     <MESSAGE value="Cambios de diversos modelos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambios de diversos modelos" />
+    <MESSAGE value="Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
