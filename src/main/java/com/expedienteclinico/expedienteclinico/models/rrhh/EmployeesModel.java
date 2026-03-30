@@ -15,13 +15,14 @@ import java.util.UUID;
 @Setter
 public class EmployeesModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_employee", nullable = false)
     private Long id;
+
+    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    private UUID uuid = UUID.randomUUID();
 
     @Column(nullable = false)
     private String name;

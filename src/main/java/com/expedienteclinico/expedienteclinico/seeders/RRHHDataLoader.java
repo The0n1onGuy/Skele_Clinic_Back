@@ -67,23 +67,23 @@ public class RRHHDataLoader implements CommandLineRunner {
     }
 
     private void DepData(StatusModel status) {
-        Drepository.save(new DepartmentsModel( UUID.randomUUID(), null,"Recursos Humanos", status));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Sistemas", status));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Urgencias", status));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Quirófanos ", status));
-        Drepository.save(new DepartmentsModel(UUID.randomUUID(),null, "Morgue ", status));
+        Drepository.save(new DepartmentsModel(  null, UUID.randomUUID(),"Recursos Humanos", status));
+        Drepository.save(new DepartmentsModel(null, UUID.randomUUID(), "Quirófanos ", status));
+        Drepository.save(new DepartmentsModel(null, UUID.randomUUID(),"Urgencias", status));
+        Drepository.save(new DepartmentsModel(null, UUID.randomUUID(),"Morgue ", status));
+        Drepository.save(new DepartmentsModel(null, UUID.randomUUID(), "Sistemas", status));
         System.out.println("Departamentos cargados exitosamente.");
     }
 
     private void PosData(StatusModel status) {
-        Prepository.save(new PositionsModel(UUID.randomUUID(), null,"Gerente", "Encargado de funciones internas", status));
-        Prepository.save(new PositionsModel(UUID.randomUUID(),null, "Secretaria", "Gestor de juntas", status));
+        Prepository.save(new PositionsModel( null, UUID.randomUUID(),"Gerente", "Encargado de funciones internas", status));
+        Prepository.save(new PositionsModel(null,UUID.randomUUID(), "Secretaria", "Gestor de juntas", status));
         System.out.println("Posiciones cargados exitosamente.");
     }
 
     private void EmpData(StatusModel status, DepartmentsModel dept, PositionsModel pos) {
         Erepository.save(new EmployeesModel(
-                UUID.randomUUID(), null, "Juan", "Pérez", "López", "PELJ900101HDFRRN01"
+                null,UUID.randomUUID(), "Juan", "Pérez", "López", "PELJ900101HDFRRN01"
                 , "PELJ900101123"
                 , "1990-01-01"
                 ,"2026-03-11"

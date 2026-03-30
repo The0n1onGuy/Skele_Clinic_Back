@@ -19,7 +19,6 @@ public class ClinicDetailsModel {
     @Column(name = "id_clinic_details", nullable = false)
     private Long id;
 
-    // CÓDIGO CORREGIDO
     @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
     private String uuid = java.util.UUID.randomUUID().toString();
 

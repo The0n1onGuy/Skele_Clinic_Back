@@ -16,13 +16,14 @@ import java.util.UUID;
 @Setter
 public class PositionsModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_position", nullable = false)
     private Long id;
+
+    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    private UUID uuid = UUID.randomUUID();
 
     @Column(length = 100, nullable = false)
     private String name;
