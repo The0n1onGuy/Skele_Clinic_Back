@@ -11,7 +11,7 @@
     <nav class="menu">
       <p class="menu-label">MÓDULOS PRINCIPALES</p>
       <ul>
-        <li class="menu-item active">
+        <li class="menu-item" :class="{ active: router.name === 'home' }" @click="router.push('/')">
           <span class="icon">📅</span>
           <span class="text">Citas</span>
         </li>
@@ -23,7 +23,7 @@
           <span class="icon">🩺</span>
           <span class="text">Especialistas</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item" :class="{ active: router.name === 'rrhh' }" @click="router.push('/rrhh')">
           <span class="icon">🏢</span>
           <span class="text">RRHH</span>
         </li>

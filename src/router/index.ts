@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppointmentsList from '../components/AppointmentsList.vue'
 import Login from '../components/Login.vue'
+import DepartmentList from "../components/rrhh/DepartmentList.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +15,13 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: AppointmentsList,
-      // 1. Etiquetamos esta ruta como "Privada"
+      // Etiquetamos esta ruta como "Privada"
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/rrhh',
+      name: 'rrhh',
+      component: DepartmentList, // Aquí se cargará tu tabla de departamentos
       meta: { requiresAuth: true }
     }
     // Al crear las rutas de Pacientes o RRHH, también poner meta: { requiresAuth: true }
