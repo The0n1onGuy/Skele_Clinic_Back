@@ -18,7 +18,7 @@ public class SystemUsersModel {
     @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
     private String uuid = java.util.UUID.randomUUID().toString();
 
-    @Column(name = "tenant_id", nullable = false, length = 50, columnDefinition = "varchar(50) default 'dbo'")
+    @Column(name = "tenant_id", nullable = false, length = 50, columnDefinition = "varchar(50) default 'his_rpbi_master'")
     private String tenantId; // Identificador de a qué cliente pertenece el usuario, ej: Hospital Aurora
 
     @Column(name = "user_name", nullable = false, unique = true)

@@ -28,14 +28,14 @@ public class RpbiClasificationService {
             RpbiClasificationObject dto = new RpbiClasificationObject();
 
             // mapeo 1 a 1
-            dto.setUuid(entidad.getUuid());
+            dto.setUuid(entidad.getUuid().toString());
             dto.setName(entidad.getName());
             dto.setDescription(entidad.getDescription());
             dto.setColorCode(entidad.getColorCode());
 
             // mapeo relacional
             if (entidad.getStatus() != null) {
-                dto.setStatusUuid(entidad.getStatus().getUuid());
+                dto.setStatusUuid(entidad.getStatus().getUuid().toString());
                 dto.setEstatusName(entidad.getStatus().getStatusName());
             }
 

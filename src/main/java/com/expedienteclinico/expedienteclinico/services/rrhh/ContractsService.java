@@ -32,7 +32,7 @@ public class ContractsService {
     public ContractObject convertToDTO(ContractsModel model) {
         ContractObject dto = new ContractObject();
         dto.setId(model.getId());
-        dto.setUuid(model.getUuid());
+        dto.setUuid(model.getUuid().toString().toString());
 
         // Mapeo del empleado
         if (model.getId_employee() != null) {

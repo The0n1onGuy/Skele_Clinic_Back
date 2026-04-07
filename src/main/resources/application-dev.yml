@@ -1,11 +1,15 @@
 spring:
+  flyway:
+    enabled: false # Apagado de seguridad. El control ahora es 100% de Java.
+
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=HIS-RPBI-TEMP-0226;encrypt=true;trustServerCertificate=true
-    username: Darick
+    url: jdbc:mysql://localhost:3306/his_rpbi_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: his_admin
     password: Darick471 # En prod, esto se inyecta por variables de sistema
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
     hibernate:
       # CRÍTICO: Debe cambiar a 'none' cuando se integre Flyway

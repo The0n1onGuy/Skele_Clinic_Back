@@ -25,13 +25,13 @@ public class RpbiPhysicalStateService {
 
             RpbiPhysicalStateObject dto = new RpbiPhysicalStateObject();
 
-            dto.setUuid(entidad.getUuid());
+            dto.setUuid(entidad.getUuid().toString());
             dto.setName(entidad.getName());
             dto.setMeasureUnit(entidad.getMeasureUnit());
 
             if(entidad.getStatus() != null ){
 
-                dto.setStatusUuid(entidad.getStatus().getUuid());
+                dto.setStatusUuid(entidad.getStatus().getUuid().toString());
                 dto.setEstatusName(entidad.getStatus().getStatusName());
             }
             dtos.add(dto);

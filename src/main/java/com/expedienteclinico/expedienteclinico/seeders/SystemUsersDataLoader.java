@@ -34,7 +34,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        TenantContext.setCurrentTenant("dbo");
+        TenantContext.setCurrentTenant("his_rpbi_master");
         try {
         StatusModel activeStatus = statusRepository.findById(1L)
                 .orElseThrow(() -> new IllegalStateException("Error crítico: Estatus Activo no encontrado. Verifica SystemDataLoader."));
@@ -53,16 +53,16 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         SystemRolesModel devRole = resolveRole("ROLE_DEVELOPMENT", activeStatus);
 
         // 2. Sembrar Usuarios (Cambiando "password123" por contraseñas seguras según sus políticas)
-        resolveUser("admin_lex", "Admin$Secure2026", adminRole, activeStatus, "dbo"); // Profe Alexander
-        resolveUser("gestor_rpbi", "Darikson$Secure2026", rpbiRole, activeStatus, "dbo"); // Darikson
-        resolveUser("gestor_rrhh", "Olan$Secure2026", rrhhRole, activeStatus, "dbo"); // Olan
-        resolveUser("gestor_patients", "Natalia$Secure2026", patientsRole, activeStatus, "dbo"); // Natalia
-        resolveUser("gestor_emergencias", "Giselle$Secure2026", emergenciasRole, activeStatus, "dbo"); // Giselle
-        resolveUser("gestor_morgue", "Eduardo$Secure2026", morgueRole, activeStatus, "dbo"); // Eduardo
-        resolveUser("gestor_lyr", "Julio$Secure2026", lyrRole, activeStatus, "dbo"); // Julio
-        resolveUser("gestor_appointments", "Jose$Secure2026", appointmentsRole, activeStatus, "dbo"); // Jose
-        resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "dbo"); // Jesus
-        resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "dbo"); // Katia
+        resolveUser("admin_lex", "Admin$Secure2026", adminRole, activeStatus, "his_rpbi_master"); // Profe Alexander
+        resolveUser("gestor_rpbi", "Darikson$Secure2026", rpbiRole, activeStatus, "his_rpbi_master"); // Darikson
+        resolveUser("gestor_rrhh", "Olan$Secure2026", rrhhRole, activeStatus, "his_rpbi_master"); // Olan
+        resolveUser("gestor_patients", "Natalia$Secure2026", patientsRole, activeStatus, "his_rpbi_master"); // Natalia
+        resolveUser("gestor_emergencias", "Giselle$Secure2026", emergenciasRole, activeStatus, "his_rpbi_master"); // Giselle
+        resolveUser("gestor_morgue", "Eduardo$Secure2026", morgueRole, activeStatus, "his_rpbi_master"); // Eduardo
+        resolveUser("gestor_lyr", "Julio$Secure2026", lyrRole, activeStatus, "his_rpbi_master"); // Julio
+        resolveUser("gestor_appointments", "Jose$Secure2026", appointmentsRole, activeStatus, "his_rpbi_master"); // Jose
+        resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "his_rpbi_master"); // Jesus
+        resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "his_rpbi_master"); // Katia
 
         // 2. INYECCIÓN DE CLIENTES (TENANTS DE PRUEBA)
         // Al crear estos usuarios, registramos formalmente la existencia de los hospitales en el Directorio Maestro

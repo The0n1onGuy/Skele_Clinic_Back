@@ -37,7 +37,7 @@ public class RpbiGenerationRecordController {
 
             // 3. Mapear el Modelo de BD al DTO de Salida Seguro
             RpbiGenerationRecordResponseObject responseObj = new RpbiGenerationRecordResponseObject();
-            responseObj.setRecordUuid(savedModel.getUuid());
+            responseObj.setRecordUuid(savedModel.getUuid().toString());
             responseObj.setClassificationName(savedModel.getClassification().getName());
             responseObj.setPhysicalStateName(savedModel.getPhysicalState().getName());
             responseObj.setContainerName(savedModel.getContainer().getName());

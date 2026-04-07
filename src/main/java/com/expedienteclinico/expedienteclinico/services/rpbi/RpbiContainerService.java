@@ -24,12 +24,12 @@ public List<RpbiContainerObject> getAll(){
 
         RpbiContainerObject dto = new RpbiContainerObject();
 
-        dto.setUuid(entidad.getUuid());
+        dto.setUuid(entidad.getUuid().toString());
         dto.setName(entidad.getName());
         dto.setDescription(entidad.getDescription());
         if(entidad.getStatus() != null ){
 
-            dto.setStatusUuid(entidad.getStatus().getUuid());
+            dto.setStatusUuid(entidad.getStatus().getUuid().toString());
             dto.setEstatusName(entidad.getStatus().getStatusName());
         }
         dtos.add(dto);
