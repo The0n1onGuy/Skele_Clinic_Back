@@ -1,10 +1,10 @@
 package com.expedienteclinico.expedienteclinico.services.rpbi;
 
 import com.expedienteclinico.expedienteclinico.beans.rpbi.RpbiGenerationRecordRequestObject;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.rpbi.*;
 import com.expedienteclinico.expedienteclinico.repositories.rpbi.*;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

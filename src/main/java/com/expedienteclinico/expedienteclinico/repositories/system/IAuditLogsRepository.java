@@ -1,6 +1,6 @@
-package com.expedienteclinico.expedienteclinico.repositories.audit;
+package com.expedienteclinico.expedienteclinico.repositories.system;
 
-import com.expedienteclinico.expedienteclinico.models.audit.AuditLogsModel;
+import com.expedienteclinico.expedienteclinico.models.system.AuditLogsModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

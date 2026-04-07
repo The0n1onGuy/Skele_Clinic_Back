@@ -1,5 +1,5 @@
 package com.expedienteclinico.expedienteclinico.models.rrhh;
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,13 +15,14 @@ import java.util.UUID;
 @Setter
 public class EmployeesModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
-    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_employee", nullable = false)
     private Long id;
+
+    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    private UUID uuid = UUID.randomUUID();
 
     @Column(nullable = false)
     private String name;
@@ -55,9 +56,9 @@ public class EmployeesModel {
     @JoinColumn(name = "id_department" , nullable = false)
     private DepartmentsModel id_department;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_status", nullable = false)
-    private StatusModel status;
+    private StatusModel id_status;
 
 }
 

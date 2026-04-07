@@ -1,6 +1,6 @@
 package com.expedienteclinico.expedienteclinico.models.rpbi;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,6 +46,6 @@ public class RpbiGenerationRecordModel {
     private String responsibleUser; // Quien registra el residuo
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estatus_id", nullable = false)
+    @JoinColumn(name = "status_id", nullable = false)
     private StatusModel status;
 }

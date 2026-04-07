@@ -1,14 +1,16 @@
 package com.expedienteclinico.expedienteclinico.seeders;
 
-import com.expedienteclinico.expedienteclinico.models.StatusModel;
+import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import com.expedienteclinico.expedienteclinico.models.lyr.Cleaning_suppliesModel;
-import com.expedienteclinico.expedienteclinico.repositories.IStatusRepository;
+import com.expedienteclinico.expedienteclinico.repositories.system.IStatusRepository;
 import com.expedienteclinico.expedienteclinico.repositories.lyr.ICleaning_suppliesRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(2) // DE MANERA ESTRICTA: Se ejecuta DESPUÉS de SystemDataLoader
 public class LyRDataLoader implements CommandLineRunner {
 
     private final ICleaning_suppliesRepository cleaningRepository;
@@ -16,9 +18,6 @@ public class LyRDataLoader implements CommandLineRunner {
 
     @Value("${STATUS1:Active}")
     private String statusName;
-
-    @Value("${STATUS2:Inactive}")
-    private String StatusName2;
 
     @Value("${ARTICULO1:Cloro}")
     private String articuloName;
@@ -37,34 +36,17 @@ public class LyRDataLoader implements CommandLineRunner {
 
     public LyRDataLoader(ICleaning_suppliesRepository cleaningRepository,
                          IStatusRepository statusRepository) {
-
         this.cleaningRepository = cleaningRepository;
         this.statusRepository = statusRepository;
     }
 
     @Override
     public void run(String... args) {
-
-        if (statusRepository.count() == 0) {
-            StatusModel status = new StatusModel();
-            status.setStatusName(statusName);
-            statusRepository.save(status);
-        }
-
-        if (statusRepository.count() == 1) {
-            StatusModel status2 = new StatusModel();
-            status2.setStatusName(StatusName2);
-            statusRepository.save(status2);
-        }
-
-        StatusModel statusA = statusRepository
-                .findById(3L)
-                .orElseThrow(() -> new RuntimeException("Status no encontrado"));
+        // Delegamos la validación del estado al método de resolución estricto
+        StatusModel statusA = resolveStatus(statusName);
 
         if (cleaningRepository.count() == 0) {
-
             Cleaning_suppliesModel supplies = new Cleaning_suppliesModel();
-
             supplies.setName(articuloName);
             supplies.setCurrent_stock(stock);
             supplies.setStock_min(stock_min);
@@ -73,12 +55,20 @@ public class LyRDataLoader implements CommandLineRunner {
             supplies.setStatus(statusA);
 
             cleaningRepository.save(supplies);
+            System.out.println(">>> Módulo LyR: Datos insertados correctamente");
         }
+    }
 
-        System.out.println("Datos insertados correctamente");
+    /**
+     * Búsqueda estricta para evitar la creación de duplicados.
+     */
+    private StatusModel resolveStatus(String name) {
+        return statusRepository.findAll().stream()
+                .filter(s -> s.getStatusName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(
+                        "ERROR CRÍTICO: El estado de sistema '" + name + "' no ha sido precargado. " +
+                                "Asegúrese de que SystemDataLoader se ejecute primero."
+                ));
     }
 }
-
-
-//SOLIO BIEN LA EJECUCION AWEBO
-
