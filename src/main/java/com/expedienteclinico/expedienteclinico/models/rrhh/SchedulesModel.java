@@ -22,7 +22,7 @@ public class SchedulesModel {
     @Column(name = "id_schedule", nullable = false)
     private Long id;
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(updatable = false, nullable = false)
     private UUID uuid = UUID.randomUUID();
 
     @ManyToOne(fetch = FetchType.EAGER)

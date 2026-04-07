@@ -21,7 +21,7 @@ public class EmployeesModel {
     @Column(name = "id_employee", nullable = false)
     private Long id;
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
     private UUID uuid = UUID.randomUUID();
 
     @Column(nullable = false)

@@ -20,7 +20,8 @@ public class DepartmentsModel {
     @Column(name = "id_department", nullable = false)
     private Long id;
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+//    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(updatable = false, nullable = false)
     private UUID uuid = UUID.randomUUID();
 
     @Column(length = 100, nullable = false)

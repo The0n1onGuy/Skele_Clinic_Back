@@ -22,12 +22,12 @@ public class PositionsModel {
     @Column(name = "id_position", nullable = false)
     private Long id;
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(updatable = false, nullable = false)
     private UUID uuid = UUID.randomUUID();
 
     @Column(length = 100, nullable = false)
     private String name;
-    @Column(columnDefinition = "VARCHAR(MAX)", nullable = true)
+    @Column(nullable = true)
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)

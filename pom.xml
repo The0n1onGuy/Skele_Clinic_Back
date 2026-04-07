@@ -227,6 +227,13 @@
             <version>1.6.14</version>
         </dependency>
 
+<!--        PRUEBAS REMOTAS CON CLOUD  ELIMINA CUANDO YA NO SE OCUPE-->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
