@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/rpbi/records")
+@RequestMapping("/api/his/v1/rpbi/records")
 @RequiredArgsConstructor
 public class RpbiGenerationRecordController {
 

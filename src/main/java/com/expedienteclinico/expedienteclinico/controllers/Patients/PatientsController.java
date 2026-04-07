@@ -12,9 +12,9 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
+// @CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
-@RequestMapping( "/patients-controller/" )
+@RequestMapping( "api/his/v1/patients-controller/" )
 public class PatientsController {
 
     @Autowired

@@ -38,11 +38,12 @@ public class EmployeesModel {
     @Column(nullable = false)
     private String rfc;
 
-    @Column(nullable = false)
-    private String datebirth;
+    // CORRECCIÓN: Tipado estricto de fechas
+    @Column(name = "datebirth", nullable = false)
+    private java.time.LocalDate datebirth;
 
-    @Column(nullable = false)
-    private String datereg;
+    @Column(name = "datereg", nullable = false)
+    private java.time.LocalDate datereg;
 
     @Column(nullable = false)
     private String gender;

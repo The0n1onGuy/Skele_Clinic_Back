@@ -37,6 +37,15 @@ public class PatientsModel {
     private String email;
     private String direccion;
     private String tipoSangre;
+    // CAMPOS AÑADIDOS PARA ALINEACIÓN CLÍNICA
+    @Column(name = "contacto_emergencia")
+    private String contactoEmergencia;
+
+    @Column(name = "alergias", columnDefinition = "TEXT")
+    private String alergias;
+
+    @Column(name = "enfermedades_cronicas", columnDefinition = "TEXT")
+    private String enfermedadesCronicas;
 
     // Relación con el Historial (Uno a muchos)
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

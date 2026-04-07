@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=HIS-RPBI-TEMP-0226;encrypt=true;trustServerCertificate=true
+    username: Darick
+    password: Darick471 # En prod, esto se inyecta por variables de sistema
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      # CRÍTICO: Debe cambiar a 'none' cuando se integre Flyway
+      ddl-auto: none
+
+
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    com.OperaUserAccessRequisitionForm: DEBUG
+    # org.hibernate.SQL: DEBUG
+    # org.hibernate.type.descriptor.sql.BasicBinder: TRACE

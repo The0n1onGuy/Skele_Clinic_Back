@@ -20,4 +20,7 @@ public class PatientsBean {
     private String email;
     private String direccion;
     private String tipoSangre;
+    private String contactoEmergencia;
+    private String alergias;
+    private String enfermedadesCronicas;
 }

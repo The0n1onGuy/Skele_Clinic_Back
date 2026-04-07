@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -26,13 +27,19 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsServiceImpl userDetailsService;
-
+    private final SecurityExceptionHandler securityExceptionHandler;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // todo: requestmatchers en base  de datos, cliente para swagger
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                // .cors(...) -> Mantén tu configuración CORS original aquí
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(securityExceptionHandler) // Captura 401 sin token
+                        .accessDeniedHandler(securityExceptionHandler)      // Captura 403 roles inválidos
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/error").permitAll() // Login abierto
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger abierto
@@ -45,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/lyr/**").hasAnyRole("ADMIN", "LYR")
                         .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "APPOINTMENTS")
                         .requestMatchers("/api/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
-                        .anyRequest().authenticated()
+                        .anyRequest().denyAll()
                 )
                 .authenticationProvider(authenticationProvider())
                 // Inyectar nuestro filtro ANTES del filtro estándar de Spring
@@ -74,4 +81,19 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Hashing seguro estándar de la industria
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // PELIGRO
+        // En producción cambiar por: Arrays.asList("https://midominio.com")
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }

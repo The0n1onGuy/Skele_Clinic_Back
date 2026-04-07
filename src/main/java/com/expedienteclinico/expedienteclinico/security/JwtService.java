@@ -2,29 +2,40 @@ package com.expedienteclinico.expedienteclinico.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.util.HexFormat;
 import javax.crypto.SecretKey;
-import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class JwtService {
+    private static final Logger log = LoggerFactory.getLogger(JwtService.class);
 
-    // Clave estática de 256 bits en HEX (Fallback seguro para desarrollo).
-    // En producción, DEBE ser inyectada desde el SO o un gestor de secretos.
-    @Value("${JWT_SECRET_KEY:QE5jUmZValhuMnIyNXU4eC9BM0QoRytLYlBkU2dWb1k=}")
+    @Value("${JWT_SECRET_KEY:}")
     private String secretKey;
 
-    // Tiempo de vida del token
     @Value("${JWT_EXPIRATION_TIME:900000}")
     private long jwtExpiration;
+
+    @PostConstruct
+    public void validateSecretKey() {
+        if (secretKey == null || secretKey.trim().isEmpty() || secretKey.length() < 32) {
+            log.error("CRÍTICO: La clave secreta JWT no está configurada o es demasiado corta (< 32 caracteres).");
+            log.warn("Se generará una clave efímera aleatoria para mantener el sistema operativo en modo DESARROLLO.");
+            log.warn("ADVERTENCIA: Todos los tokens se invalidarán si el servidor se reinicia.");
+
+            // 2. SOLUCIÓN A LA VERSIÓN 0.9.1: Generación de 256 bits con Java Nativo
+            byte[] randomKeyBytes = new byte[32];
+            new java.security.SecureRandom().nextBytes(randomKeyBytes);
+            this.secretKey = java.util.Base64.getEncoder().encodeToString(randomKeyBytes);
+        }
+    }
 
     /**
      * Genera un token JWT para un usuario específico.
@@ -53,6 +64,10 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // Obtener el "identificador" de la persona que inició sesión
+    public String extractTenant(String token) {
+        return extractClaim(token, claims -> claims.get("tenant", String.class));
+    }
     /**
      * Valida la integridad de la firma y que el token pertenezca al usuario esperado.
      */

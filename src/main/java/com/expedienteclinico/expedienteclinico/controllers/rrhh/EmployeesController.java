@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/rrhh/employees")
+// @CrossOrigin(origins = "*")
+@RequestMapping("/api/his/v1/rrhh/employees")
 public class EmployeesController {
     @Autowired
     EmployeesService employeesService;

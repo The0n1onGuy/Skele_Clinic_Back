@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/almacen/categories")
+@RequestMapping("/api/his/v1/almacen/categories")
 @Tag(name = "Almacén: Categorías", description = "Gestión de categorías de artículos para Farmacia, Clínica y Equipos")
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 public class CategoryController {
 
     @Autowired

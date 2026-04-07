@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin( origins = "*" , maxAge = 3600 )
+// @CrossOrigin( origins = "*" , maxAge = 3600 )
 @RestController
-@RequestMapping( "/empleados_LyR-controller/" )
+@RequestMapping( "api/his/v1/empleados_LyR-controller/" )
 public class LyR_EmployeesController {
 
     @Autowired

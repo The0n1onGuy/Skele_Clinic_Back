@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/morgue-controller/")
+@RequestMapping("api/his/v1/morgue-controller/")
 public class MorgueController {
 
     @Autowired
