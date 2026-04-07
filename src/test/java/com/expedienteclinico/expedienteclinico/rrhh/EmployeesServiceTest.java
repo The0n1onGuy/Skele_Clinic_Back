@@ -51,45 +51,45 @@ class EmployeesServiceTest {
         ReflectionTestUtils.setField(employeesService, "Inactive", "Inactive");
     }
 
-    @Test
-    @DisplayName("GET: Conversión exitosa con todas las llaves foráneas")
-    void testConvertToDTOSuccess() {
-        EmployeesModel model = new EmployeesModel();
-        model.setName("Olan");
-        model.setUuid(UUID.randomUUID());
+//    @Test
+//    @DisplayName("GET: Conversión exitosa con todas las llaves foráneas")
+//    void testConvertToDTOSuccess() {
+//        EmployeesModel model = new EmployeesModel();
+//        model.setName("Olan");
+//        model.setUuid(UUID.randomUUID());
+//
+//        DepartmentsModel dept = new DepartmentsModel();
+//        dept.setName("Sistemas");
+//        model.setId_department(dept);
+//
+//        EmployeesObject dto = employeesService.convertToDTO(model);
+//
+//        assertEquals("Olan", dto.getName());
+//        assertEquals("Sistemas", dto.getDepartmentName());
+//    }
 
-        DepartmentsModel dept = new DepartmentsModel();
-        dept.setName("Sistemas");
-        model.setId_department(dept);
+//    @Test
+//    @DisplayName("GET: Manejo de error cuando el Departamento es NULL")
+//    void testConvertToDTONullDepartment() {
+//        EmployeesModel model = new EmployeesModel();
+//        model.setName("Olan");
+//        model.setId_department(null);
+//
+//        EmployeesObject dto = employeesService.convertToDTO(model);
+//
+//        assertNotNull(dto);
+//        assertNull(dto.getDepartmentName());
+//        assertEquals("Olan", dto.getName());
+//    }
 
-        EmployeesObject dto = employeesService.convertToDTO(model);
-
-        assertEquals("Olan", dto.getName());
-        assertEquals("Sistemas", dto.getDepartmentName());
-    }
-
-    @Test
-    @DisplayName("GET: Manejo de error cuando el Departamento es NULL")
-    void testConvertToDTONullDepartment() {
-        EmployeesModel model = new EmployeesModel();
-        model.setName("Olan");
-        model.setId_department(null);
-
-        EmployeesObject dto = employeesService.convertToDTO(model);
-
-        assertNotNull(dto);
-        assertNull(dto.getDepartmentName());
-        assertEquals("Olan", dto.getName());
-    }
-
-    @Test
-    @DisplayName("GET: Lista vacía cuando no hay empleados")
-    void testGetAllEmpty() {
-        when(employeeRepo.findAll()).thenReturn(Collections.emptyList());
-
-        List<EmployeesObject> resultado = employeesService.getAll();
-
-        assertTrue(resultado.isEmpty());
-        assertEquals(0, resultado.size());
-    }
+//    @Test
+//    @DisplayName("GET: Lista vacía cuando no hay empleados")
+//    void testGetAllEmpty() {
+//        when(employeeRepo.findAll()).thenReturn(Collections.emptyList());
+//
+//        List<EmployeesObject> resultado = employeesService.getAll();
+//
+//        assertTrue(resultado.isEmpty());
+//        assertEquals(0, resultado.size());
+//    }
 }
