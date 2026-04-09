@@ -1,7 +1,7 @@
-package com.expedienteclinico.expedienteclinico.services.almacen;
+package com.expedienteclinico.expedienteclinico.services.warehouse;
 
-import com.expedienteclinico.expedienteclinico.models.almacen.CategoryModel;
-import com.expedienteclinico.expedienteclinico.repositories.almacen.ICategoryRepository;
+import com.expedienteclinico.expedienteclinico.models.warehouse.CategoryModel;
+import com.expedienteclinico.expedienteclinico.repositories.warehouse.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

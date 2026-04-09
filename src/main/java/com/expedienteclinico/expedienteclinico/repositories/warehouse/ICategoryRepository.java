@@ -1,6 +1,6 @@
-package com.expedienteclinico.expedienteclinico.repositories.almacen;
+package com.expedienteclinico.expedienteclinico.repositories.warehouse;
 
-import com.expedienteclinico.expedienteclinico.models.almacen.CategoryModel;
+import com.expedienteclinico.expedienteclinico.models.warehouse.CategoryModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

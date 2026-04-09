@@ -34,8 +34,9 @@ public class SecurityConfig {
                 // .cors(...) -> Mantén tu configuración CORS original aquí
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/error").permitAll() // Login abierto
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger abierto
+                        .requestMatchers("/api/auth/**", "/api/warehouse/**", "/error").permitAll() // Login abierto
+                        .requestMatchers(
+                                "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**").permitAll()// Swagger abierto
                         // RBAC estricto:
                         .requestMatchers("/api/rpbi/**").hasAnyRole("ADMIN", "RPBI")
                         .requestMatchers("/api/rrhh/**").hasAnyRole("ADMIN", "RRHH")
@@ -44,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/morgue/**").hasAnyRole("ADMIN", "MORGUE")
                         .requestMatchers("/api/lyr/**").hasAnyRole("ADMIN", "LYR")
                         .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "APPOINTMENTS")
-                        .requestMatchers("/api/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
+                        .requestMatchers("/api/warehouse/**").hasAnyRole("ADMIN", "WAREHOUSE")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

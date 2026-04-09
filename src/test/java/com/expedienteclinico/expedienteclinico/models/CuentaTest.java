@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CuentaTest {
 
     @Test
-    void testNombreCuenta(){
+    void testNombreCuenta() {
 
         Cuenta cuenta = new Cuenta("Alex", new BigDecimal("1500.471"));
         cuenta.setPersona("Alex");
@@ -27,30 +27,111 @@ class CuentaTest {
         String esperado = "Alex";
         String real = cuenta.getPersona();
 
-        assertEquals( esperado, real);
-        assertTrue( real.equals( "Alex") );
+        assertEquals(esperado, real);
+        assertTrue(real.equals("Alex"));
 
     }
 
     @Test
-    void testSaldoCuenta(){
+    void testSaldoCuenta() {
 
         Cuenta cuenta = new Cuenta("Alex", new BigDecimal("1500.471"));
-        assertEquals( 1500.471, cuenta.getSaldo().doubleValue() );
-        assertFalse( cuenta.getSaldo().compareTo(BigDecimal.ZERO) < 0 );
-        assertTrue( cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0 );
+        assertEquals(1500.471, cuenta.getSaldo().doubleValue());
+        assertFalse(cuenta.getSaldo().compareTo(BigDecimal.ZERO) < 0);
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0);
 
     }
 
     @Test
-    void testReferenciaDeCuenta(){
+    void testReferenciaDeCuenta() {
 
         Cuenta cuenta = new Cuenta("Darikson", new BigDecimal("1471.471"));
         Cuenta cuenta2 = new Cuenta("Darikson", new BigDecimal("1471.471"));
 
-        assertEquals( cuenta2 , cuenta ) ;
+        assertEquals(cuenta2, cuenta);
 
     }
+
+    @Test
+    public void tesDebitoCuenta() {
+        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
+        cuenta.debito(new BigDecimal(100));
+
+        assertNotNull(cuenta.getSaldo());
+        assertEquals(900, cuenta.getSaldo().intValue());
+        assertEquals("900.12345", cuenta.getSaldo().toPlainString());
+    }
+
+    @Test
+    public void testCreditoCuenta() {
+        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
+        cuenta.credito(new BigDecimal(100));
+
+        assertNotNull(cuenta.getSaldo());
+        assertEquals(1100, cuenta.getSaldo().intValue());
+        assertEquals("1100.12345", cuenta.getSaldo().toPlainString());
+    }
+
+    @Test
+    void testDinerInsuficienteExceptionCuenta() {
+        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
+        Exception exception = assertThrows(DineroInsuficienteException.class, () -> {
+            cuenta.debito(new BigDecimal("1500"));
+        });
+        String actual = exception.getMessage();
+        String esperado = "Tu ere poble no tene ifon";
+
+        assertEquals(esperado, actual);
+    }
+
+    @Test
+    void testTransferirDineroCuenta() {
+        Cuenta cuenta1 = new Cuenta("Yisus", new BigDecimal("2500"));
+        Cuenta cuenta2 = new Cuenta("Lex", new BigDecimal("1500.8989"));
+
+        Banco banco = new Banco();
+        banco.setNombre("BBVA");
+        banco.transferir(cuenta2, cuenta1, new BigDecimal("500"));
+
+        assertEquals("1000.8989", cuenta2.getSaldo().toPlainString());
+        assertEquals("3000", cuenta1.getSaldo().toPlainString());
+    }
+
+    @Test
+    void testRelacionBancoCuentas() {
+        Cuenta cuenta1 = new Cuenta("Yisus", new BigDecimal("2500"));
+        Cuenta cuenta2 = new Cuenta("Lex", new BigDecimal("1500.8989"));
+
+        Banco banco = new Banco();
+        banco.addCuenta(cuenta1);
+        banco.addCuenta(cuenta2);
+
+        banco.setNombre("BBVA");
+        banco.transferir(cuenta2, cuenta1, new BigDecimal("500"));
+
+        assertEquals("1000.8989", cuenta2.getSaldo().toPlainString());
+        assertEquals("3000", cuenta1.getSaldo().toPlainString());
+
+        assertEquals(2, banco.getCuentas().size());
+        assertEquals("BBVA", cuenta1.getBanco().getNombre());
+
+        assertEquals("Lex", banco.getCuentas().stream()
+                .filter(c -> c.getPersona().equals("Lex"))
+                .findFirst()
+                .get().getPersona()
+        );
+
+        assertTrue(banco.getCuentas().stream()
+                .filter(c -> c.getPersona().equals("Lex"))
+                .findFirst().isPresent()
+        );
+
+        assertTrue(banco.getCuentas().stream()
+                .anyMatch(c -> c.getPersona().equals("Yisus"))
+
+        );
+    }
+
     @Test
     @DisplayName("Ensure that two temporary directories with same files names and content have same hash")
     void hashTwoDynamicDirectoryWhichHaveSameContent(@TempDir Path tempDir, @TempDir Path tempDir2) throws IOException {
@@ -67,83 +148,5 @@ class CuentaTest {
         Files.write(file2, input);
         assertTrue(Files.exists(file2), "File should exist");
 
-    @Test
-    public void tesDebitoCuenta(){
-        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
-        cuenta.debito (new BigDecimal(100));
-
-        assertNotNull(cuenta.getSaldo());
-        assertEquals(900, cuenta.getSaldo().intValue());
-        assertEquals("900.12345", cuenta.getSaldo().toPlainString());
     }
-
-    @Test
-    public void testCreditoCuenta(){
-        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
-        cuenta.credito (new BigDecimal(100));
-
-        assertNotNull(cuenta.getSaldo());
-        assertEquals(1100, cuenta.getSaldo().intValue());
-        assertEquals("1100.12345", cuenta.getSaldo().toPlainString());
-    }
-
-    @Test
-    void testDinerInsuficienteExceptionCuenta(){
-        Cuenta cuenta = new Cuenta("Lex", new BigDecimal("1000.12345"));
-        Exception exception = assertThrows(DineroInsuficienteException.class, () ->{
-            cuenta.debito(new BigDecimal("1500"));
-        });
-        String actual = exception.getMessage();
-        String esperado = "Tu ere poble no tene ifon";
-
-        assertEquals(esperado, actual);
-    }
-    @Test
-    void testTransferirDineroCuenta(){
-        Cuenta cuenta1 = new Cuenta("Yisus", new BigDecimal("2500"));
-        Cuenta cuenta2 = new Cuenta("Lex", new BigDecimal("1500.8989"));
-
-        Banco banco = new Banco();
-            banco.setNombre("BBVA");
-            banco.transferir(cuenta2, cuenta1, new BigDecimal("500"));
-
-        assertEquals("1000.8989", cuenta2.getSaldo().toPlainString());
-        assertEquals("3000", cuenta1.getSaldo().toPlainString());
-    }
-
-    @Test
-    void testRelacionBancoCuentas(){
-        Cuenta cuenta1 = new Cuenta("Yisus", new BigDecimal("2500"));
-        Cuenta cuenta2 = new Cuenta("Lex", new BigDecimal("1500.8989"));
-
-        Banco banco = new Banco();
-            banco.addCuenta(cuenta1);
-            banco.addCuenta(cuenta2);
-
-            banco.setNombre("BBVA");
-            banco.transferir(cuenta2, cuenta1, new BigDecimal("500"));
-
-        assertEquals("1000.8989", cuenta2.getSaldo().toPlainString());
-        assertEquals("3000", cuenta1.getSaldo().toPlainString());
-
-        assertEquals(2, banco.getCuentas().size());
-        assertEquals("BBVA", cuenta1.getBanco().getNombre());
-
-        assertEquals("Lex", banco.getCuentas().stream()
-                .filter( c -> c.getPersona().equals("Lex"))
-                .findFirst()
-                .get().getPersona()
-        );
-
-        assertTrue(banco.getCuentas().stream()
-                .filter(c -> c.getPersona().equals("Lex"))
-                .findFirst().isPresent()
-        );
-
-        assertTrue(banco.getCuentas().stream()
-                .anyMatch(c -> c.getPersona().equals("Yisus"))
-
-        );
-    }
-
 }
