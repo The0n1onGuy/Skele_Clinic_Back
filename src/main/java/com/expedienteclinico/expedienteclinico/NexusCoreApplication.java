@@ -19,11 +19,11 @@ import java.util.TimeZone;
 
 @EnableWebMvc
 @SpringBootApplication
-public class ExpedienteclinicoApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class NexusCoreApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	@Override
 	protected SpringApplicationBuilder configure( SpringApplicationBuilder application ) {
-		return application.sources( ExpedienteclinicoApplication.class ) ;
+		return application.sources( NexusCoreApplication.class ) ;
 	}
 
 	public void init() {
@@ -32,7 +32,7 @@ public class ExpedienteclinicoApplication extends SpringBootServletInitializer i
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExpedienteclinicoApplication.class, args);
+		SpringApplication.run(NexusCoreApplication.class, args);
 	}
 
 	@Override
