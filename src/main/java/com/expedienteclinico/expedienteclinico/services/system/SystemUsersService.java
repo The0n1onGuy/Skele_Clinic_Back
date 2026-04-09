@@ -25,7 +25,7 @@ public class SystemUsersService {
 
         SystemUsersModel sysUser = new SystemUsersModel();
 
-        sysUser.setTenantId("his_rpbi_master");
+        sysUser.setTenantId("his_master");
 
         sysUser.setUserName(requestObject.getUserName());
 

@@ -43,20 +43,31 @@ public class PatientsService {
     }
 
     // 2. Método para crear un nuevo paciente (Para POST /new)
-    public PatientsModel nuevo(PatientsBean bean) {
-        PatientsModel entidad = new PatientsModel();
+    public ResponseEntity<?> nuevo(PatientsBean bean) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            PatientsModel entidad = new PatientsModel();
+            entidad.setNombre(bean.getNombre());
+            entidad.setApellidos(bean.getApellidos());
+            entidad.setCurp(bean.getCurp());
+            entidad.setFechaNacimiento(bean.getFechaNacimiento());
+            entidad.setGenero(bean.getGenero());
+            entidad.setTelefono(bean.getTelefono());
+            entidad.setEmail(bean.getEmail());
+            entidad.setDireccion(bean.getDireccion());
+            entidad.setTipoSangre(bean.getTipoSangre());
 
-        entidad.setNombre(bean.getNombre());
-        entidad.setApellidos(bean.getApellidos());
-        entidad.setCurp(bean.getCurp());
-        entidad.setFechaNacimiento(bean.getFechaNacimiento());
-        entidad.setGenero(bean.getGenero());
-        entidad.setTelefono(bean.getTelefono());
-        entidad.setEmail(bean.getEmail());
-        entidad.setDireccion(bean.getDireccion());
-        entidad.setTipoSangre(bean.getTipoSangre());
+            repository.save(entidad);
 
-        return repository.save(entidad);
+            response.put("mensaje", "El paciente ha sido creado con éxito");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Trazabilidad activa
+            response.put("mensaje", "Error al registrar el paciente");
+            response.put("error", "Ocurrió un error interno en el servidor.");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // 3. Método para actualizar un paciente (Para PUT /change/{id}) //

@@ -33,7 +33,7 @@ public class SystemAuthController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            TenantContext.setCurrentTenant("his_rpbi_master");
+            TenantContext.setCurrentTenant("his_master");
             // 1. Autenticar credenciales contra la base de datos
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUserName(), request.getUserPassword())

@@ -64,6 +64,7 @@ public class GlobalExceptionHandler {
     // Fallbakc de seguridad
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
+        ex.printStackTrace();
         ex.getMessage();
         return new ResponseEntity<>(
                 ResponseFactory.getErrorResponse("Ha ocurrido un error inesperado en el servidor."),

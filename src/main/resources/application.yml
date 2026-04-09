@@ -59,7 +59,7 @@ spring:
       schema: classpath:org/springframework/batch/core/schema-sqlserver.sql
 
 server:
-  port: 8080 # O el puerto que hayas borrado en la captura
+  port: 2026
   servlet:
     context-path: / # Recomiendo cambiar esto a /api posteriormente
     session:

@@ -44,14 +44,14 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**", "/error").permitAll() // Login abierto
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger abierto
                         // RBAC estricto:
-                        .requestMatchers("/api/rpbi/**").hasAnyRole("ADMIN", "RPBI")
-                        .requestMatchers("/api/rrhh/**").hasAnyRole("ADMIN", "RRHH")
-                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "PATIENTS")
-                        .requestMatchers("/api/emergencias/**").hasAnyRole("ADMIN", "EMERGENCIAS")
-                        .requestMatchers("/api/morgue/**").hasAnyRole("ADMIN", "MORGUE")
-                        .requestMatchers("/api/lyr/**").hasAnyRole("ADMIN", "LYR")
-                        .requestMatchers("/api/appointments/**").hasAnyRole("ADMIN", "APPOINTMENTS")
-                        .requestMatchers("/api/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
+                        .requestMatchers("/api/his/v1/rpbi/**").hasAnyRole("ADMIN", "RPBI")
+                        .requestMatchers("/api/his/v1/rrhh/**").hasAnyRole("ADMIN", "RRHH")
+                        .requestMatchers("/api/his/v1/patients/**").hasAnyRole("ADMIN", "PATIENTS")
+                        .requestMatchers("/api/his/v1/emergencias/**").hasAnyRole("ADMIN", "EMERGENCIAS")
+                        .requestMatchers("/api/his/v1/morgue/**").hasAnyRole("ADMIN", "MORGUE")
+                        .requestMatchers("/api/his/v1/lyr/**").hasAnyRole("ADMIN", "LYR")
+                        .requestMatchers("/api/his/v1/appointments/**").hasAnyRole("ADMIN", "APPOINTMENTS")
+                        .requestMatchers("/api/his/v1/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
                         .anyRequest().denyAll()
                 )
                 .authenticationProvider(authenticationProvider())

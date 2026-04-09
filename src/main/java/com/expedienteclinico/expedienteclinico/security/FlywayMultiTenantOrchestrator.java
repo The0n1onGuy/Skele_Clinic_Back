@@ -33,7 +33,7 @@ public class FlywayMultiTenantOrchestrator implements ApplicationRunner {
         log.info("Iniciando orquestación de migraciones Flyway...");
 
 // 1. MIGRACIÓN EXPLÍCITA Y OBLIGATORIA DE LA BASE DE DATOS MAESTRA
-        log.info("Aprovisionando infraestructura MAESTRA (his_rpbi_master)...");
+        log.info("Aprovisionando infraestructura MAESTRA (his_master)...");
         Flyway flywayMaster = Flyway.configure()
                 .dataSource(dataSource) // El pool principal ya apunta a su destino
                 .locations("classpath:db/migration/master") // Apunta a la nueva carpeta
@@ -44,7 +44,7 @@ public class FlywayMultiTenantOrchestrator implements ApplicationRunner {
         // 2. MIGRACIÓN FÍSICA DE BASES DE DATOS DE INQUILINOS (DATABASE-PER-TENANT)
         com.zaxxer.hikari.HikariDataSource hikariDs = (com.zaxxer.hikari.HikariDataSource) dataSource;
         String masterUrl = hikariDs.getJdbcUrl();
-        log.info("Migración del esquema maestro (his_rpbi_master) completada.");
+        log.info("Migración del esquema maestro (his_master) completada.");
 
         // 2. OBTENER DIRECTORIO DE INQUILINOS
         List<String> tenants = getTenantsFromMaster();
@@ -73,7 +73,7 @@ public class FlywayMultiTenantOrchestrator implements ApplicationRunner {
 
     private List<String> getTenantsFromMaster() {
         List<String> tenants = new ArrayList<>();
-        String query = "SELECT DISTINCT tenant_id FROM his_rpbi_master.system_users WHERE tenant_id != 'his_rpbi_master' AND tenant_id IS NOT NULL";
+        String query = "SELECT DISTINCT tenant_id FROM his_master.system_users WHERE tenant_id != 'his_master' AND tenant_id IS NOT NULL";
 
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
@@ -84,7 +84,7 @@ public class FlywayMultiTenantOrchestrator implements ApplicationRunner {
             }
         } catch (SQLException e) {
             // Si la tabla no existe (ej. base vacía), no abortar, retornar lista vacía.
-            if(e.getMessage().contains("Invalid object name 'his_rpbi_master.system_users'")) {
+            if(e.getMessage().contains("Invalid object name 'his_master.system_users'")) {
                 return tenants;
             }
             log.error("CRÍTICO: Fallo al leer el directorio de inquilinos del esquema maestro.", e);

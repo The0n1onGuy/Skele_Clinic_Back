@@ -57,7 +57,7 @@ public class PatientsDataLoader implements ApplicationRunner {
         List<String> tenants = new ArrayList<>();
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT DISTINCT tenant_id FROM his_rpbi_master.system_users WHERE tenant_id != 'his_rpbi_master' AND tenant_id IS NOT NULL")) {
+             ResultSet rs = stmt.executeQuery("SELECT DISTINCT tenant_id FROM his_master.system_users WHERE tenant_id != 'his_master' AND tenant_id IS NOT NULL")) {
             while (rs.next()) {
                 tenants.add(rs.getString(1));
             }

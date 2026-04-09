@@ -8,7 +8,9 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 
     @Override
     public String resolveCurrentTenantIdentifier() {
-        return TenantContext.getCurrentTenant();
+        String current = TenantContext.getCurrentTenant();
+        System.out.println(">>> [PASO 2 - HIBERNATE] Hibernate pregunta el esquema. Respondiendo: " + current);
+        return current;
     }
 
     @Override

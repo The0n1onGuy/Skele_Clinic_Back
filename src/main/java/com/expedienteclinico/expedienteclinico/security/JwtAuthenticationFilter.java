@@ -37,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String username;
 
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -46,14 +47,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             username = jwtService.extractUsername(jwt);
+            // 1. Extraemos el hospital del token
+            String tenant = jwtService.extractTenant(jwt);
+            System.out.println(">>> [PASO 1 - FILTRO JWT] Token desencriptado. Hospital destino: " + tenant);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                // 2. Consulta al Master: Como el TenantContext aún está limpio,
+                // Spring Security buscará al usuario exitosamente en his_master
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                String tenant = jwtService.extractTenant(jwt); // Extraer esquema
 
-                if (tenant != null) {
-                    TenantContext.setCurrentTenant(tenant); // Aislar en memoria RAM
-                }
                 if (jwtService.isTokenValid(jwt, userDetails.getUsername())) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities()
@@ -63,13 +65,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
+            if (tenant != null && !tenant.trim().isEmpty()) {
+                TenantContext.setCurrentTenant(tenant);
+            }
+
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-
             exceptionResolver.resolveException(request, response, null, e);
         } finally {
-            // Se previene fuga de datos entre hilos (Memory Leaks y Cross-Tenant Data Leak)
             TenantContext.clear();
         }
     }
