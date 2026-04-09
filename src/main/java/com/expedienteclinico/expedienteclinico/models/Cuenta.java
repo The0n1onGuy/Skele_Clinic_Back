@@ -13,12 +13,12 @@ public class Cuenta {
 
     private String persona;
     private BigDecimal saldo;
-    private  Banco banco;
-
+    private Banco banco;
     public Cuenta(String persona, BigDecimal saldo){
 
         this.persona = persona;
         this.saldo = saldo;
+
 
     }
 
@@ -40,20 +40,20 @@ public class Cuenta {
 
     }
 
-    public void debito(BigDecimal monto) {
-//        if (this.saldo.compareTo(monto) < 0) {
-//            throw new DineroInsuficienteException("Tu ere poble no tene ifon");
-//        }
-        BigDecimal nuevoSaldo = this.saldo = this.saldo.subtract(monto);
+    public void debito( BigDecimal debito ){
 
-        if (nuevoSaldo.compareTo(BigDecimal.ZERO)<0){
-            throw new DineroInsuficienteException("Tu ere poble no tene ifon");
+        BigDecimal nuevosaldo = this.saldo.subtract(debito);
+        if ( nuevosaldo.compareTo(BigDecimal.ZERO) < 0 ){
+            throw new DineroInsuficienteException("C jodido.");
         }
 
+        this.saldo = nuevosaldo;
+
     }
 
-    public void credito (BigDecimal monto){
-        this.saldo = this.saldo.add(monto);
-    }
+    public void credito( BigDecimal credito ){
 
+        this.saldo = this.saldo.add(credito);
+
+    }
 }

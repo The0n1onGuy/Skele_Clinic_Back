@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.controllers.audit;
+package com.expedienteclinico.expedienteclinico.controllers.system;
 
 import com.expedienteclinico.expedienteclinico.services.audit.AuditLogsService;
 import org.springframework.beans.factory.annotation.Autowired;

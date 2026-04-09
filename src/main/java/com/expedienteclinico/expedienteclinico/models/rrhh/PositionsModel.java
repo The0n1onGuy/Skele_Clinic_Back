@@ -31,5 +31,5 @@ public class PositionsModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_status", nullable = false) //
-    private StatusModel status;
+    private StatusModel id_status;
 }

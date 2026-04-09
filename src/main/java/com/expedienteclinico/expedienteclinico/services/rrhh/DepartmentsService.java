@@ -16,20 +16,16 @@ public class DepartmentsService {
     @Autowired
     IStatusRepository statusRepo;
 
-    //@Autowired
-//    AuditLogsService auditService; // Inyección del auditor
 
-    @Value("${STATUS1:Activo}") private String Active;
-    @Value("${STATUS2:Inactivo}") private String Inactive;
-    @Value("${STATUS3:Editado}") private String Edited;
-    @Value("${STATUS4:Eliminado}") private String Deleted;
-    @Value("${STATUS5:Agregado}") private String Added;
+    @Value("${STATUS1:Active}") private String Active;
+    @Value("${STATUS2:Inactive}") private String Inactive;
 
+    //Filtro por nombre del estado
     private StatusModel getStatusByName(String statusName) {
         return statusRepo.findByStatusNameIgnoreCase(statusName)
                 .orElseThrow(() -> new RuntimeException("Error: El estado '" + statusName + "' no existe en la base de datos."));
     }
-
+    //Conversor al Bean
     public DepartmentObject convertToDTO(DepartmentsModel model) {
         DepartmentObject dto = new DepartmentObject();
         dto.setId(model.getId());
@@ -45,37 +41,29 @@ public class DepartmentsService {
                 .toList();
     }
 
-//    public DepartmentsModel saveInfo(DepartmentsModel depto) {
-//        if (depto.getId_status() == null) {
-//            StatusModel statusActive = getStatusByName(Active);
-//            depto.setId_status(statusActive);
-//        }
-    ////        DepartmentsModel saved =departmentsRepo.save(depto);
-    ////        auditService.registrarAccion("CREACION: " + saved.getName(), Added);
-    ////        return saved;
-//
-//
-//        return departmentsRepo.save(depto);
-//    }
     public DepartmentObject saveInfo(DepartmentObject dto) {
+        if (departmentsRepo.existsByNameIgnoreCase(dto.getName())) {
+            throw new RuntimeException("Error: Ya existe un departamento con el nombre '" + dto.getName() + "'.");
+        }
         DepartmentsModel model = new DepartmentsModel();
         model.setName(dto.getName());
 
-        // Buscamos el estado por defecto (Activo)
-        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Activo")
+        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
         model.setId_status(status);
 
-        // Hibernate genera el UUID automáticamente gracias a @UuidGenerator
         DepartmentsModel saved = departmentsRepo.save(model);
         return convertToDTO(saved);
     }
 
     public DepartmentObject updateInfo(Long id, DepartmentObject dto) {
         return departmentsRepo.findById(id).map(model -> {
-            model.setName(dto.getName());
-            // El estatus usualmente no cambia en un update de nombre,
-            // pero si fuera necesario, se buscaría aquí.
+            if (!model.getName().equalsIgnoreCase(dto.getName())) {
+                if (departmentsRepo.existsByNameIgnoreCase(dto.getName())) {
+                    throw new RuntimeException("Error: No se puede actualizar. El nombre '" + dto.getName() + "' ya está en uso por otro departamento.");
+                }
+                model.setName(dto.getName());
+            }
             DepartmentsModel updated = departmentsRepo.save(model);
             return convertToDTO(updated);
         }).orElse(null);
@@ -85,10 +73,6 @@ public class DepartmentsService {
         return departmentsRepo.findById(id).map(depto -> {
             StatusModel statusInactive = getStatusByName(Inactive);
             depto.setId_status(statusInactive);
-//            departmentsRepo.save(depto);
-//            auditService.registrarAccion("ELIMINACION: " + id, Deleted);
-//            return true;
-
             departmentsRepo.save(depto);
             return true;
         }).orElse(false);

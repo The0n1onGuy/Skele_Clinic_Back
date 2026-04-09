@@ -22,33 +22,32 @@ public class DepartmentsController {
 
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getAll() {
-        List<DepartmentObject> lista = departmentService.getAll();
-        return new ResponseEntity<Map<String, Object>>( ResponseFactory.getSuccessOnGetAllResponse(lista) , HttpStatus.OK );
+        List<DepartmentObject> dep_list = departmentService.getAll();
+        return new ResponseEntity<Map<String, Object>>( ResponseFactory.getSuccessOnGetAllResponse(dep_list) , HttpStatus.OK );
 
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Map<String, Object>> create(@RequestBody DepartmentObject deptoDto) {
-        DepartmentObject nuevoDepto = departmentService.saveInfo(deptoDto);
+    public ResponseEntity<Map<String, Object>> create(@RequestBody DepartmentObject objectDto) {
+        DepartmentObject newObject = departmentService.saveInfo(objectDto);
         return new ResponseEntity<>(
-                ResponseFactory.getCreatedResponse("Departamento creado con éxito", nuevoDepto),
+                ResponseFactory.getCreatedResponse("Departamento creado con éxito", newObject),
                 HttpStatus.CREATED
         );
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody DepartmentObject deptoDto) {
-        DepartmentObject actualizado = departmentService.updateInfo(id, deptoDto);
-
-        if (actualizado == null) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable Long id, @RequestBody DepartmentObject objectDto) {
+        DepartmentObject updatedObject = departmentService.updateInfo(id, objectDto);
+        if (updatedObject == null) {
             return new ResponseEntity<>(
-                    ResponseFactory.getNotFoundResponse(deptoDto),
+                    ResponseFactory.getNotFoundResponse(objectDto),
                     HttpStatus.NOT_FOUND
             );
         }
 
         return new ResponseEntity<>(
-                ResponseFactory.getUpdateResponse(actualizado),
+                ResponseFactory.getUpdateResponse(updatedObject),
                 HttpStatus.OK
         );
     }

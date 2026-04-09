@@ -8,8 +8,6 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-//@Table(appliesTo = "Departments")
-//@Table
 @Table(name = "rrhh_departments")
 @NoArgsConstructor
 @AllArgsConstructor
