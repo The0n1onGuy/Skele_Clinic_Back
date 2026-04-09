@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-// @CrossOrigin( origins = "*" , maxAge = 3600 )
+// // @CrossOrigin( origins = "*" , maxAge = 3600 )
 @RestController
-@RequestMapping("/api/rpbi/physicalstates")
+@RequestMapping("/api/his/v1/rpbi/physicalstates")
 public class RpbiPhysicalStateController {
 
     @Autowired

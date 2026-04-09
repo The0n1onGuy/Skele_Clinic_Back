@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 
-// @CrossOrigin( origins = "*" , maxAge = 3600 )
+// // @CrossOrigin( origins = "*" , maxAge = 3600 )
 @RestController
-@RequestMapping("/api/rpbi/containers")
+@RequestMapping("/api/his/v1/rpbi/containers")
 public class RpbiContainerController {
 
     @Autowired

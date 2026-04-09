@@ -4,8 +4,8 @@ import lombok.Data;
 @Data
 public class RpbiContainerObject {
     private String uuid;
-    private String nombre;
-    private String descripcion;
+    private String name;
+    private String description;
     private String statusUuid;
-    private String estatusNombre;
+    private String estatusName;
 }

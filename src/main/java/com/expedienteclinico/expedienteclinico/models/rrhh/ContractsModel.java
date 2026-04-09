@@ -4,7 +4,11 @@ import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.*;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "rrhh_contracts")
@@ -18,8 +22,9 @@ public class ContractsModel {
     @Column(name = "id_contract", nullable = false)
     private Long id;
 
-    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid = java.util.UUID.randomUUID().toString();
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false, length = 36)
+    private UUID uuid = UUID.randomUUID();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_employee", nullable = false)

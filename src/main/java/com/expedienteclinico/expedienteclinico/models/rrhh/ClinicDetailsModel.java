@@ -4,6 +4,10 @@ import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import lombok.*;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "rrhh_clinic_details")
@@ -19,8 +23,9 @@ public class ClinicDetailsModel {
     @Column(name = "id_clinic_details", nullable = false)
     private Long id;
 
-    @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid = java.util.UUID.randomUUID().toString();
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false, length = 36)
+    private UUID uuid = UUID.randomUUID();
 
     @OneToOne
     @JoinColumn(name = "id_employee", unique = true, nullable = false)

@@ -3,6 +3,7 @@ package com.expedienteclinico.expedienteclinico.beans.rrhh;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -17,8 +18,8 @@ public class EmployeesObject {
 
     private String curp;
     private String rfc;
-    private String datebirth;
-    private String datereg;
+    private LocalDate datebirth;
+    private LocalDate datereg;
     private String gender;
 
     private Long positionId;

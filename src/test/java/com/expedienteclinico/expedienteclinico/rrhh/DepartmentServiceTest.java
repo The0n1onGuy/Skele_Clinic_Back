@@ -60,7 +60,7 @@ public class DepartmentServiceTest {
         assertNotNull(dto);
         assertEquals("Sistemas", dto.getName());
         assertEquals("Active", dto.getStatusName());
-        assertEquals(deptoModel.getUuid(), dto.getUuid());
+        assertEquals(deptoModel.getUuid().toString(), dto.getUuid());
     }
 
     @Test

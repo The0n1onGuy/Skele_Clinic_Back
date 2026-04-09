@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/rrhh/contract")
+// @CrossOrigin(origins = "*")
+@RequestMapping("/api/his/v1/rrhh/contract")
 public class ContractsController {
     @Autowired
     ContractsService contractsService;

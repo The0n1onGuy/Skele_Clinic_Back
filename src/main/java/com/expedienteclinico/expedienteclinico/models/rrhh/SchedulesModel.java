@@ -3,6 +3,8 @@ package com.expedienteclinico.expedienteclinico.models.rrhh;
 import com.expedienteclinico.expedienteclinico.models.system.StatusModel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,6 +18,9 @@ import java.util.UUID;
 @Setter
 public class SchedulesModel {
 
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false, length = 36)
+    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

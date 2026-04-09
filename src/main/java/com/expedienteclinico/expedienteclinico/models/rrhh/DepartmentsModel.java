@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.util.UUID;
 
 @Entity
@@ -14,6 +17,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class DepartmentsModel {
+
+    /*@Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID uuid;*/
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false, length = 36)
+    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

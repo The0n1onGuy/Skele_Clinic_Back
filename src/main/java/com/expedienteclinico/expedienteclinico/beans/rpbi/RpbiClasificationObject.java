@@ -4,9 +4,9 @@ import lombok.Data;
 @Data
 public class RpbiClasificationObject {
     private String uuid;
-    private String nombre;
-    private String descripcion;
-    private String codigoColor;
+    private String name;
+    private String description;
+    private String colorCode;
     private String statusUuid;
-    private String estatusNombre;
+    private String estatusName;
 }

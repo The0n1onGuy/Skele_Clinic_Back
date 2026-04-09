@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/rrhh/clinic-details")
+// @CrossOrigin(origins = "*")
+@RequestMapping("/api/his/v1/rrhh/clinic-details")
 public class ClinicDetailsController {
     @Autowired
     ClinicDetailsService clinicDetailsService;

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.util.UUID;
 
 @Entity
@@ -16,6 +19,9 @@ import java.util.UUID;
 @Setter
 public class PositionsModel {
 
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false, length = 36)
+    private UUID uuid = UUID.randomUUID();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +33,7 @@ public class PositionsModel {
 
     @Column(length = 100, nullable = false)
     private String name;
-    @Column(columnDefinition = "VARCHAR(MAX)", nullable = true)
+    @Column(columnDefinition = "TEXT", nullable = true)
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
