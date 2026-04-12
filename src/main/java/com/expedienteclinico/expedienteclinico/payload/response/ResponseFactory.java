@@ -28,6 +28,18 @@ public class ResponseFactory {
         return response;
 
     }
+    /**
+     * Sobrecarga para manejar errores de seguridad o lógica de negocio (Sin BindingResult).
+     * Mantiene el contrato de devolver una lista bajo la llave "errors".
+     */
+    public static Map<String, Object> getErrorResponse(String errorMessage) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<String> lsErrors = java.util.Collections.singletonList(errorMessage);
+
+        response.put("errors", lsErrors);
+        return response;
+    }
 
     public static Map<String, Object> getNotFoundResponse(Object object) {
 

@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/rpbi/clasifications") // ruta base del módulo
-// @CrossOrigin( origins = "*" , maxAge = 3600 ) // Para pruebas (?) xd
+@RequestMapping("/api/his/v1/rpbi/clasifications") // ruta base del módulo
+// // @CrossOrigin( origins = "*" , maxAge = 3600 ) // Para pruebas (?) xd
 public class RpbiClasificationController {
 
     @Autowired

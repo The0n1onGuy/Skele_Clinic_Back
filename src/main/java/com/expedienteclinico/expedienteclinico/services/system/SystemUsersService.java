@@ -24,6 +24,9 @@ public class SystemUsersService {
     public SystemUsersModel createSystemUsers(SystemUsersRequestObject requestObject, SystemRolesModel assignedRole){
 
         SystemUsersModel sysUser = new SystemUsersModel();
+
+        sysUser.setTenantId("his_master");
+
         sysUser.setUserName(requestObject.getUserName());
 
         // Hashing obligatorio de la contraseña antes de persistir

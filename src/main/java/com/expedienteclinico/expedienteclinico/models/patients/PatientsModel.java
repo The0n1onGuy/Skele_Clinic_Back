@@ -3,6 +3,9 @@ package com.expedienteclinico.expedienteclinico.models.patients;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +19,7 @@ import java.util.UUID;
 
 public class PatientsModel {
     @Id
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     private UUID id;  // ← CAMBIO: Long → UUID
@@ -37,6 +41,15 @@ public class PatientsModel {
     private String email;
     private String direccion;
     private String tipoSangre;
+    // CAMPOS AÑADIDOS PARA ALINEACIÓN CLÍNICA
+    @Column(name = "contacto_emergencia")
+    private String contactoEmergencia;
+
+    @Column(name = "alergias", columnDefinition = "TEXT")
+    private String alergias;
+
+    @Column(name = "enfermedades_cronicas", columnDefinition = "TEXT")
+    private String enfermedadesCronicas;
 
     // Relación con el Historial (Uno a muchos)
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

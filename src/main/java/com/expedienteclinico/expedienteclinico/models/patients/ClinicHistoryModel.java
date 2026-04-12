@@ -2,6 +2,9 @@ package com.expedienteclinico.expedienteclinico.models.patients;
 
 import lombok.Data;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,6 +13,7 @@ import java.util.UUID;
 @Data
 public class ClinicHistoryModel {
     @Id
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     private UUID id;  // ← CAMBIO: Long → UUID

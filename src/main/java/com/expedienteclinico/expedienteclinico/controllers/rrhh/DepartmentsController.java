@@ -14,8 +14,8 @@ import java.util.Map;
 //@RequestMapping("${RESTL}departments/")
 // ESTA ES LA VERSION SIN EL V.E.
 // @RequestMapping("/rrhh/departments/")
-@RequestMapping("/api/rrhh/departments")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/his/v1/rrhh/departments")
+// @CrossOrigin(origins = "*")
 public class DepartmentsController {
     @Autowired
     DepartmentsService departmentService;

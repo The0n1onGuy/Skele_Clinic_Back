@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.util.UUID;
 
 @Entity
@@ -15,7 +18,8 @@ import java.util.UUID;
 @Setter
 public class EmployeesModel {
 
-    @Column(updatable = false, nullable = false, columnDefinition = "UNIQUEIDENTIFIER")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(updatable = false, nullable = false, length = 36)
     private UUID uuid = UUID.randomUUID();
 
     @Id
@@ -38,11 +42,12 @@ public class EmployeesModel {
     @Column(nullable = false)
     private String rfc;
 
-    @Column(nullable = false)
-    private String datebirth;
+    // CORRECCIÓN: Tipado estricto de fechas
+    @Column(name = "datebirth", nullable = false)
+    private java.time.LocalDate datebirth;
 
-    @Column(nullable = false)
-    private String datereg;
+    @Column(name = "datereg", nullable = false)
+    private java.time.LocalDate datereg;
 
     @Column(nullable = false)
     private String gender;

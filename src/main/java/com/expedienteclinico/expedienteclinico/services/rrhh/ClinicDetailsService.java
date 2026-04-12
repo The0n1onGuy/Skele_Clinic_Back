@@ -33,7 +33,7 @@ public class ClinicDetailsService {
     public ClinicDetailsObject convertToDTO(ClinicDetailsModel model) {
         ClinicDetailsObject dto = new ClinicDetailsObject();
         dto.setId(model.getId());
-        dto.setUuid(model.getUuid());
+        dto.setUuid(model.getUuid().toString());
 
         if (model.getEmployee() != null) {
             dto.setEmployeeId(model.getEmployee().getId());

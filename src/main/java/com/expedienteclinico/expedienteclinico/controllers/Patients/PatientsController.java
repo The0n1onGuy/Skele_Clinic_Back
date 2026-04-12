@@ -12,9 +12,9 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
+// @CrossOrigin( origins = "http://localhost:3000" , maxAge = 3600 )
 @RestController
-@RequestMapping( "/patients-controller/" )
+@RequestMapping( "/api/his/v1/patients/" )
 public class PatientsController {
 
     @Autowired
@@ -37,10 +37,9 @@ public class PatientsController {
     }
 
     @PostMapping("new")
-    public Object nuevo(@Valid @RequestBody PatientsBean patientsBean) {
-        return patientsService.nuevo(patientsBean);
+    public ResponseEntity<?> nuevo(@Valid @RequestBody PatientsBean patientsBean) {
+        return (ResponseEntity<?>) patientsService.nuevo(patientsBean);
     }
-
     @GetMapping("all")
     public List<PatientsBean> getAll() { // Cambiado a PatientsBean
         return patientsService.getAllPatients();

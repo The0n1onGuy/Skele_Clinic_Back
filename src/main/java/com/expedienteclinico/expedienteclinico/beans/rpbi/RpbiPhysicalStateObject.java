@@ -4,8 +4,8 @@ import lombok.Data;
 @Data
 public class RpbiPhysicalStateObject {
     private String uuid;
-    private String nombre;
-    private String unidadMedida;
+    private String name;
+    private String measureUnit;
     private String statusUuid;
-    private String estatusNombre;
+    private String estatusName;
 }

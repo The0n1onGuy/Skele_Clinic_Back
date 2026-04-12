@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/rrhh/schedules/")
+// @CrossOrigin(origins = "*")
+@RequestMapping("/api/his/v1/rrhh/schedules/")
 public class
 SchedulesController {
     @Autowired
