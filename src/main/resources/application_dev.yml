@@ -13,7 +13,7 @@ spring:
     show-sql: true
     hibernate:
       # CRÍTICO: Debe cambiar a 'none' cuando se integre Flyway
-      ddl-auto: none
+      ddl-auto: update
 
 
   h2:

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/warehouse/categories")
+@RequestMapping("/api/his/v1/almacen/categories")
 @Tag(name = "Warehouse: Categorías", description = "Category management of articles for Pharmacy, Clinic and Equipment")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class CategoryController {
 
     @Autowired
