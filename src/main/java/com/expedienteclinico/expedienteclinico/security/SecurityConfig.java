@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**", "/error").permitAll() // Login abierto
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger abierto
                         // RBAC estricto:
+                        .requestMatchers("/api/master/tenants/**").hasAnyRole("MASTER")
                         .requestMatchers("/api/his/v1/rpbi/**").hasAnyRole("ADMIN", "RPBI")
                         .requestMatchers("/api/his/v1/rrhh/**").hasAnyRole("ADMIN", "RRHH")
                         .requestMatchers("/api/his/v1/patients/**").hasAnyRole("ADMIN", "PATIENTS")

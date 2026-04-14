@@ -40,6 +40,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
                 .orElseThrow(() -> new IllegalStateException("Error crítico: Estatus Activo no encontrado. Verifica SystemDataLoader."));
 
         // 1. Sembrar Roles
+        SystemRolesModel masterRole = resolveRole("ROLE_MASTER", activeStatus);
         SystemRolesModel adminRole = resolveRole("ROLE_ADMIN", activeStatus);
         SystemRolesModel rpbiRole = resolveRole("ROLE_RPBI", activeStatus);
         SystemRolesModel rrhhRole = resolveRole("ROLE_RRHH", activeStatus);
@@ -53,21 +54,16 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         SystemRolesModel devRole = resolveRole("ROLE_DEVELOPMENT", activeStatus);
 
         // 2. Sembrar Usuarios (Cambiando "password123" por contraseñas seguras según sus políticas)
-        resolveUser("admin_lex", "Admin$Secure2026", adminRole, activeStatus, "hospital_prueba"); // Profe Alexander
-        resolveUser("gestor_rpbi", "Darikson$Secure2026", rpbiRole, activeStatus, "hospital_prueba"); // Darikson
-        resolveUser("gestor_rrhh", "Olan$Secure2026", rrhhRole, activeStatus, "hospital_prueba"); // Olan
-        resolveUser("gestor_patients", "Natalia$Secure2026", patientsRole, activeStatus, "hospital_prueba"); // Natalia
-        resolveUser("gestor_emergencias", "Giselle$Secure2026", emergenciasRole, activeStatus, "hospital_prueba"); // Giselle
-        resolveUser("gestor_morgue", "Eduardo$Secure2026", morgueRole, activeStatus, "hospital_prueba"); // Eduardo
-        resolveUser("gestor_lyr", "Julio$Secure2026", lyrRole, activeStatus, "hospital_prueba"); // Julio
-        resolveUser("gestor_appointments", "Jose$Secure2026", appointmentsRole, activeStatus, "hospital_prueba"); // Jose
-        resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "hospital_prueba"); // Jesus
-        resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "hospital_prueba"); // Katia
-
-        // 2. INYECCIÓN DE CLIENTES (TENANTS DE PRUEBA)
-        // Al crear estos usuarios, registramos formalmente la existencia de los hospitales en el Directorio Maestro
-        resolveUser("admin_aurora", "Aurora123!", adminRole, activeStatus, "hospital_aurora");
-        resolveUser("admin_general", "General123!", adminRole, activeStatus, "hospital_general");
+        resolveUser("admin_lex", "Admin$Secure2026", masterRole, activeStatus, "his_master"); // Profe Alexander
+        resolveUser("gestor_rpbi", "Darikson$Secure2026", masterRole, activeStatus, "his_master"); // Darikson
+        resolveUser("gestor_rrhh", "Olan$Secure2026", rrhhRole, activeStatus, "his_master"); // Olan
+        resolveUser("gestor_patients", "Natalia$Secure2026", patientsRole, activeStatus, "his_master"); // Natalia
+        resolveUser("gestor_emergencias", "Giselle$Secure2026", emergenciasRole, activeStatus, "his_master"); // Giselle
+        resolveUser("gestor_morgue", "Eduardo$Secure2026", morgueRole, activeStatus, "his_master"); // Eduardo
+        resolveUser("gestor_lyr", "Julio$Secure2026", lyrRole, activeStatus, "his_master"); // Julio
+        resolveUser("gestor_appointments", "Jose$Secure2026", appointmentsRole, activeStatus, "his_master"); // Jose
+        resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "his_master"); // Jesus
+        resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "his_master"); // Katia
 
         } catch (Exception e) {
             log.error("Error cargando datos semilla", e);

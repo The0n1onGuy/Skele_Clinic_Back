@@ -15,7 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+// @Component
 @Profile("dev")
 @Order(5)
 public class PatientsDataLoader implements ApplicationRunner {
