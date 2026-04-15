@@ -29,7 +29,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // Busca el token
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   // Revisa si la ruta a la que quiere ir tiene la etiqueta 'requiresAuth'
   const requiereAutenticacion = to.matched.some(record => record.meta.requiresAuth);

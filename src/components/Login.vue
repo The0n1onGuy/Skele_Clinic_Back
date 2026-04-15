@@ -64,7 +64,7 @@ const hacerLogin = async () => {
     });
 
     const token = respuesta.data.token || respuesta.data.data.token;
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
     router.push('/');
   } catch (error) {
     console.error("Error en login:", error);

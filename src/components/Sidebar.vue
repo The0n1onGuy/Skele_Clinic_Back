@@ -46,7 +46,7 @@ const router = useRouter();
 
 // Función para destruir el token y sacar al usuario del sistema
 const cerrarSesion = () => {
-  localStorage.removeItem('token');
+  sessionStorage.removeItem('token');
   router.push('/login');
 };
 </script>
