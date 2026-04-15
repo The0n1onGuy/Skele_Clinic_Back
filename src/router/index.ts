@@ -15,13 +15,12 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: AppointmentsList,
-      // Etiquetamos esta ruta como "Privada"
       meta: { requiresAuth: true }
     },
     {
       path: '/rrhh',
       name: 'rrhh',
-      component: DepartmentList, // Aquí se cargará tu tabla de departamentos
+      component: DepartmentList,
       meta: { requiresAuth: true }
     }
     // Al crear las rutas de Pacientes o RRHH, también poner meta: { requiresAuth: true }

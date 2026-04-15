@@ -61,8 +61,16 @@ const filterStatus = ref('ACTIVE');
 const fetchDepartments = async () => {
   loading.value = true;
   try {
-    const response = await api.get('/rrhh/departments/all');
-    departments.value = response.data.data;
+    const url = api.buildUrl('/rrhh/departments/all', 'rrhh');
+    //const response = await api.get('/rrhh/departments/all');
+    /*const response = await api.get('', {
+      params: { action: 'rrhh' }
+    });
+    */
+    const response = await api.get(url, {
+      params: { action: 'rrhh' } // PHP lo usa, Spring lo ignora
+    });
+    departments.value = response.data.data || response.data;
   } catch (error) {
     console.error("Error al obtener departamentos:", error);
   } finally {

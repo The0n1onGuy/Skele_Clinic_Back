@@ -36,6 +36,7 @@ export default defineConfig({
       // Le decimos a Vite: Todo lo que empiece con /api, mándalo al puerto 2026
       '/api': {
         target: 'http://localhost:2026',
+        //target: 'http://localhost:8000/index.php',
         changeOrigin: true,
         secure: false,
       }

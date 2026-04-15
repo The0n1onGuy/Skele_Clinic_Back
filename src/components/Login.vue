@@ -53,8 +53,17 @@ const credenciales = ref({
 const hacerLogin = async () => {
   errorMsg.value = ''; // Limpiamos errores previos
   try {
-    const respuesta = await api.post('/auth/login', credenciales.value);
-    const token = respuesta.data.token;
+    const url = api.buildUrl('/auth/login', 'auth');
+    //const respuesta = await api.post('/auth/login', credenciales.value);
+    /* const respuesta = await api.post('', credenciales.value, {
+      params: { action: 'auth' }
+    });
+    */
+    const respuesta = await api.post(url, credenciales.value, {
+      params: { action: 'auth' } // PHP lo usa, Spring lo ignora
+    });
+
+    const token = respuesta.data.token || respuesta.data.data.token;
     localStorage.setItem('token', token);
     router.push('/');
   } catch (error) {
