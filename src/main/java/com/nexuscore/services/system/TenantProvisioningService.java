@@ -1,6 +1,7 @@
-package com.expedienteclinico.expedienteclinico.services.system;
+package com.nexuscore.services.system;
 
-import com.expedienteclinico.expedienteclinico.security.TenantContext;
+import com.nexuscore.beans.system.TenantProvisioningRequestObject;
+import jakarta.validation.Valid;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.expedienteclinico.expedienteclinico.beans.system.TenantProvisioningRequestObject;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.Statement;

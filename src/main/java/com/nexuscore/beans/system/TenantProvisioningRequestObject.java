@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.beans.system;
+package com.nexuscore.beans.system;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

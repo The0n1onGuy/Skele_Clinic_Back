@@ -1,7 +1,7 @@
-package com.expedienteclinico.expedienteclinico.controllers.system;
+package com.nexuscore.controllers.system;
 
-import com.expedienteclinico.expedienteclinico.beans.system.TenantProvisioningRequestObject;
-import com.expedienteclinico.expedienteclinico.services.system.TenantProvisioningService;
+import com.nexuscore.beans.system.TenantProvisioningRequestObject;
+import com.nexuscore.services.system.TenantProvisioningService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
