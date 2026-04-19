@@ -8,6 +8,6 @@ import java.util.Optional;
 @Repository
 public interface IEmployeesRepository extends JpaRepository<EmployeesModel, Long> {
     boolean existsByNameIgnoreCase(String name);
-
     Optional<EmployeesModel> findByNameIgnoreCase(String name);
+    boolean existsBycurp(String curp);
 }

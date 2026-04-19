@@ -1,5 +1,6 @@
 package com.nexuscore.controllers.rrhh;
 
+import com.nexuscore.beans.rrhh.EmployeeRequestObject;
 import com.nexuscore.beans.rrhh.EmployeesObject;
 import com.nexuscore.payload.response.ResponseFactory;
 import com.nexuscore.services.rrhh.EmployeesService;
@@ -25,9 +26,9 @@ public class EmployeesController {
 
     }
 
-    @PostMapping("/post")
-    public ResponseEntity<Map<String, Object>> create(@RequestBody EmployeesObject emploDto) {
-        EmployeesObject newEmployee = employeesService.saveInfo(emploDto);
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, Object>> create(@RequestBody EmployeeRequestObject emploDto) {
+        EmployeesObject newEmployee = employeesService.createEmployeeRequest(emploDto);
         return new ResponseEntity<>(
                 ResponseFactory.getCreatedResponse("Empleado registrado con éxito", newEmployee),
                 HttpStatus.CREATED

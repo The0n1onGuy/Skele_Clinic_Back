@@ -1,5 +1,6 @@
 package com.nexuscore.services.rrhh;
 
+import com.nexuscore.beans.rrhh.EmployeeRequestObject;
 import com.nexuscore.beans.rrhh.EmployeesObject;
 import com.nexuscore.models.rrhh.DepartmentsModel;
 import com.nexuscore.models.rrhh.EmployeesModel;
@@ -16,17 +17,13 @@ import java.util.List;
 
 @Service
 public class EmployeesService {
-    @Autowired
-    IEmployeesRepository employeesRepository;
+    @Autowired IEmployeesRepository employeesRepository;
 
-    @Autowired
-    IDepartmentsRepository departmentsRepository;
+    @Autowired IDepartmentsRepository departmentsRepository;
 
-    @Autowired
-    IPositionsRepository positionsRepository;
+    @Autowired IPositionsRepository positionsRepository;
 
-    @Autowired
-    IStatusRepository statusRepo;
+    @Autowired IStatusRepository statusRepo;
 
     //Filtro por nombre del estado
     private StatusModel getStatusByName(String statusName) {
@@ -41,8 +38,6 @@ public class EmployeesService {
         dto.setName(model.getName());
         dto.setPatname(model.getPatname());
         dto.setMatname(model.getMatname());
-
-        dto.setFullName(String.format("%s %s %s", model.getName(), model.getPatname(), model.getMatname()));
 
         dto.setCurp(model.getCurp());
         dto.setRfc(model.getRfc());
@@ -72,36 +67,85 @@ public class EmployeesService {
                 .toList();
     }
 
-    public EmployeesObject saveInfo(EmployeesObject dto) {
-        if (employeesRepository.existsByNameIgnoreCase(dto.getName())) {
-            throw new RuntimeException("Error: Ya existe este empleado '" + dto.getName() + "'.");
+    public EmployeesObject createEmployeeRequest(EmployeeRequestObject request) {
+        // 1. Uniqueness check (Security layer)
+        if (employeesRepository.existsBycurp(request.getCurp())) {
+            throw new RuntimeException("Security Error: An employee with CURP " + request.getCurp() + " already exists.");
         }
 
-        EmployeesModel model = new EmployeesModel();
-        //Nombre de la persona, atomizado
-        model.setName(dto.getName());
-        model.setPatname(dto.getPatname());
-        model.setMatname(dto.getMatname());
+        // 2. Internal Verification: Convert Text to Objects (Lowercase matching)
+        DepartmentsModel dept = departmentsRepository.findByNameIgnoreCase(request.getDepartmentName().toLowerCase())
+                .orElseThrow(() -> new RuntimeException("Verification Failed: Department '" + request.getDepartmentName() + "' not found."));
 
-        //Detalles personales
-        model.setCurp(dto.getCurp());
-        model.setRfc(dto.getRfc());
-        model.setDatebirth(dto.getDatebirth());
-        model.setDatereg(dto.getDatereg());
+        PositionsModel pos = positionsRepository.findByNameIgnoreCase(request.getPositionName().toLowerCase())
+                .orElseThrow(() -> new RuntimeException("Verification Failed: Position '" + request.getPositionName() + "' not found."));
 
-        DepartmentsModel dept = departmentsRepository.findById(dto.getDepartmentId())
-                .orElseThrow(() -> new RuntimeException("Error: El departamento seleccionado no existe."));
-        PositionsModel pos = positionsRepository.findById(dto.getPositionId())
-                .orElseThrow(() -> new RuntimeException("Error: El puesto/posición seleccionada no existe."));
-        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Active")
-                .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
-        model.setId_department(dept);
-        model.setId_position(pos);
-        model.setId_status(status);
+        StatusModel activeStatus = statusRepo.findByStatusNameIgnoreCase("Active")
+                .orElseThrow(() -> new RuntimeException("System Error: Active status not configured."));
 
-        EmployeesModel saved = employeesRepository.save(model);
-        return convertToDTO(saved);
+        // 3. Map Request to the Entity Model
+        EmployeesModel newModel = new EmployeesModel();
+        newModel.setName(request.getName());
+        newModel.setPatname(request.getPatname());
+        newModel.setMatname(request.getMatname());
+        newModel.setCurp(request.getCurp());
+        newModel.setRfc(request.getRfc());
+        newModel.setDatebirth(request.getDatebirth());
+        newModel.setDatereg(request.getDatereg());
+        newModel.setGender(request.getGender());
+
+        newModel.setId_department(dept);
+        newModel.setId_position(pos);
+        newModel.setId_status(activeStatus);
+
+        // 4. Proceed to actual population
+        return createEmployee(newModel);
     }
+
+    /**
+     * Phase 2: CreateEmployee
+     * This method ACTUALLY populates the table once the info is verified.
+     */
+    public EmployeesObject createEmployee(EmployeesModel model) {
+        try {
+            EmployeesModel saved = employeesRepository.save(model);
+            return convertToDTO(saved);
+        } catch (Exception e) {
+            throw new RuntimeException("Database Error: Could not populate employee table. " + e.getMessage());
+        }
+    }
+
+//    public EmployeesObject saveInfo(EmployeesObject dto) {
+//        if (employeesRepository.existsByNameIgnoreCase(dto.getName())) {
+//            throw new RuntimeException("Error: Ya existe este empleado '" + dto.getName() + "'.");
+//        }
+//
+//        EmployeesModel model = new EmployeesModel();
+//        //Nombre de la persona
+//        model.setName(dto.getName());
+//        model.setPatname(dto.getPatname());
+//        model.setMatname(dto.getMatname());
+//
+//        //Detalles personales
+//        model.setCurp(dto.getCurp());
+//        model.setRfc(dto.getRfc());
+//        model.setDatebirth(dto.getDatebirth());
+//        model.setDatereg(dto.getDatereg());
+//
+//        DepartmentsModel dept = departmentsRepository.findById(dto.getDepartmentId())
+//                .orElseThrow(() -> new RuntimeException("Error: El departamento seleccionado no existe."));
+//        PositionsModel pos = positionsRepository.findById(dto.getPositionId())
+//                .orElseThrow(() -> new RuntimeException("Error: El puesto/posición seleccionada no existe."));
+//        StatusModel status = statusRepo.findByStatusNameIgnoreCase("Active")
+//                .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
+//        model.setId_department(dept);
+//
+//        model.setId_position(pos);
+//        model.setId_status(status);
+//
+//        EmployeesModel saved = employeesRepository.save(model);
+//        return convertToDTO(saved);
+//    }
 
     public EmployeesObject updateInfo(Long id, EmployeesObject dto) {
         return employeesRepository.findById(id).map(model -> {

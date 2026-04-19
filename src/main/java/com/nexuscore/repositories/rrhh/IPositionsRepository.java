@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface IPositionsRepository extends JpaRepository<PositionsModel, Long> {
     boolean existsByNameIgnoreCase(String name);
 
-    Optional<DepartmentsModel> findByNameIgnoreCase(String name);
+    Optional<PositionsModel> findByNameIgnoreCase(String name);
 }

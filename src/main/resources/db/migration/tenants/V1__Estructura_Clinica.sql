@@ -12,8 +12,13 @@ CREATE TABLE patient (enfermedades_cronicas varchar(255) ,contacto_emergencia va
 -- FASE 2: TABLAS DEPENDIENTES (Nivel 1 - Solo dependen de la tabla status u otra Nivel 0)
 -- ==================================================================================================
 CREATE TABLE audit_logs (id_log bigint AUTO_INCREMENT not null, id_status bigint not null, concept_audit varchar(255) not null, date_ocurrence varchar(255) not null, user_blamed varchar(255) not null, primary key (id_log));
+
+CREATE TABLE http_status_codes (id bigint AUTO_INCREMENT not null, code int not null unique,name varchar(255) not null,description varchar(255) not null , primary key (id));
+
 CREATE TABLE appointments (fecha_hora_fin DATETIME(6), fecha_hora_inicio DATETIME(6), id VARCHAR(36) not null, patient_id VARCHAR(36), consultorio varchar(255), estado varchar(255) check ((estado in ('PENDIENTE','CONFIRMADA','CANCELADA','COMPLETADA'))), primary key (id));
-CREATE TABLE cleaning_supplies_model (current_stock int, stock_min int, id_supplies bigint AUTO_INCREMENT not null, status_id bigint not null, name varchar(100) not null, expiration_date varchar(255), unit_measurement varchar(255), primary key (id_supplies));
+
+CREATE TABLE cat_cleaning_supplies (currentStock int,uuid varchar(36) not null, stockMin int, supplies_id bigint AUTO_INCREMENT not null, status_id bigint not null, name varchar(100) not null, expirationDate varchar(255), unitMeasurement varchar(255), primary key (supplies_id));
+
 CREATE TABLE clinic_history (fecha_registro DATETIME(6) not null, id VARCHAR(36) not null, patient_id VARCHAR(36) not null, motivo_consulta varchar(2000), padecimiento_actual varchar(5000), diagnostico_preliminar varchar(255), primary key (id));
 CREATE TABLE lyr_employees_model (telefono int, id_empleado bigint not null, status_id bigint not null, apellido varchar(255), area varchar(255), nombre varchar(255), turno varchar(255), primary key (id_empleado));
 CREATE TABLE morgue (numero_gaveta int, id bigint not null, id_paciente bigint, id_paciente_local bigint, id_status bigint not null, causa_defuncion varchar(255), fecha_ingreso varchar(255), nombre_paciente_simulado varchar(255), primary key (id));
@@ -64,7 +69,8 @@ alter table rrhh_contracts add constraint UK7vjpnyclxwrqot91pbxwu73dc unique (uu
 alter table audit_logs add constraint FK_audit_status foreign key (id_status) references status (id_status);
 
 alter table appointments add constraint FKcl9b1a19a01yhjcdibna1gjl foreign key (patient_id) references patient (id);
-alter table cleaning_supplies_model add constraint FKmdq084nnceaw7lcryg4fv4mwf foreign key (status_id) references status (id_status);
+alter table cat_cleaning_supplies add constraint FKmdq084nnceaw7lcryg4fv4mwf foreign key (status_id) references status (id_status);
+alter table cat_cleaning_supplies add constraint UK_cleaning_supplies_uuid unique (uuid);
 alter table clinic_history add constraint FK4ndp40tr0671esw3ainxj6sy8 foreign key (patient_id) references patient (id);
 alter table lyr_employees_model add constraint FKfp03rf61nclx11mrbxb19jn31 foreign key (status_id) references status (id_status);
 alter table morgue add constraint FKnt6w6felfnxfjhm0m4vohohx6 foreign key (id_status) references status (id_status);
@@ -92,7 +98,7 @@ alter table rrhh_positions add constraint FK13dxlbf5ik6swv54jmcb65val foreign ke
 alter table rrhh_schedules add constraint FK2deacoa7jgaepv77goof68kxn foreign key (id_employee) references rrhh_employees (id_employee);
 alter table rrhh_schedules add constraint FKivave5g2wewbw8lg5b38pa0nh foreign key (id_status) references status (id_status);
 alter table supplies_movements_model add constraint FK47h1y77iql9em1b0paf5tgey3 foreign key (employees_id) references lyr_employees_model (id_empleado);
-alter table supplies_movements_model add constraint FK6mtujppgykd6g0rp8ahjve061 foreign key (supplies_id) references cleaning_supplies_model (id_supplies);
+alter table supplies_movements_model add constraint FK6mtujppgykd6g0rp8ahjve061 foreign key (supplies_id) references cat_cleaning_supplies (supplies_id);
 alter table textile_articles_model add constraint FKfa1ewycoree4s3h1i2jfh8tms foreign key (status_id) references status (id_status);
 alter table textile_movements_model add constraint FK8q7u5608r8pqnsk24c94kqa90 foreign key (empleado_id) references lyr_employees_model (id_empleado);
 alter table textile_movements_model add constraint FKmqwkcu4cc10lhpog79ctb08b3 foreign key (articulo_id) references textile_articles_model (id_articles);
@@ -119,4 +125,7 @@ INSERT INTO rrhh_departments (id_status, uuid, name) VALUES (1, UUID(), 'Medicin
 INSERT INTO rrhh_positions (id_status, uuid, name, description) VALUES (1, UUID(), 'Médico Titular', 'Médico responsable de área');
 
 -- 4. INVENTARIO / LIMPIEZA
-INSERT INTO cleaning_supplies_model (status_id, name, expiration_date, unit_measurement, stock_min, current_stock) VALUES (1, 'Cloro', '10/12/2028', 'ml', 20, 50);
+INSERT INTO cat_cleaning_supplies (status_id, uuid, name, expiration_date, unit_measurement, stock_min, current_stock)
+VALUES (1, UUID(), 'Cloro', '10/12/2028', 'ml', 20, 50);
+
+INSERT INTO http_status_codes(id, code, name, description) VALUES (200, "OK", "Solicitud exitosa");

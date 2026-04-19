@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="com.nexuscore" />
+        <module name="com.expedientemedico" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="com.expedientemedico" options="-parameters" />
       <module name="com.nexuscore" options="-parameters" />
       <module name="expedienteclinico" options="-parameters" />
       <module name="mvw-osd-cyclops-api-server-v2" options="-parameters" />
