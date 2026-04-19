@@ -7,13 +7,16 @@ CREATE TABLE citas (fecha date, hora time, id bigint AUTO_INCREMENT NOT NULL, es
 CREATE TABLE doctor_model (id bigint not null, apellido varchar(255), nombre varchar(255), primary key (id));
 CREATE TABLE patient (enfermedades_cronicas varchar(255) ,contacto_emergencia varchar(255),alergias varchar(255), fecha_nacimiento date, id VARCHAR(36) not null, apellidos varchar(255) not null, curp varchar(255) not null, direccion varchar(255), email varchar(255), genero varchar(255), nombre varchar(255) not null, telefono varchar(255), tipo_sangre varchar(255), primary key (id));
 
-
+CREATE TABLE http_status_codes (
+                                   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                   code INT NOT NULL UNIQUE,
+                                   name VARCHAR(50) NOT NULL,
+                                   description VARCHAR(255)
+);
 -- ==================================================================================================
 -- FASE 2: TABLAS DEPENDIENTES (Nivel 1 - Solo dependen de la tabla status u otra Nivel 0)
 -- ==================================================================================================
 CREATE TABLE audit_logs (id_log bigint AUTO_INCREMENT not null, id_status bigint not null, concept_audit varchar(255) not null, date_ocurrence varchar(255) not null, user_blamed varchar(255) not null, primary key (id_log));
-
-CREATE TABLE http_status_codes (id bigint AUTO_INCREMENT not null, code int not null unique,name varchar(255) not null,description varchar(255) not null , primary key (id));
 
 CREATE TABLE appointments (fecha_hora_fin DATETIME(6), fecha_hora_inicio DATETIME(6), id VARCHAR(36) not null, patient_id VARCHAR(36), consultorio varchar(255), estado varchar(255) check ((estado in ('PENDIENTE','CONFIRMADA','CANCELADA','COMPLETADA'))), primary key (id));
 
@@ -107,13 +110,18 @@ alter table triages add constraint FKpmr4nldkp9t4aetyrbls8jvs3 foreign key (pati
 -- FASE 6: INYECCIÓN DE CATÁLOGOS BASE (Orden Topológico Estricto)
 -- ==================================================================================================
 
--- 1. Primero nacen los Estados (Para satisfacer las llaves foráneas de todo el sistema)
+-- 1. Primero nacen los Estados y códigos http (Para satisfacer las llaves foráneas y operaciones del sistema)
 INSERT INTO status (id_status, uuid, name) VALUES (1, 'C2A1B3A0-3E12-4C10-8A51-1A2B3C4D5E60', 'Active');
 INSERT INTO status (id_status, uuid, name) VALUES (2, 'D4B2C4B1-4F23-5D21-9B62-2B3C4D5E6F71', 'Inactive');
 INSERT INTO status (id_status, uuid, name) VALUES (3, 'E5C3D5C2-5034-6E32-AC73-3C4D5E6F7082', 'Edited');
 INSERT INTO status (id_status, uuid, name) VALUES (4, 'F6D4E6D3-6145-7F43-BD84-4D5E6F708193', 'Deleted');
 INSERT INTO status (id_status, uuid, name) VALUES (5, '07E5F7E4-7256-8054-CE95-5E6F708192A4', 'Added');
 
+INSERT INTO http_status_codes (code, name, description) VALUES (200, 'OK', 'Petición procesada correctamente');
+INSERT INTO http_status_codes (code, name, description) VALUES (201, 'Created', 'Recurso aprovisionado o creado con éxito');
+INSERT INTO http_status_codes (code, name, description) VALUES (400, 'Bad Request', 'Estructura de la petición inválida o datos faltantes');
+INSERT INTO http_status_codes (code, name, description) VALUES (403, 'Forbidden', 'Acceso denegado o módulo inhabilitado');
+INSERT INTO http_status_codes (code, name, description) VALUES (500, 'Internal Server Error', 'Fallo crítico en el procesamiento del servidor');
 -- 2. DICCIONARIOS CLÍNICOS (RPBI) - Ya pueden referenciar al status 1
 INSERT INTO rpbi_cat_clasification (status_id, uuid, name, description) VALUES (1, '11111111-1111-1111-1111-111111111111', 'Punzocortantes', 'Agujas de jeringas, hojas de bisturí...');
 INSERT INTO rpbi_cat_phyisical_state (status_id, measure_unit, uuid, name) VALUES (1, 'Kilogramos', '22222222-2222-2222-2222-222222222222', 'Sólido');
@@ -125,7 +133,5 @@ INSERT INTO rrhh_departments (id_status, uuid, name) VALUES (1, UUID(), 'Medicin
 INSERT INTO rrhh_positions (id_status, uuid, name, description) VALUES (1, UUID(), 'Médico Titular', 'Médico responsable de área');
 
 -- 4. INVENTARIO / LIMPIEZA
-INSERT INTO cat_cleaning_supplies (status_id, uuid, name, expiration_date, unit_measurement, stock_min, current_stock)
+INSERT INTO cat_cleaning_supplies (status_id, uuid, name, expirationdate, unitmeasurement, stockmin, currentstock)
 VALUES (1, UUID(), 'Cloro', '10/12/2028', 'ml', 20, 50);
-
-INSERT INTO http_status_codes(id, code, name, description) VALUES (200, "OK", "Solicitud exitosa");
