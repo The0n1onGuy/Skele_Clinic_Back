@@ -1,0 +1,7 @@
+spring:
+  flyway:
+    enabled: false  # Esto evita que Flyway intente buscar esquemas inexistentes
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # Crea las tablas básicas en H2 para que el contexto inicie
+    show-sql: true

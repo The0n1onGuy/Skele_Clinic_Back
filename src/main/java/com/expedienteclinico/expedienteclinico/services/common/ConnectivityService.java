@@ -1,9 +1,12 @@
 package com.expedienteclinico.expedienteclinico.services.common;
 
+import com.expedienteclinico.expedienteclinico.models.common.HealthModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.net.InetAddress;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,6 +14,10 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 @Service
 public class ConnectivityService {
+
+    @Autowired
+    private DataSource dataSource;
+
     // Usamos el DNS de Google (8.8.8.8) o Cloudflare (1.1.1.1) para probar internet real
     private static final String TEST_HOST = "8.8.8.8";
     private static final int TIMEOUT_MS = 2000;
@@ -48,16 +55,43 @@ public class ConnectivityService {
         return report;
     }
 
-    @Autowired
-    private DataSource dataSource;
 
-    public boolean isDatabaseConnected() {
-        try(Connection connection = dataSource.getConnection()){
-            //Ejecutamos una consulta para estar seguros
-            return connection.isValid(2);
-        } catch (Exception e){
-            return false;
+    // Metod para checar la BB DD
+    public String checkDatabase() {
+        try (Connection conn = dataSource.getConnection()) {
+            return conn.isValid(2) ? "Connected" : "Disconnected";
+        } catch (SQLException e) {
+            return "Disconnected";
         }
+    }
+
+    // Metod principal que genera el reporte con el nuevo modelo
+    public HealthModel getSystemHealth() {
+        String dbStatus = checkDatabase();
+
+        // Usamos la logica de internet
+        boolean internetUp;
+        long latency;
+        try {
+            long start = System.currentTimeMillis();
+            internetUp = InetAddress.getByName(TEST_HOST).isReachable(2000);
+            latency = System.currentTimeMillis() - start;
+        } catch (Exception e) {
+            internetUp = false;
+            latency = -1;
+        }
+
+        String internetState = !internetUp ? "Offline" : (latency > 500 ? "Unstable" : "Stable");
+        String overallStatus = (dbStatus.equals("Connected") && internetUp) ? "UP" : "DEGRADED";
+
+        return new HealthModel(
+                overallStatus,
+                dbStatus,
+                internetState,
+                latency,
+                LocalDateTime.now(),
+                null
+        );
     }
 
 }

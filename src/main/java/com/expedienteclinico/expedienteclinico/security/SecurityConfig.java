@@ -42,7 +42,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/error").permitAll() // Login abierto
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Swagger abierto
+                        // Ahora solo usuarios con ROLE_DEVELOPMENT pueden entrar
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").hasRole("DEVELOPMENT")
                         // RBAC estricto:
                         .requestMatchers("/api/his/v1/rpbi/**").hasAnyRole("ADMIN", "RPBI")
                         .requestMatchers("/api/his/v1/rrhh/**").hasAnyRole("ADMIN", "RRHH")

@@ -8,6 +8,7 @@ import com.expedienteclinico.expedienteclinico.repositories.system.ISystemRolesR
 import com.expedienteclinico.expedienteclinico.repositories.system.ISystemUsersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import com.expedienteclinico.expedienteclinico.security.TenantContext;
 @Slf4j
 @Component
 @Order(4)
+@Profile("!test")
 public class SystemUsersDataLoader implements CommandLineRunner {
 
     private final ISystemRolesRepository rolesRepository;
@@ -53,6 +55,8 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         SystemRolesModel devRole = resolveRole("ROLE_DEVELOPMENT", activeStatus);
 
         // 2. Sembrar Usuarios (Cambiando "password123" por contraseñas seguras según sus políticas)
+
+        resolveUser("dev_team", "Devs$Expediente2026", devRole, activeStatus, "hospital_prueba"); //Swagger
         resolveUser("admin_lex", "Admin$Secure2026", adminRole, activeStatus, "hospital_prueba"); // Profe Alexander
         resolveUser("gestor_rpbi", "Darikson$Secure2026", rpbiRole, activeStatus, "hospital_prueba"); // Darikson
         resolveUser("gestor_rrhh", "Olan$Secure2026", rrhhRole, activeStatus, "hospital_prueba"); // Olan

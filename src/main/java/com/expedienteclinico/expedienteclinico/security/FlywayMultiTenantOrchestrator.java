@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Component
 @Order(1) // Garantiza prioridad máxima de ejecución
+@Profile("!test")
 public class FlywayMultiTenantOrchestrator implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(FlywayMultiTenantOrchestrator.class);

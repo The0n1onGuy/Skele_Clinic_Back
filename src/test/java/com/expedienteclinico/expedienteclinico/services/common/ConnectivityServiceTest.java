@@ -1,13 +1,17 @@
 package com.expedienteclinico.expedienteclinico.services.common;
 
+import com.expedienteclinico.expedienteclinico.models.common.HealthModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.sql.DataSource;
 import java.net.InetAddress;
+import java.sql.Connection;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +23,13 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ConnectivityServiceTest {
+
+    @Mock
+    private DataSource dataSource; // Creamos el mock del DataSource
+
+    @Mock
+    private Connection connection; // Creamos el mock de la Conexion
+
 
     @InjectMocks
     private ConnectivityService connectivityService;
@@ -84,10 +95,24 @@ class ConnectivityServiceTest {
         }
     }
 
+
     @Test
-    @DisplayName("Test de conexion con Base de Datos")
-    void testDatabaseConnectionSuccess(){
-        boolean isAlive = connectivityService.isDatabaseConnected();
-        assertTrue(isAlive, "La base de datos funoncia");
+    @DisplayName("Verificar reporte de Base de datos (DB + Internet)")
+    void testFullSystemHealthReport() throws Exception {
+        // GIVEN: Simulamos que el DataSource devuelve una conexión válida
+        when(dataSource.getConnection()).thenReturn(connection);
+        when(connection.isValid(anyInt())).thenReturn(true);
+
+        // WHEN: Ejecutamos el diagnostico
+        HealthModel report = connectivityService.getSystemHealth();
+
+        // THEN: Verificaciones
+        assertNotNull(report);
+        assertEquals("Connected", report.getDatabaseStatus());
+        assertNotNull(report.getTimestamp());
+
+        // Limpieza visual en consola
+        System.out.println("Status de la Base de Datos detectado: " + report.getDatabaseStatus());
+        System.out.println("Status de Internet detectado: " + report.getInternetStatus());
     }
 }
