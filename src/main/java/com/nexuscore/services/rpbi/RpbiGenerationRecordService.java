@@ -61,7 +61,7 @@ public class RpbiGenerationRecordService {
         record.setGenerationDate(LocalDateTime.now());
 
         // Asignación de estatus activo para el nuevo registro transaccional
-        StatusModel activeStatus = statusRepository.findById(1L)
+        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new RuntimeException("Estatus base no encontrado"));
         record.setStatus(activeStatus);
 

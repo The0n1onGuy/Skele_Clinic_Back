@@ -11,4 +11,5 @@ public interface IPositionsRepository extends JpaRepository<PositionsModel, Long
     boolean existsByNameIgnoreCase(String name);
 
     Optional<PositionsModel> findByNameIgnoreCase(String name);
+    Optional<PositionsModel> findById(Long aLong);
 }

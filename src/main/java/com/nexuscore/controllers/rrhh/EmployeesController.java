@@ -1,14 +1,18 @@
 package com.nexuscore.controllers.rrhh;
 
-import com.nexuscore.beans.rrhh.EmployeeRequestObject;
+import com.nexuscore.beans.rrhh.EmployeeOnboardingRequestObject;
+import com.nexuscore.security.JwtService;
 import com.nexuscore.beans.rrhh.EmployeesObject;
 import com.nexuscore.payload.response.ResponseFactory;
+import com.nexuscore.services.rrhh.EmployeeOnboardingService;
 import com.nexuscore.services.rrhh.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +22,10 @@ import java.util.Map;
 public class EmployeesController {
     @Autowired
     EmployeesService employeesService;
-
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    private EmployeeOnboardingService onboardingService;
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getAll() {
         List<EmployeesObject> employees_list = employeesService.getAll();
@@ -27,12 +34,24 @@ public class EmployeesController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> create(@RequestBody EmployeeRequestObject emploDto) {
-        EmployeesObject newEmployee = employeesService.createEmployeeRequest(emploDto);
-        return new ResponseEntity<>(
-                ResponseFactory.getCreatedResponse("Empleado registrado con éxito", newEmployee),
-                HttpStatus.CREATED
-        );
+    public ResponseEntity<?> onboardEmployee(
+            @Valid @RequestBody EmployeeOnboardingRequestObject request,
+            HttpServletRequest httpRequest) {
+
+        // 1. Extracción Estricta (Zero Trust)
+        String authHeader = httpRequest.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token ausente o inválido");
+        }
+
+        String token = authHeader.substring(7);
+        String currentTenantId = jwtService.extractTenant(token);
+
+        // 2. Ejecución de la Transacción Distribuida
+        onboardingService.onboardNewEmployee(request, currentTenantId);
+
+        // 3. (Opcional) Si tu ResponseFactory ya funciona, utilízalo aquí.
+        return ResponseEntity.status(HttpStatus.CREATED).body("Empleado registrado exitosamente en el sistema y en la clínica.");
     }
 
     @PutMapping("/update/{id}")
