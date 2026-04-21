@@ -35,7 +35,7 @@ public class SystemUsersService {
         sysUser.setRole(assignedRole);
 
         // Resolución estricta del estatus activo
-        StatusModel activeStatus = statusRepository.findById(1L)
+        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new IllegalStateException("Estatus base no encontrado en el sistema."));
         sysUser.setStatus(activeStatus);
 

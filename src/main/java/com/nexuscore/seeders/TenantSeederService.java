@@ -66,7 +66,7 @@ public class TenantSeederService {
             entityManager.flush(); // Asegura que el comando se ejecute de inmediato
 
             // Ahora Hibernate ya está "parado" sobre el hospital correcto.
-            StatusModel activeStatus = statusRepository.findById(1L)
+            StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
                     .orElseThrow(() -> new RuntimeException("Estatus no encontrado"));
 
             // Al usar findAll(), Hibernate ahora buscará en hospital_aurora.rrhh_departments

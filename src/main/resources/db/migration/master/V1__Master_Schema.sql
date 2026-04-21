@@ -1,6 +1,11 @@
 -- 1. TABLAS INDEPENDIENTES Y PADRES PRINCIPALES
 create table status (id_status bigint AUTO_INCREMENT not null, uuid varchar(36) not null, name varchar(255) not null, primary key (id_status));
-
+CREATE TABLE http_status_codes (
+                                   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                   code INT NOT NULL UNIQUE,
+                                   name VARCHAR(50) NOT NULL,
+                                   description VARCHAR(255)
+);
 create table system_tenants (
                                 id_tenant BIGINT AUTO_INCREMENT PRIMARY KEY,
                                 tenant_key VARCHAR(100) NOT NULL UNIQUE,
@@ -42,6 +47,11 @@ INSERT INTO status (uuid, name) VALUES ('D4B2C4B1-4F23-5D21-9B62-2B3C4D5E6F71', 
 INSERT INTO status (uuid, name) VALUES ('E5C3D5C2-5034-6E32-AC73-3C4D5E6F7082', 'Edited');
 INSERT INTO status (uuid, name) VALUES ('F6D4E6D3-6145-7F43-BD84-4D5E6F708193', 'Deleted');
 INSERT INTO status (uuid, name) VALUES ('07E5F7E4-7256-8054-CE95-5E6F708192A4', 'Added');
-
+-- 6.5. SEMBRADO DE DATOS: DICCIONARIO DE HTTP_STATUS_CODE
+INSERT INTO http_status_codes (code, name, description) VALUES (200, 'OK', 'Petición procesada correctamente');
+INSERT INTO http_status_codes (code, name, description) VALUES (201, 'Created', 'Recurso aprovisionado o creado con éxito');
+INSERT INTO http_status_codes (code, name, description) VALUES (400, 'Bad Request', 'Estructura de la petición inválida o datos faltantes');
+INSERT INTO http_status_codes (code, name, description) VALUES (403, 'Forbidden', 'Acceso denegado o módulo inhabilitado');
+INSERT INTO http_status_codes (code, name, description) VALUES (500, 'Internal Server Error', 'Fallo crítico en el procesamiento del servidor');
 -- 7. SEMBRADO DE DATOS: REGISTRO DEL INQUILINO MAESTRO
 INSERT INTO system_tenants (tenant_key, display_name, status) VALUES ('his_master', 'Sistema Central Nexus HIS', 'SYSTEM');

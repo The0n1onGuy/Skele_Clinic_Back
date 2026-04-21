@@ -36,7 +36,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
     public void run(String... args) {
         TenantContext.setCurrentTenant("his_master");
         try {
-        StatusModel activeStatus = statusRepository.findById(1L)
+        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new IllegalStateException("Error crítico: Estatus Activo no encontrado. Verifica SystemDataLoader."));
 
         // 1. Sembrar Roles
