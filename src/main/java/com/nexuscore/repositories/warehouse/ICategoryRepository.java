@@ -1,6 +1,6 @@
-package com.nexuscore.repositories.almacen;
+package com.nexuscore.repositories.warehouse;
 
-import com.nexuscore.models.almacen.CategoryModel;
+import com.nexuscore.models.warehouse.CategoryModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

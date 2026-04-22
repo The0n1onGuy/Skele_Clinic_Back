@@ -1,7 +1,7 @@
-package com.nexuscore.services.almacen;
+package com.nexuscore.services.warehouse;
 
-import com.nexuscore.models.almacen.CategoryModel;
-import com.nexuscore.repositories.almacen.ICategoryRepository;
+import com.nexuscore.models.warehouse.CategoryModel;
+import com.nexuscore.repositories.warehouse.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +26,9 @@ public class CategoryService {
         return iCategoryRepository.findById(id);
     }
 
-    public void deleteCategory(Long id) {
-        iCategoryRepository.deleteById(id);
-    }
+//    public void cambiarstatus(Long id) {
+//
+//    }
 
     public List<CategoryModel> findByNameContaining(String name) {
         return iCategoryRepository.findByNameContainingIgnoreCase(name);

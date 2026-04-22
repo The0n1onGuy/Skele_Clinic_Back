@@ -1,11 +1,9 @@
 package com.nexuscore.exceptions;
 
-public class DineroInsuficienteException extends RuntimeException{
+public class DineroInsuficienteException extends RuntimeException {
 
-    public DineroInsuficienteException(String message) {
-
-        super(message);
-
+    public DineroInsuficienteException( String message ) {
+        super( message ) ;
     }
 
 }

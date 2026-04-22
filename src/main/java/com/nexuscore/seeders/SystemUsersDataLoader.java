@@ -8,6 +8,7 @@ import com.nexuscore.repositories.system.ISystemRolesRepository;
 import com.nexuscore.repositories.system.ISystemUsersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import com.nexuscore.security.TenantContext;
 @Slf4j
 @Component
 @Order(4)
+@Profile("!test")
 public class SystemUsersDataLoader implements CommandLineRunner {
 
     private final ISystemRolesRepository rolesRepository;
@@ -64,6 +66,8 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         resolveUser("gestor_appointments", "Jose$Secure2026", appointmentsRole, activeStatus, "his_master"); // Jose
         resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "his_master"); // Jesus
         resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "his_master"); // Katia
+
+        resolveUser("dev_team", "Devs$Expediente2026", devRole, activeStatus, "his_master"); //Swagger
 
         } catch (Exception e) {
             log.error("Error cargando datos semilla", e);
