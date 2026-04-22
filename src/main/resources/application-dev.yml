@@ -11,6 +11,8 @@ spring:
 #        password: ${DBUSER:12345} # En prod, esto se inyecta por variables de sistema
 
         driver-class-name: com.mysql.cj.jdbc.Driver
+    main:
+        banner-mode: "off"
 
     jpa:
         database-platform: org.hibernate.dialect.MySQLDialect
@@ -35,4 +37,5 @@ logging:
         org.hibernate: WARN # Reduce Hibernate general logs
         org.hibernate.SQL: WARN # Optional: Reduce Hibernate SQL logs
         org.hibernate.type.descriptor.sql.BasicBinder: WARN # Optional: Reduce Binder logs
+        org.springframework.web: WARN
 
