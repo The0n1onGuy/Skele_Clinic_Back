@@ -1,4 +1,4 @@
-package com.expedienteclinico.expedienteclinico.payload.response;
+package com.nexuscore.payload.response;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

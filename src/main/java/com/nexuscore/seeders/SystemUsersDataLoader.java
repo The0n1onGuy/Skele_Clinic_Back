@@ -67,22 +67,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "his_master"); // Jesus
         resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "his_master"); // Katia
 
-        resolveUser("dev_team", "Devs$Expediente2026", devRole, activeStatus, "hospital_prueba"); //Swagger
-        resolveUser("admin_lex", "Admin$Secure2026", adminRole, activeStatus, "hospital_prueba"); // Profe Alexander
-        resolveUser("gestor_rpbi", "Darikson$Secure2026", rpbiRole, activeStatus, "hospital_prueba"); // Darikson
-        resolveUser("gestor_rrhh", "Olan$Secure2026", rrhhRole, activeStatus, "hospital_prueba"); // Olan
-        resolveUser("gestor_patients", "Natalia$Secure2026", patientsRole, activeStatus, "hospital_prueba"); // Natalia
-        resolveUser("gestor_emergencias", "Giselle$Secure2026", emergenciasRole, activeStatus, "hospital_prueba"); // Giselle
-        resolveUser("gestor_morgue", "Eduardo$Secure2026", morgueRole, activeStatus, "hospital_prueba"); // Eduardo
-        resolveUser("gestor_lyr", "Julio$Secure2026", lyrRole, activeStatus, "hospital_prueba"); // Julio
-        resolveUser("gestor_appointments", "Jose$Secure2026", appointmentsRole, activeStatus, "hospital_prueba"); // Jose
-        resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "hospital_prueba"); // Jesus
-        resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "hospital_prueba"); // Katia
-
-        // 2. INYECCIÓN DE CLIENTES (TENANTS DE PRUEBA)
-        // Al crear estos usuarios, registramos formalmente la existencia de los hospitales en el Directorio Maestro
-        resolveUser("admin_aurora", "Aurora123!", adminRole, activeStatus, "hospital_aurora");
-        resolveUser("admin_general", "General123!", adminRole, activeStatus, "hospital_general");
+        resolveUser("dev_team", "Devs$Expediente2026", devRole, activeStatus, "his_master"); //Swagger
 
         } catch (Exception e) {
             log.error("Error cargando datos semilla", e);
