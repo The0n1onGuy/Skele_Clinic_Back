@@ -1,0 +1,41 @@
+spring:
+    flyway:
+        enabled: false # Apagado de seguridad. El control ahora es 100% de Java.
+    banner-mode: "off" # Deactivate Spring banner
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+        username: root
+        password: 12345 # En prod, esto se inyecta por variables de sistema
+#        username: ${DBUSER:root}
+#        password: ${DBUSER:12345} # En prod, esto se inyecta por variables de sistema
+
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    main:
+        banner-mode: "off"
+
+    jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect
+        show-sql: true
+        hibernate:
+            # CRÍTICO: Debe cambiar a 'none' cuando se integre Flyway
+            ddl-auto: none
+
+
+    h2:
+        console:
+            enabled: true
+
+logging:
+    level:
+        com.OperaUserAccessRequisitionForm: DEBUG
+            # org.hibernate.SQL: DEBUG
+            # org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+        root: WARN # General level: only Warnings and Errors
+        org.springframework: WARN # Reduce Spring specific logs
+        org.hibernate: WARN # Reduce Hibernate general logs
+        org.hibernate.SQL: WARN # Optional: Reduce Hibernate SQL logs
+        org.hibernate.type.descriptor.sql.BasicBinder: WARN # Optional: Reduce Binder logs
+        org.springframework.web: WARN
+
