@@ -7,9 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="com.nexuscore" />
-        <module name="com.expedientemedico" />
         <module name="expedienteclinico" />
+        <module name="com.expedientemedico" />
+        <module name="nexus-shared" />
+        <module name="com.nexuscore" />
+        <module name="nexus-core-server" />
+        <module name="nexus-business" />
+        <module name="nexus-his" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,10 +22,15 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="NexusCore" options="" />
       <module name="com.expedientemedico" options="-parameters" />
       <module name="com.nexuscore" options="-parameters" />
       <module name="expedienteclinico" options="-parameters" />
       <module name="mvw-osd-cyclops-api-server-v2" options="-parameters" />
+      <module name="nexus-business" options="-parameters" />
+      <module name="nexus-core-server" options="-parameters" />
+      <module name="nexus-his" options="-parameters" />
+      <module name="nexus-shared" options="-parameters" />
     </option>
   </component>
 </project>
