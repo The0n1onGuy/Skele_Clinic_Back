@@ -17,7 +17,7 @@ public class AgentController {
     public AgentController(AgentService logService) {
         this.logService = logService;
     }
-
+    //COMENTARIO DE RELLENO
     // GET: http://localhost:2026/api/system/logs/remote
     @GetMapping("/all")
     public ResponseEntity<String> getRemoteLogs() {
