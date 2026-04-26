@@ -8,6 +8,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import com.nexuscore.services.system.AgentService;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +31,10 @@ public class Systemlogservice {
     private final String AGENT_URL = "http://159.54.151.135:8081/api/agent/receive";
 
     private final String AGENT_SECRET = "NexusAccess_Secret_2026";
-
-    public Systemlogservice(HttpStatusService httpStatusService) {
+    private final AgentService logService;
+    public Systemlogservice(HttpStatusService httpStatusService, AgentService logService) {
         this.httpStatusService = httpStatusService;
+        this.logService = logService;
     }
 
     /**
@@ -90,7 +95,21 @@ public class Systemlogservice {
             }).start();
 
         } catch (Exception e) {
+
+            Map<String, Object> logData = new HashMap<>();
+            logData.put("code", 500);
+            logData.put("status", "ERROR");
+            logData.put("operation", "DATABASE_QUERY");
+            logData.put("detail", getStackTraceAsString(e)); // Aquí va el bloque completo
+            logData.put("timestamp", java.time.LocalDateTime.now().toString());
+            logService.sendRemoteLog(logData);
             logger.debug("Failed to prepare remote log payload: " + e.getMessage());
         }
+    }
+    private String getStackTraceAsString(Throwable e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString(); // Esto devuelve todo el bloque que ves en la terminal
     }
 }

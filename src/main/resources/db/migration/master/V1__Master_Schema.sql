@@ -19,6 +19,7 @@ create table audit_logs (id_log bigint AUTO_INCREMENT not null, id_status bigint
 -- NOTA CRÍTICA: tenant_id ajustado a varchar(100) para homologar con system_tenants.tenant_key
 create table system_users (id_user bigint AUTO_INCREMENT not null, role_id bigint not null, status_id bigint not null, uuid varchar(36) not null, tenant_id varchar(100) default 'his_master' not null, password varchar(255) not null, user_name varchar(255) not null, primary key (id_user));
 
+CREATE TABLE http_status_codes (id bigint AUTO_INCREMENT not null, code int not null unique,name varchar(255) not null,description varchar(255) not null , primary key (id));
 
 -- 4. RESTRICCIONES DE INTEGRIDAD Y LLAVES FORÁNEAS (Originales)
 alter table status add constraint UKjay9oq3tlp3u1t3ly2rryl7aw unique (uuid);
