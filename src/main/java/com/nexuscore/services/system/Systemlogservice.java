@@ -106,6 +106,62 @@ public class Systemlogservice {
             logger.debug("Failed to prepare remote log payload: " + e.getMessage());
         }
     }
+//    public void log(int code, String method, String uri, long duration) {
+//        // Llama al método completo pasando "null" como error
+//        logWithException(code, method, uri, duration, null);
+//    }
+//
+//    public void logWithException(int code, String method, String uri, long duration, Throwable ex) {
+//        HttpStatusCode http = httpStatusService.getByCodeSafe(code);
+//        String operation = method + " " + uri;
+//
+//        // LA MAGIA: Si hay una excepción, extraemos el bloque completo. Si no, usamos texto normal.
+//        String detail;
+//        if (ex != null) {
+//            detail = getStackTraceAsString(ex);
+//        } else {
+//            detail = String.format("Description: %s | Duration: %d ms", http.getDescription(), duration);
+//        }
+//
+//        String consoleMsg = String.format("[HTTP %d - %s] | Operation: %s | Time: %d ms",
+//                code, http.getName(), operation, duration);
+//
+//        if (code >= 500) {
+//            logger.error(consoleMsg + "\n================ ERROR STACK ================\n" + detail);
+//        } else if (code >= 400) {
+//            logger.warn(consoleMsg);
+//        } else {
+//            logger.info(consoleMsg);
+//        }
+//
+//        // Envío Remoto al Agente
+//        try {
+//            Map<String, Object> payload = new HashMap<>();
+//            payload.put("code", code);
+//            payload.put("status", http.getName());
+//            payload.put("operation", operation);
+//            payload.put("detail", detail); // ¡Aquí viaja el StackTrace completo!
+//            payload.put("timestamp", java.time.LocalDateTime.now().toString());
+//
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_JSON);
+//            headers.set("X-Nexus-Secret", AGENT_SECRET);
+//
+//            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+//
+//            new Thread(() -> {
+//                try {
+//                    restTemplate.postForEntity(AGENT_URL, entity, String.class);
+//                } catch (Exception e) {
+//                    // Falla silenciosa si el agente muere
+//                }
+//            }).start();
+//
+//        } catch (Exception e) {
+//            logger.debug("Failed to prepare remote log payload: " + e.getMessage());
+//        }
+//    }
+
     private String getStackTraceAsString(Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
