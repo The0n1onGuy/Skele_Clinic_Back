@@ -3,6 +3,7 @@ package com.nexuscoreserver.models.system;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "system_users")
@@ -15,16 +16,18 @@ public class SystemUsersModel {
     private Long id;
 
     @Column(name = "uuid", updatable = false, nullable = false, unique = true, length = 36)
-    private String uuid = java.util.UUID.randomUUID().toString();
+    private String uuid = UUID.randomUUID().toString();
 
-    @Column(name = "tenant_id", nullable = false, length = 50, columnDefinition = "varchar(50) default 'his_master'")
-    private String tenantId; // Identificador de a qué cliente pertenece el usuario, ej: Hospital Aurora
+    // Longitud ajustada a 100 para coincidir con system_tenants.tenant_key
+    @Column(name = "tenant_id", nullable = false, length = 100)
+    private String tenantId;
 
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
+    // Homologado a 'password' para consistencia con el Seeder y PasswordEncoder
     @Column(name = "password", nullable = false)
-    private String userPassword;
+    private String password;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
@@ -33,4 +36,13 @@ public class SystemUsersModel {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", nullable = false)
     private StatusModel status;
+
+    // ==========================================
+    // INYECCIÓN ESTRUCTURAL FASE 2: TOTP
+    // ==========================================
+    @Column(name = "totp_secret", length = 64)
+    private String totpSecret;
+
+    @Column(name = "is_2fa_enabled")
+    private Boolean is2faEnabled = false;
 }

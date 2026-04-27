@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new User(
                 userEntity.getUserName(),
-                userEntity.getUserPassword(),
+                userEntity.getPassword(),
                 isEnabled, // enabled
                 true, // accountNonExpired
                 true, // credentialsNonExpired

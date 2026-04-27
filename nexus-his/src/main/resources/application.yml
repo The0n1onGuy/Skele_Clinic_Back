@@ -13,8 +13,8 @@ spring:
   datasource:
     # La URL base apunta a MySQL. El enrutador dinámico cambiará el esquema/catálogo en tiempo real.
     url: jdbc:mysql://localhost:3306/his_master?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: 12345
+    username: his_master_admin
+    password: Darick471
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 5
@@ -40,3 +40,5 @@ logging:
     root: WARN
     org.springframework: WARN
     org.hibernate: WARN
+    com.nexushiscore: INFO  # Obliga a mostrar los log.info() de tus clases
+    org.flywaydb: INFO

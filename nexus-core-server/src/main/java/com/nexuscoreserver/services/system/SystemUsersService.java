@@ -17,26 +17,25 @@ public class SystemUsersService {
 
     private final IStatusRepository statusRepository;
     private final ISystemUsersRepository systemUsersrepository;
-    private final PasswordEncoder passwordEncoder; // Inyección crítica para seguridad
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public SystemUsersModel createSystemUsers(SystemUsersRequestObject requestObject, SystemRolesModel assignedRole){
+    public SystemUsersModel createSystemUsers(SystemUsersRequestObject requestObject, SystemRolesModel assignedRole) {
 
         SystemUsersModel sysUser = new SystemUsersModel();
 
+        // Asignación estricta al esquema maestro para usuarios de sistema
         sysUser.setTenantId("his_master");
-
         sysUser.setUserName(requestObject.getUserName());
-
-        // Hashing obligatorio de la contraseña antes de persistir
-        sysUser.setUserPassword(passwordEncoder.encode(requestObject.getUserPassword()));
-
-        // Asignación de rol
+        sysUser.setPassword(passwordEncoder.encode(requestObject.getPassword())); // Actualizado a 'getPassword()'
         sysUser.setRole(assignedRole);
 
-        // Resolución estricta del estatus activo
-        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
-                .orElseThrow(() -> new IllegalStateException("Estatus base no encontrado en el sistema."));
+        // Inicialización de seguridad TOTP (Por defecto desactivado hasta configuración manual)
+        sysUser.setIs2faEnabled(false);
+        sysUser.setTotpSecret(null);
+
+        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active") // Homologado al Seeder
+                .orElseThrow(() -> new IllegalStateException("Base status not found in the system."));
         sysUser.setStatus(activeStatus);
 
         return systemUsersrepository.save(sysUser);

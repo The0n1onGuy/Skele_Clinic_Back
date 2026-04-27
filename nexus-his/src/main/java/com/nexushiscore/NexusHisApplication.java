@@ -7,6 +7,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
@@ -14,7 +15,10 @@ import java.util.Date;
 import java.util.TimeZone;
 
 // INSTRUCCIÓN CRÍTICA: Obligamos a Spring a escanear este módulo Y la librería de seguridad
-@SpringBootApplication(scanBasePackages = {"com.nexushiscore", "com.nexussharedcore"})
+@SpringBootApplication(
+        scanBasePackages = {"com.nexushiscore", "com.nexussharedcore"},
+        exclude = {UserDetailsServiceAutoConfiguration.class}
+)
 public class NexusHisApplication extends SpringBootServletInitializer {
 
     @Override

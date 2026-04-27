@@ -2,7 +2,7 @@ package com.nexushiscore.config; // Ajusta este paquete según tu estructura exa
 
 import com.nexussharedcore.security.TenantConnectionProvider;
 import com.nexussharedcore.security.TenantIdentifierResolver;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
+import org.springframework.boot.hibernate.autoconfigure.HibernatePropertiesCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

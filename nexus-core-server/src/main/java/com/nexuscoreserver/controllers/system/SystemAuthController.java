@@ -39,7 +39,7 @@ public class SystemAuthController {
 
             // 1. Autenticar credenciales contra la base de datos a través del Provider
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUserName(), request.getUserPassword())
+                    new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
             );
 
             // 2. Extraer el modelo del usuario desde la BD para obtener su Tenant ID

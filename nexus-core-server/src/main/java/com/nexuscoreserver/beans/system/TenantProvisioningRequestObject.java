@@ -13,6 +13,9 @@ public class TenantProvisioningRequestObject {
     @Pattern(regexp = "^[a-z0-9_]+$", message = "El identificador solo puede contener letras minúsculas, números y guiones bajos")
     private String tenantKey; // ej: hospital_pediatrico
 
+    @NotBlank(message = "Se requiere un identificador de servicio para dar de alta")
+    private String serviceCode;
+
     @NotBlank(message = "El nombre comercial es obligatorio")
     private String displayName; // ej: Hospital General Pediátrico
 
