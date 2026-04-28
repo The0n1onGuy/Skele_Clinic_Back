@@ -4,8 +4,10 @@ spring:
     banner-mode: "off" # Deactivate Spring banner
 
     datasource:
-        url: jdbc:mysql://localhost:3307/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-        username: halo171204
+        url: jdbc:mysql://localhost:2077/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+        #url: jdbc:mysql://localhost:3307/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+        #username: halo171204
+        username: root
         password: Xb0xisCool. # En prod, esto se inyecta por variables de sistema
 #        username: ${DBUSER:root}
 #        password: ${DBUSER:12345} # En prod, esto se inyecta por variables de sistema

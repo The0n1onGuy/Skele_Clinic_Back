@@ -125,7 +125,7 @@ INSERT INTO rrhh_departments (id_status, uuid, name) VALUES (1, UUID(), 'Medicin
 INSERT INTO rrhh_positions (id_status, uuid, name, description) VALUES (1, UUID(), 'Médico Titular', 'Médico responsable de área');
 
 -- 4. INVENTARIO / LIMPIEZA
-INSERT INTO cat_cleaning_supplies (status_id, uuid, name, expiration_date, unit_measurement, stock_min, current_stock)
+INSERT INTO cat_cleaning_supplies (status_id, uuid, name, expirationDate, unitMeasurement, stockMin, currentStock)
 VALUES (1, UUID(), 'Cloro', '10/12/2028', 'ml', 20, 50);
 
 INSERT INTO http_status_codes(id, code, name, description) VALUES (200, "OK", "Solicitud exitosa", "Codigo de  exito, yey");

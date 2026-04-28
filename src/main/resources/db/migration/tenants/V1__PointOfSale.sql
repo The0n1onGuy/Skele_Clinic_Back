@@ -1,0 +1,7 @@
+-- CREATE TABLE Mygeneric (id_log bigint AUTO_INCREMENT not null, id_status bigint not null, concept_audit varchar(255) not null, date_ocurrence varchar(255) not null, user_blamed varchar(255) not null, primary key (id_log));
+--
+-- CREATE TABLE http_status_codes (id bigint AUTO_INCREMENT not null, code int not null unique,name varchar(255) not null,description varchar(255) not null , primary key (id));
+--
+-- CREATE TABLE appointments (fecha_hora_fin DATETIME(6), fecha_hora_inicio DATETIME(6), id VARCHAR(36) not null, patient_id VARCHAR(36), consultorio varchar(255), estado varchar(255) check ((estado in ('PENDIENTE','CONFIRMADA','CANCELADA','COMPLETADA'))), primary key (id));
+--
+-- CREATE TABLE cat_cleaning_supplies (currentStock int,uuid varchar(36) not null, stockMin int, supplies_id bigint AUTO_INCREMENT not null, status_id bigint not null, name varchar(100) not null, expirationDate varchar(255), unitMeasurement varchar(255), primary key (supplies_id));
