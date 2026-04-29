@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="expedienteclinico" />
         <module name="com.expedientemedico" />
+        <module name="nexus-shared" />
         <module name="nexus-shared (1)" />
         <module name="com.nexuscore" />
         <module name="nexus-core-server" />
@@ -31,7 +32,7 @@
       <module name="nexus-business" options="-parameters" />
       <module name="nexus-core-server" options="-parameters" />
       <module name="nexus-his" options="-parameters" />
-      <module name="nexus-shared" options="" />
+      <module name="nexus-shared" options="-parameters" />
       <module name="nexus-shared (1)" options="-parameters" />
     </option>
   </component>
