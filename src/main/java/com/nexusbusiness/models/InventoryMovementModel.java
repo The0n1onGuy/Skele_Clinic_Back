@@ -1,19 +1,21 @@
 package com.nexusbusiness.models;
-import com.nexusbusiness.models.PosStatusModel;
 import com.nexusbusiness.models.shoppingcart.ProductModel;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
-public class InventoryMovementAudit {
+@Entity
+@Table(name = "pos_sale")
+@Getter
+@Setter
+public class InventoryMovementModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private ProductModel product;
+    private ProductModel product_id;
 
     @Column(nullable = false, length = 20)
     private String type; // e.g., SALE, RESTOCK
@@ -25,5 +27,5 @@ public class InventoryMovementAudit {
     private String reason;
 
     @Column(name = "movement_date", nullable = false)
-    private java.time.LocalDateTime movementDate = java.time.LocalDateTime.now();
+    private java.time.LocalDateTime movement_date = java.time.LocalDateTime.now();
 }

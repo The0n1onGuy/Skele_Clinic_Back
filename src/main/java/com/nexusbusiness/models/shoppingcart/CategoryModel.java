@@ -18,7 +18,7 @@ public class CategoryModel {
     private Long id;
 
 
-    @Column(name = "name", nullable = false, unique = true, length = 100 )
+    @Column(nullable = false, unique = true, length = 100 )
     @Schema(description = "Nombre descriptivo del estado")
     private String name;
 

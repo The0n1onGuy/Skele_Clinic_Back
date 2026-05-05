@@ -1,10 +1,15 @@
 package com.nexusbusiness.models.shoppingcart;
 import com.nexusbusiness.models.PosStatusModel;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import java.util.UUID;
-
+@Entity
+@Table(name = "pos_products")
+@Getter
+@Setter
 public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +27,13 @@ public class ProductModel {
 
     // precision 10, scale 2 = 12345678.99
     @Column(name = "base_price", precision = 10, scale = 2, nullable = false)
-    private java.math.BigDecimal basePrice;
+    private java.math.BigDecimal base_price;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private CategoryModel category;
+    private CategoryModel category_id;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    private PosStatusModel status;
+    private PosStatusModel status_id;
 }
