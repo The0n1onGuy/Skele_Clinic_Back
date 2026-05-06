@@ -21,7 +21,7 @@ public class InventoryModel {
 
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false, unique = true)
-    private ProductModel product_id;
+    private ProductModel product;
 
     @Column(name = "current_stock", nullable = false)
     private Integer current_stock = 0;

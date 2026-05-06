@@ -4,7 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 //Agregaciones para swagger
@@ -18,7 +20,18 @@ import java.util.Date;
 import java.util.TimeZone;
 
 @EnableWebMvc
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+		"com.nexuscore",      // Existing clinic logic
+		"com.nexusbusiness"   // New POS shopping cart logic
+})
+@EnableJpaRepositories(basePackages = {
+		"com.nexuscore.repositories",
+		"com.nexusbusiness.repositories"
+})
+@EntityScan(basePackages = {
+		"com.nexuscore.models",
+		"com.nexusbusiness.models"
+})
 public class NexusCoreApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	@Override

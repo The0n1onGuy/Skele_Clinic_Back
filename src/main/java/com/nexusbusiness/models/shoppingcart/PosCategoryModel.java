@@ -10,7 +10,7 @@ import lombok.Setter;
 @Table(name = "pos_category")
 @Getter
 @Setter
-public class CategoryModel {
+public class PosCategoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false) // Buena práctica: nombrar explícitamente la PK

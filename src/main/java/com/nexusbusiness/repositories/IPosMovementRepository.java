@@ -9,7 +9,5 @@ import java.util.Optional;
 @Repository
 
 public interface IPosMovementRepository extends JpaRepository<InventoryMovementModel, Long> {
-    boolean existsByNameIgnoreCase(String name);
 
-    Optional<InventoryMovementModel> findByNameIgnoreCase(String name);
 }

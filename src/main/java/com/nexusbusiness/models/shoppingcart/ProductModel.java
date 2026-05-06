@@ -31,7 +31,7 @@ public class ProductModel {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private CategoryModel category_id;
+    private PosCategoryModel category_id;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)

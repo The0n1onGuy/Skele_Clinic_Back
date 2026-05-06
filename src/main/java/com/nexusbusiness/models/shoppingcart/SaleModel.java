@@ -25,6 +25,9 @@ public class SaleModel {
     @Column(name = "total_amount", precision = 12, scale = 2, nullable = false)
     private java.math.BigDecimal total_amount;
 
+    @Column(name = "payment_method", length = 50) // Matches snake_case in MySQL
+    private String payment_method;
+
     @Column(name = "sale_date", nullable = false)
     private java.time.LocalDateTime sale_date = java.time.LocalDateTime.now();
 

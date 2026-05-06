@@ -27,11 +27,11 @@ public class PosCartService {
         BigDecimal totalAmount = BigDecimal.ZERO;
         SaleModel sale = new SaleModel();
         sale.setTicket_number("T-" + System.currentTimeMillis());
-        sale.setPaymentMethod(request.getPaymentMethod());
+        sale.setPayment_method(request.getPaymentMethod());
         // Initial save to get an ID for details
         sale = saleRepository.save(sale);
 
-        for (CartItem item : request.items()) {
+        for (CartItem item : request.getItems()) {
             // 1. Fetch Product and Inventory
             ProductModel product = productRepository.findById(item.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductId()));
@@ -46,7 +46,7 @@ public class PosCartService {
             }
 
             // 3. Calculate financial data
-            BigDecimal subtotal = product.getBasePrice().multiply(new BigDecimal(item.getQuantity()));
+            BigDecimal subtotal = product.getBase_price().multiply(new BigDecimal(item.getQuantity()));
             totalAmount = totalAmount.add(subtotal);
 
             // 4. Create Sale Detail (Historical Audit)

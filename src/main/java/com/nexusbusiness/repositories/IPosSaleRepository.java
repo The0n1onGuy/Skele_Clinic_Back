@@ -9,7 +9,5 @@ import java.util.Optional;
 @Repository
 
 public interface IPosSaleRepository extends JpaRepository<SaleModel, Long> {
-    boolean existsByNameIgnoreCase(String name);
 
-    Optional<SaleModel> findByNameIgnoreCase(String name);
 }

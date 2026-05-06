@@ -65,6 +65,8 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "his_master"); // Jesus
         resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "his_master"); // Katia
 
+        resolveUser("user_role", "Olan$Secure2026", rrhhRole, activeStatus, "his_master"); // User
+
         } catch (Exception e) {
             log.error("Error cargando datos semilla", e);
         } finally {
