@@ -1,5 +1,6 @@
 package com.nexusbusiness.models.shoppingcart;
 import com.nexusbusiness.models.PosStatusModel;
+import com.nexuscore.models.system.StatusModel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,5 +34,5 @@ public class SaleModel {
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    private PosStatusModel status_id;
+    private StatusModel status_id;
 }

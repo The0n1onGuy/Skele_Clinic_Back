@@ -8,8 +8,11 @@ import com.nexusbusiness.models.shoppingcart.ProductModel;
 import com.nexusbusiness.models.shoppingcart.SaleDetailModel;
 import com.nexusbusiness.models.shoppingcart.SaleModel;
 import com.nexusbusiness.repositories.*;
+import com.nexuscore.models.system.StatusModel;
+import com.nexuscore.repositories.system.IStatusRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,12 +25,28 @@ public class PosCartService {
     @Autowired private IPosSaleDetailRepository detailRepository;
     @Autowired private IPosMovementRepository movementRepository;
 
+    @Autowired
+    IStatusRepository statusRepo;
+
+
+    @Value("${STATUS1:Active}") private String Active;
+    @Value("${STATUS2:Inactive}") private String Inactive;
+
+    //Filtro por nombre del estado
+    private StatusModel getStatusByName(String statusName) {
+        return statusRepo.findByStatusNameIgnoreCase(statusName)
+                .orElseThrow(() -> new RuntimeException("Error: El estado '" + statusName + "' no existe en la base de datos."));
+    }
     @Transactional // Critical: All steps succeed or all fail
     public SaleModel processPurchase(CartRequest request) {
         BigDecimal totalAmount = BigDecimal.ZERO;
         SaleModel sale = new SaleModel();
         sale.setTicket_number("T-" + System.currentTimeMillis());
+        //TODO Multiple payments
         sale.setPayment_method(request.getPaymentMethod());
+        StatusModel activeStatus = getStatusByName(Active);
+        sale.setStatus_id(activeStatus);
+        sale.setTotal_amount(BigDecimal.ZERO);
         // Initial save to get an ID for details
         sale = saleRepository.save(sale);
 
@@ -64,7 +83,7 @@ public class PosCartService {
 
             InventoryMovementModel movement = new InventoryMovementModel();
             movement.setProduct_id(product);
-            movement.setType("SALE");
+            movement.setType("SALE"); // REMOVE
             movement.setQuantity(-item.getQuantity());
             movement.setReason("Checkout Ticket: " + sale.getTicket_number());
             movementRepository.save(movement);

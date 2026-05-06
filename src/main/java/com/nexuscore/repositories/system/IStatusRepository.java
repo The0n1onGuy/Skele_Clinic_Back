@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface IStatusRepository extends JpaRepository<StatusModel, Long> {
     Optional<StatusModel> findByStatusNameIgnoreCase(String statusName);
 
+
 }

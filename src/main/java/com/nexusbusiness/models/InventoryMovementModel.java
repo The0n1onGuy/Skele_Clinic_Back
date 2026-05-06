@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "pos_sale")
+@Table(name = "pos_inventory_movements")
 @Getter
 @Setter
 public class InventoryMovementModel {
