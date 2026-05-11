@@ -124,7 +124,76 @@ CREATE TABLE pos_inventory_movements (
                                          movement_date DATETIME NOT NULL,
                                          PRIMARY KEY (id)
 );
+--
+--
+--
+--
+--
+--
+CREATE TABLE pos_offers (
+                            id bigint AUTO_INCREMENT NOT NULL,
+                            name varchar(255) NOT NULL,
+                            discount_type varchar(20) NOT NULL, -- 'PERCENTAGE' or 'FIXED'
+                            discount_value decimal(10, 2) NOT NULL,
+                            active tinyint(1) NOT NULL DEFAULT 1, -- Boolean representation in MySQL
+                            start_date DATETIME,
+                            end_date DATETIME,
+                            PRIMARY KEY (id)
+);
 
+-- Many-to-Many Bridge Table for Offers <-> Categories
+CREATE TABLE pos_offer_categories (
+                                      offer_id bigint NOT NULL,
+                                      category_id bigint NOT NULL,
+                                      PRIMARY KEY (offer_id, category_id)
+);
+
+-- Many-to-Many Bridge Table for Offers <-> Products
+CREATE TABLE pos_offer_products (
+                                    offer_id bigint NOT NULL,
+                                    product_id bigint NOT NULL,
+                                    PRIMARY KEY (offer_id, product_id)
+);
+
+-- ----------------------------------------------------------
+-- NEW: BUNDLES AND PACKAGES
+-- ----------------------------------------------------------
+CREATE TABLE pos_bundles (
+                             id bigint AUTO_INCREMENT NOT NULL,
+                             name varchar(255) NOT NULL,
+                             reference_sku varchar(100) UNIQUE,
+                             description TEXT,
+                             is_seasonal_offer tinyint(1) DEFAULT 0,
+                             total_normal_value decimal(12, 2),
+                             bundle_price decimal(12, 2),
+                             PRIMARY KEY (id)
+);
+
+-- Bridge Table mapping Products inside a Bundle
+CREATE TABLE pos_bundle_lines (
+                                  id bigint AUTO_INCREMENT NOT NULL,
+                                  bundle_id_fk bigint NOT NULL,
+                                  product_id_fk bigint NOT NULL,
+                                  quantity int NOT NULL DEFAULT 1,
+                                  PRIMARY KEY (id)
+);
+
+-- Foreign Keys for Offers (Categories & Products)
+ALTER TABLE pos_offer_categories ADD CONSTRAINT FK_offercat_offer FOREIGN KEY (offer_id) REFERENCES pos_offers(id);
+ALTER TABLE pos_offer_categories ADD CONSTRAINT FK_offercat_category FOREIGN KEY (category_id) REFERENCES pos_category(id);
+
+ALTER TABLE pos_offer_products ADD CONSTRAINT FK_offerprod_offer FOREIGN KEY (offer_id) REFERENCES pos_offers(id);
+ALTER TABLE pos_offer_products ADD CONSTRAINT FK_offerprod_product FOREIGN KEY (product_id) REFERENCES pos_products(id);
+
+-- Foreign Keys for Bundle Lines
+ALTER TABLE pos_bundle_lines ADD CONSTRAINT FK_bundleline_bundle FOREIGN KEY (bundle_id_fk) REFERENCES pos_bundles(id);
+ALTER TABLE pos_bundle_lines ADD CONSTRAINT FK_bundleline_product FOREIGN KEY (product_id_fk) REFERENCES pos_products(id);
+--
+--
+-- MORE CHANGES
+--
+--
+--
 -- Foreign Keys for Product
 ALTER TABLE pos_products ADD CONSTRAINT FK_product_category FOREIGN KEY (category_id) REFERENCES pos_category(id);
 ALTER TABLE pos_products ADD CONSTRAINT FK_product_status FOREIGN KEY (status_id) REFERENCES status(id_status);
