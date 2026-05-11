@@ -42,7 +42,8 @@ public class PosCartService {
         BigDecimal totalAmount = BigDecimal.ZERO;
         SaleModel sale = new SaleModel();
         sale.setTicket_number("T-" + System.currentTimeMillis());
-        //TODO Multiple payments
+        //TODO Multiple payments MORE CHANGES
+
         sale.setPayment_method(request.getPaymentMethod());
         StatusModel activeStatus = getStatusByName(Active);
         sale.setStatus_id(activeStatus);
