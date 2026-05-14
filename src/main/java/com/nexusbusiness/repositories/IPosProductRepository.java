@@ -2,11 +2,10 @@ package com.nexusbusiness.repositories;
 import com.nexusbusiness.models.shoppingcart.ProductModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-
 public interface IPosProductRepository extends JpaRepository<ProductModel, Long> {
-
+    Optional<ProductModel> findByUuid(UUID uuid);
 }

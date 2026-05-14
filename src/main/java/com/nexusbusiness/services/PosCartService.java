@@ -1,7 +1,8 @@
 package com.nexusbusiness.services;
 
-import com.nexusbusiness.beans.CartItem;
-import com.nexusbusiness.beans.CartRequest;
+import com.nexusbusiness.beans.CartItemObject;
+import com.nexusbusiness.beans.CartRequestObject;
+import com.nexusbusiness.beans.ProductCatalogResponseObject;
 import com.nexusbusiness.models.InventoryMovementModel;
 import com.nexusbusiness.models.shoppingcart.InventoryModel;
 import com.nexusbusiness.models.shoppingcart.ProductModel;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class PosCartService {
@@ -37,8 +39,25 @@ public class PosCartService {
         return statusRepo.findByStatusNameIgnoreCase(statusName)
                 .orElseThrow(() -> new RuntimeException("Error: El estado '" + statusName + "' no existe en la base de datos."));
     }
+    public List<ProductCatalogResponseObject> getCatalogProducts() {
+        return productRepository.findAll().stream().map(p -> {
+            ProductCatalogResponseObject dto = new ProductCatalogResponseObject();
+            dto.setUuid(p.getUuid());
+            dto.setProduct_name(p.getName());
+            dto.setProduct_sku(p.getSku());
+            dto.setNormal_price(p.getBase_price());
+
+            // Extract just the name of the category to hide the object structure
+            if (p.getCategory_id() != null) {
+                dto.setCategory_name(p.getCategory_id().getName());
+            }
+            dto.setStatus_name(p.getStatus_id().getStatusName());
+            return dto;
+
+        }).toList();
+    }
     @Transactional // Critical: All steps succeed or all fail
-    public SaleModel processPurchase(CartRequest request) {
+    public SaleModel processPurchase(CartRequestObject request) {
         BigDecimal totalAmount = BigDecimal.ZERO;
         SaleModel sale = new SaleModel();
         sale.setTicket_number("T-" + System.currentTimeMillis());
@@ -51,10 +70,10 @@ public class PosCartService {
         // Initial save to get an ID for details
         sale = saleRepository.save(sale);
 
-        for (CartItem item : request.getItems()) {
+        for (CartItemObject item : request.getItems()) {
             // 1. Fetch Product and Inventory
-            ProductModel product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductId()));
+            ProductModel product = productRepository.findByUuid(item.getProductUUID())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductUUID()));
 
             InventoryModel inventory = inventoryRepository.findByProduct(product)
                     .orElseThrow(() -> new RuntimeException("Inventory record missing for " + product.getName()));

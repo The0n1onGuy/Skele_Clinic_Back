@@ -1,6 +1,6 @@
 package com.nexusbusiness.controllers;
 
-import com.nexusbusiness.beans.CartRequest;
+import com.nexusbusiness.beans.CartRequestObject;
 import com.nexusbusiness.models.shoppingcart.SaleModel;
 import com.nexusbusiness.repositories.IPosProductRepository;
 import com.nexusbusiness.services.PosCartService;
@@ -21,12 +21,12 @@ public class PosCartController {
     // STEP 1: Consult products with their availability
     @GetMapping("/products")
     public ResponseEntity<?> getAllProducts() {
-        return ResponseEntity.ok(productRepository.findAll());
+        return ResponseEntity.ok(cartService.getCatalogProducts());
     }
 
     // STEP 2 & 4: Final Checkout with inventory lock
     @PostMapping("/checkout")
-    public ResponseEntity<?> checkout(@RequestBody CartRequest request) {
+    public ResponseEntity<?> checkout(@RequestBody CartRequestObject request) {
         try {
             SaleModel receipt = cartService.processPurchase(request);
             // Here you would trigger your PDF generation service

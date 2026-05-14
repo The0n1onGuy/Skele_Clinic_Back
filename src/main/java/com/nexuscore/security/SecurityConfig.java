@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/his/v1/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
                         // ROL DE GESTOR DE LOGS
                         .requestMatchers("/api/system/logs/*").hasAnyRole("MASTER")
-                        .requestMatchers("/api/pos/cart/**").hasAnyRole("MASTER")
+                        .requestMatchers("/api/pos/cart/**").hasAnyRole("MASTER", "DEVELOPMENT")
                         .anyRequest().denyAll()
                 )
                 .authenticationProvider(authenticationProvider())

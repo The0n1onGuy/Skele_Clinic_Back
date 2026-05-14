@@ -51,7 +51,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         SystemRolesModel appointmentsRole = resolveRole("ROLE_APPOINTMENTS", activeStatus);
         SystemRolesModel almacenRole = resolveRole("ROLE_ALMACEN", activeStatus);
         SystemRolesModel katiaRole = resolveRole("ROLE_KATIA", activeStatus);
-        SystemRolesModel devRole = resolveRole("ROLE_DEVELOPMENT", activeStatus);
+        SystemRolesModel developmentRole = resolveRole("ROLE_DEVELOPMENT", activeStatus);
 
         // 2. Sembrar Usuarios (Cambiando "password123" por contraseñas seguras según sus políticas)
         resolveUser("admin_lex", "Admin$Secure2026", masterRole, activeStatus, "his_master"); // Profe Alexander
@@ -65,7 +65,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
         resolveUser("gestor_almacen", "Jesus$Secure2026", almacenRole, activeStatus, "his_master"); // Jesus
         resolveUser("gestor_katia", "Katia$Secure2026", katiaRole, activeStatus, "his_master"); // Katia
 
-        resolveUser("user_role", "Olan$Secure2026", rrhhRole, activeStatus, "his_master"); // User
+        resolveUser("user_role", "Olan$Secure2026", developmentRole, activeStatus, "his_master"); // User
 
         } catch (Exception e) {
             log.error("Error cargando datos semilla", e);
@@ -95,7 +95,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
                     SystemUsersModel user = new SystemUsersModel();
                     user.setTenantId(tenantId); // ASIGNACIÓN DINÁMICA DEL CLIENTE
                     user.setUserName(username);
-                    // SEGURIDAD: Asegurar que se use passwordEncoder (vi que en tu captura le faltaba el .encode)
+                    // SEGURIDAD: Asegurar que se use passwordEncoder
                     user.setUserPassword(passwordEncoder.encode(rawPassword));
                     user.setRole(role);
                     user.setStatus(status);
