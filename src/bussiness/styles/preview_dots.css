@@ -1,0 +1,11 @@
+.previews { display: flex; gap: 10px; margin-top: 5px; }
+.preview-dot {
+    width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+    border: 2px solid var(--sidebar-border); transition: transform 0.2s;
+}
+.preview-dot:hover { transform: scale(1.2); }
+
+/*Preview dots colors*/
+.steam { background: linear-gradient(135deg, #1b2838 50%, #66c0f4 50%); }
+.medical { background: linear-gradient(135deg, #f2fdfa 50%, #189a8d 50%); }
+.midnight { background: linear-gradient(135deg, #0f0c29 50%, #6c5ce7 50%); }

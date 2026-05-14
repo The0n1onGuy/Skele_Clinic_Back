@@ -1,0 +1,16 @@
+{
+  "sidebar": {
+    "modules": "MÓDULOS PRINCIPALES",
+    "products": "Productos",
+    "bundles": "Paquetes",
+    "offers": "Ofertas",
+    "logout": "Cerrar Sesión",
+    "themes": "TEMAS"
+  },
+  "catalog": {
+    "title": "Catálogo de Productos",
+    "subtitle": "Seleccione los artículos para el carrito de ventas",
+    "category": "Categoría",
+    "basePrice": "Precio Base"
+  }
+}

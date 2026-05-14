@@ -1,0 +1,16 @@
+{
+  "sidebar": {
+    "modules": "MAIN MODULES",
+    "products": "Products",
+    "bundles": "Bundles",
+    "offers": "Offers",
+    "logout": "Logout",
+    "themes": "THEMES"
+  },
+  "catalog": {
+    "title": "Product Catalog",
+    "subtitle": "Select items for the shopping cart",
+    "category": "Category",
+    "basePrice": "Base Price"
+  }
+}

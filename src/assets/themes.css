@@ -1,0 +1,33 @@
+/* Shared variables and themes */
+:root {
+    --bg-sidebar: #ffffff;
+    --bg-main: #f2fdfa;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --accent: #189a8d;
+    --accent-hover: #148075;
+    --sidebar-border: #f0f0f0;
+    --card-bg: #ffffff;
+}
+
+[data-theme='steam'] {
+    --bg-sidebar: #171a21;
+    --bg-main: #1b2838;
+    --text-main: #ffffff;
+    --text-muted: #c7d5e0;
+    --accent: #66c0f4;
+    --accent-hover: #1999ff;
+    --sidebar-border: #2a475e;
+    --card-bg: #16202d;
+}
+
+[data-theme='midnight'] {
+    --bg-sidebar: #0f0c29;
+    --bg-main: #24243e;
+    --text-main: #f8f9fa;
+    --text-muted: #a29bfe;
+    --accent: #6c5ce7;
+    --accent-hover: #a29bfe;
+    --sidebar-border: #302b63;
+    --card-bg: #1a1a2e;
+}

@@ -3,25 +3,31 @@
     <div class="brand">
       <div class="logo-icon">🏥</div>
       <div class="brand-text">
-        <h2>NexusClinic</h2>
-        <p>v1.0</p>
+        <h2>Store name</h2>
+        <p>ver 1.0</p>
+
+        <div class="language-switcher">
+          <button @click="changeLanguage('es')" :class="{ active: locale === 'es' }">ES</button>
+          <button @click="changeLanguage('en')" :class="{ active: locale === 'en' }">EN</button>
+        </div>
+
       </div>
     </div>
 
     <nav class="menu">
-      <p class="menu-label">MÓDULOS PRINCIPALES</p>
+      <p class="menu-label">{{$t('sidebar.modules')}}</p>
       <ul>
         <li class="menu-item" :class="{ active: router.name === 'products' }" @click="router.push('/products')">
-          <span class="icon">📦</span>
-          <span class="text">Productos</span>
+          <span class="icon">ICON</span>
+          <span class="text">{{$t('sidebar.products')}}</span>
         </li>
         <li class="menu-item" :class="{ active: router.name === 'bundles' }" @click="router.push('/bundles')">
-          <span class="icon">🎁</span>
-          <span class="text">Bundles</span>
+          <span class="icon">ICON</span>
+          <span class="text">{{$t('sidebar.bundles')}}</span>
         </li>
         <li class="menu-item" :class="{ active: router.name === 'offers' }" @click="router.push('/offers')">
-          <span class="icon">🏷️</span>
-          <span class="text">Ofertas</span>
+          <span class="icon">ICON</span>
+          <span class="text">{{$t('sidebar.offers')}}</span>
         </li>
       </ul>
     </nav>
@@ -57,156 +63,36 @@ const cerrarSesion = () => {
   router.push('/login');
 };
 
-
-
 const setTheme = (themeName) => {
   // Aplicamos el atributo al elemento raíz para que afecte a todos los componentes
   document.documentElement.setAttribute('data-theme', themeName);
   sessionStorage.setItem('preferred-theme', themeName);
 };
 
+import { useI18n } from 'vue-i18n'; // Importamos el hook
+
+// Extraemos la variable 'locale' que controla el idioma global
+const { locale } = useI18n();
+
+const changeLanguage = (lang) => {
+  locale.value = lang; // Cambia el idioma en toda la vista de inmediato
+  localStorage.setItem('preferred-language', lang); // Lo guarda para la próxima visita
+};
+
 </script>
 
+<style src="../styles/sidebar.css" scoped></style>
+<style src="../styles/preview_dots.css" scoped></style>
 <style scoped>
-.previews { display: flex; gap: 10px; margin-top: 5px; }
-.preview-dot {
-  width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
-  border: 2px solid #ddd; transition: transform 0.2s;
+.language-switcher button {
+background: transparent;
+border: 1px solid var(--sidebar-border);
+color: var(--text-main);
+padding: 5px 10px;
+cursor: pointer;
 }
-.preview-dot:hover { transform: scale(1.2); }
-
-/* Colores de las bolitas de vista previa */
-.steam { background: linear-gradient(135deg, #1b2838 50%, #66c0f4 50%); }
-.medical { background: linear-gradient(135deg, #f2fdfa 50%, #189a8d 50%); }
-.midnight { background: linear-gradient(135deg, #0f0c29 50%, #6c5ce7 50%); }
-
-
-/* Contenedor principal del sidebar */
-.sidebar {
-  width: 260px;
-  height: 100vh;
-  background-color: #ffffff;
-  box-shadow: 4px 0 20px rgba(24, 154, 141, 0.08); /* Sombra suave con el tono verde */
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  border-right: 1px solid #f0f0f0;
-}
-
-/* Área de la marca/logo */
-.brand {
-  padding: 30px 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border-bottom: 1px solid #f2fdfa;
-}
-
-.logo-icon {
-  font-size: 32px;
-  background: #e0f7f4;
-  padding: 10px;
-  border-radius: 12px;
-}
-
-.brand-text h2 {
-  margin: 0;
-  color: #2c3e50;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.brand-text p {
-  margin: 0;
-  color: #189a8d;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* Navegación */
-.menu {
-  padding: 20px 15px;
-  flex-grow: 1; /* Empuja el footer hacia abajo */
-}
-
-.menu-label {
-  font-size: 11px;
-  color: #a0aec0;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
-  padding-left: 10px;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-/* Elementos de la lista */
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 15px;
-  border-radius: 10px;
-  color: #4a5568;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.menu-item:hover {
-  background-color: #f2fdfa;
-  color: #189a8d;
-  transform: translateX(5px); /* Pequeño efecto de deslizamiento al pasar el mouse */
-}
-
-/* Estado Activo (La página en la que estamos) */
-.active {
-  background-color: #189a8d;
-  color: #ffffff;
-  box-shadow: 0 4px 10px rgba(24, 154, 141, 0.3);
-}
-
-.active:hover {
-  background-color: #148075;
-  color: #ffffff;
-  transform: none; /* Quitamos el deslizamiento si ya está activo */
-}
-
-/* Footer y botón de cerrar sesión */
-.sidebar-footer {
-  padding: 20px;
-  border-top: 1px solid #f2fdfa;
-}
-
-.logout-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 12px;
-  background-color: #fff;
-  border: 1px solid #ffcbd1;
-  color: #e53e3e;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logout-btn:hover {
-  background-color: #fff5f5;
-  border-color: #e53e3e;
+.language-switcher button.active {
+background: var(--accent);
+color: white;
 }
 </style>

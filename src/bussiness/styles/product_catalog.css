@@ -1,0 +1,81 @@
+.catalog-container {
+    background-color: var(--bg-main);
+    min-height: 100vh;
+    padding: 20px;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: var(--card-bg); /* Color oscuro estilo Steam */
+    color: var(--text-main);
+    border: 1px solid var(--sidebar-border);
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px) scale(1.05); /*increase the size, and pull up a bit for pop out effect*/
+    z-index: 10;
+}
+
+
+.product-image-placeholder {
+    height: 120px;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.product-info { padding: 10px; }
+.product-name { font-size: 14px; margin: 0 0 10px 0; height: 35px; color: var(--accent); }
+
+.price-container { display: flex; align-items: center; gap: 8px; }  /* Group for the general prices*/
+.strike { text-decoration: line-through; color: var(--text-muted); font-size: 12px; } /* Strikethrought effect  */
+.current-price { color: var(--text-main); font-weight: bold; }  /* Operated text (discount / default price) */
+
+.discount-badge {
+    background: #4c6b22;
+    color: #beee11;
+    padding: 2px 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Hover Details hidden by default */
+.product-details-hover {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(27, 40, 56, 0.95);
+    padding: 15px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-card:hover .product-details-hover { display: flex; }
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000;
+}
+
+.selection-card {
+    background: white; padding: 30px; border-radius: 12px;
+    width: 400px; color: #2c3e50;
+}
+
+.btn-yes { background: #189a8d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+.btn-cancel { background: #e2e8f0; border: none; padding: 10px 20px; border-radius: 5px; margin-left: 10px; }
