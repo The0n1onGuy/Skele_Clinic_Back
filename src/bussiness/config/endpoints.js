@@ -3,13 +3,14 @@ export const ENDPOINTS = {
     auth: {
         login: '/api/auth/login',
     },
-    rrhh: {
-        all: '/api/rrhh/departments/all',
-        positions: '/api/rrhh/positions',
-        employees: '/api/rrhh/employees',
+    products: {
+        products: '/api/pos/cart/products',
+        cartSummary: '/api/pos/cart/summary', // Asumiendo un endpoint para el total actual
+        addToCart: '/api/pos/cart/add'
     },
-    patients: {
-        list: '/api/patients',
-        records: '/api/expedientes',
+    navigation: {
+        //home: '/',
+        bundles: '/bundles',
+        offers: '/offers'
     }
 };

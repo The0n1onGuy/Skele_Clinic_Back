@@ -1,16 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import cart_view from "@/bussiness/components/cart_view.vue";
+import product_catalog from "../views/product_catalog.vue";
+import Login from "@/components/Login.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/test-cart',
-      name: 'TestCart',
-      component: cart_view,
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: product_catalog,
       meta: { requiresAuth: true }
     }
-    // Al crear las rutas de Pacientes o RRHH, también poner meta: { requiresAuth: true }
   ],
 })
 
@@ -22,12 +27,12 @@ router.beforeEach((to, from, next) => {
   const requiereAutenticacion = to.matched.some(record => record.meta.requiresAuth);
 
   if (requiereAutenticacion && !token) {
-    // Si no tiene token se queda en login
+    // No token, no pass off to login with ya
     next('/login');
   }
   else if (to.name === 'login' && token) {
-    // Quiere ir al login pero ya tiene token entonces manda a la pagina principal
-    next('/');
+    // Has a token?,  Take him to default option
+    next('/products');
   }
   else {
     // Escenario 3: Todo está en orden, déjalo pasar.

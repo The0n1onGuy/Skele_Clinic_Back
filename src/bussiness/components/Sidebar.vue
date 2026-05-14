@@ -11,24 +11,31 @@
     <nav class="menu">
       <p class="menu-label">MÓDULOS PRINCIPALES</p>
       <ul>
-        <li class="menu-item" :class="{ active: router.name === 'home' }" @click="router.push('/')">
-          <span class="icon">📅</span>
-          <span class="text">Citas</span>
+        <li class="menu-item" :class="{ active: router.name === 'products' }" @click="router.push('/products')">
+          <span class="icon">📦</span>
+          <span class="text">Productos</span>
         </li>
-        <li class="menu-item">
-          <span class="icon">👥</span>
-          <span class="text">Pacientes</span>
+        <li class="menu-item" :class="{ active: router.name === 'bundles' }" @click="router.push('/bundles')">
+          <span class="icon">🎁</span>
+          <span class="text">Bundles</span>
         </li>
-        <li class="menu-item">
-          <span class="icon">🩺</span>
-          <span class="text">Especialistas</span>
-        </li>
-        <li class="menu-item" :class="{ active: router.name === 'rrhh' }" @click="router.push('/rrhh')">
-          <span class="icon">🏢</span>
-          <span class="text">RRHH</span>
+        <li class="menu-item" :class="{ active: router.name === 'offers' }" @click="router.push('/offers')">
+          <span class="icon">🏷️</span>
+          <span class="text">Ofertas</span>
         </li>
       </ul>
     </nav>
+
+
+    <div class="theme-selector">
+      <p>Paleta de colores:</p>
+      <div class="previews">
+        <div @click="setTheme('steam')" class="preview-dot steam" title="Steam Dark"></div>
+        <div @click="setTheme('medical')" class="preview-dot medical" title="Medical Modern"></div>
+        <div @click="setTheme('midnight')" class="preview-dot midnight" title="Midnight Violet"></div>
+      </div>
+    </div>
+
 
     <div class="sidebar-footer">
       <button @click="cerrarSesion" class="logout-btn">
@@ -49,9 +56,31 @@ const cerrarSesion = () => {
   sessionStorage.removeItem('token');
   router.push('/login');
 };
+
+
+
+const setTheme = (themeName) => {
+  // Aplicamos el atributo al elemento raíz para que afecte a todos los componentes
+  document.documentElement.setAttribute('data-theme', themeName);
+  sessionStorage.setItem('preferred-theme', themeName);
+};
+
 </script>
 
 <style scoped>
+.previews { display: flex; gap: 10px; margin-top: 5px; }
+.preview-dot {
+  width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+  border: 2px solid #ddd; transition: transform 0.2s;
+}
+.preview-dot:hover { transform: scale(1.2); }
+
+/* Colores de las bolitas de vista previa */
+.steam { background: linear-gradient(135deg, #1b2838 50%, #66c0f4 50%); }
+.medical { background: linear-gradient(135deg, #f2fdfa 50%, #189a8d 50%); }
+.midnight { background: linear-gradient(135deg, #0f0c29 50%, #6c5ce7 50%); }
+
+
 /* Contenedor principal del sidebar */
 .sidebar {
   width: 260px;

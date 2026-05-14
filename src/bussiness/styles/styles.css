@@ -1,0 +1,34 @@
+/* src/bussiness/styles/themes.css */
+
+/* TEMA 1: STEAM DARK (Predeterminado) */
+[data-theme='steam'] {
+    --bg-primary: #1b2838;
+    --bg-secondary: #2a475e;
+    --text-main: #ffffff;
+    --text-muted: #c7d5e0;
+    --accent: #66c0f4;
+    --card-bg: #16202d;
+    --price-color: #a3d200;
+}
+
+/* TEMA 2: MEDICAL MODERN */
+[data-theme='medical'] {
+    --bg-primary: #f2fdfa;
+    --bg-secondary: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+    --accent: #189a8d;
+    --card-bg: #ffffff;
+    --price-color: #27ae60;
+}
+
+/* TEMA 3: MIDNIGHT VIOLET */
+[data-theme='midnight'] {
+    --bg-primary: #0f0c29;
+    --bg-secondary: #302b63;
+    --text-main: #f8f9fa;
+    --text-muted: #a29bfe;
+    --accent: #6c5ce7;
+    --card-bg: #24243e;
+    --price-color: #fdcb6e;
+}

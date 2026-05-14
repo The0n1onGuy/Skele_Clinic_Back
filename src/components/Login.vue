@@ -65,7 +65,7 @@ const hacerLogin = async () => {
 
     const token = respuesta.data.token || respuesta.data.data.token;
     sessionStorage.setItem('token', token);
-    router.push('/');
+    router.push('/products');
   } catch (error) {
     console.error("Error en login:", error);
     errorMsg.value = "Credenciales incorrectas o error de servidor";
