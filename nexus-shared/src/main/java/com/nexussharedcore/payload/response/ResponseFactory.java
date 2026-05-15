@@ -61,9 +61,21 @@ public class ResponseFactory {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    public static ResponseEntity<Map<String, Object>> forbidden(String message) {
+        Map<String, Object> response = createBaseResponse(403, HttpStatus.FORBIDDEN.name(), message);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
     // =========================
     // MANEJADORES DE EXCEPCIONES GLOBALES (@ControllerAdvice)
     // =========================
+
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<Map<String, Object>> handleIllegalArguments(RuntimeException ex) {
+        // Intercepta validaciones de negocio fallidas y las retorna como error de cliente
+        Map<String, Object> response = createBaseResponse(400, HttpStatus.BAD_REQUEST.name(), ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(NoSuchElementException ex) {
@@ -101,6 +113,7 @@ public class ResponseFactory {
     }
 
     // Validación de DTOs (@Valid)
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
     public static ResponseEntity<Map<String, Object>> renderValidationError(BindingResult result) {
         List<String> errors = result.getFieldErrors().stream()
                 .map(err -> String.format("Campo '%s': %s", err.getField(), err.getDefaultMessage()))

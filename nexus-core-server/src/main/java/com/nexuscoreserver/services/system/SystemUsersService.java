@@ -19,22 +19,23 @@ public class SystemUsersService {
     private final ISystemUsersRepository systemUsersrepository;
     private final PasswordEncoder passwordEncoder;
 
+    // En SystemUsersService.java
     @Transactional
-    public SystemUsersModel createSystemUsers(SystemUsersRequestObject requestObject, SystemRolesModel assignedRole) {
+    public SystemUsersModel createSystemUsers(SystemUsersRequestObject requestObject, SystemRolesModel assignedRole, String tenantId) {
 
         SystemUsersModel sysUser = new SystemUsersModel();
 
-        // Asignación estricta al esquema maestro para usuarios de sistema
-        sysUser.setTenantId("his_master");
+        // Ahora el tenant es dinámico: puede ser "his_master" o el ID de una clínica específica
+        sysUser.setTenantId(tenantId);
         sysUser.setUserName(requestObject.getUserName());
-        sysUser.setPassword(passwordEncoder.encode(requestObject.getPassword())); // Actualizado a 'getPassword()'
+        sysUser.setPassword(passwordEncoder.encode(requestObject.getPassword()));
         sysUser.setRole(assignedRole);
 
-        // Inicialización de seguridad TOTP (Por defecto desactivado hasta configuración manual)
+        // El estado "requiere configuración" es implícito: 2fa=false y secret=null
         sysUser.setIs2faEnabled(false);
         sysUser.setTotpSecret(null);
 
-        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active") // Homologado al Seeder
+        StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new IllegalStateException("Base status not found in the system."));
         sysUser.setStatus(activeStatus);
 

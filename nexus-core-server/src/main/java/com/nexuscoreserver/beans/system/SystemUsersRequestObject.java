@@ -7,12 +7,17 @@ import lombok.Data;
 @Data
 public class SystemUsersRequestObject {
 
-    @NotNull(message = "The username is required.")
+    @NotBlank
+    private String tenantId;
+
+    @NotBlank(message = "The username is required.")
     private String userName;
 
     @NotBlank(message = "The password is required.")
     private String password;
 
+    @NotBlank(message = "Debe especificar un rol para el usuario")
+    private String roleName;
     /**
      * Campo opcional para el flujo de autenticación de doble factor.
      * Si is2faEnabled es true en el modelo, este campo será obligatorio en la validación del servicio.

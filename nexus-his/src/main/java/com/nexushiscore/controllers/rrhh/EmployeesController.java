@@ -6,11 +6,13 @@ import com.nexussharedcore.payload.response.ResponseFactory;
 import com.nexussharedcore.security.JwtService;
 import com.nexushiscore.services.rrhh.EmployeeOnboardingService;
 import com.nexushiscore.services.rrhh.EmployeesService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +21,22 @@ import java.util.Map;
 @RestController
 // @CrossOrigin(origins = "*")
 @RequestMapping("/api/his/v1/rrhh/employees")
+@Validated
 public class EmployeesController {
+    @Autowired
+    private org.springframework.context.ApplicationContext applicationContext;
+
+    @PostConstruct
+    public void checkValidator() {
+        String[] beans = applicationContext.getBeanNamesForType(jakarta.validation.Validator.class);
+        System.out.println("====== VALIDATOR CHECK ======");
+        if (beans.length > 0) {
+            System.out.println("Motor de validación cargado: OK");
+        } else {
+            System.out.println("ERROR: No se encontró ningún Bean de validación. El starter no está activo.");
+        }
+        System.out.println("=============================");
+    }
     @Autowired
     EmployeesService employeesService;
     @Autowired
@@ -38,7 +55,8 @@ public class EmployeesController {
             @Valid @RequestBody EmployeeOnboardingRequestObject request,
             HttpServletRequest httpRequest) {
 
-        // 1. Extracción Estricta (Zero Trust)
+        System.out.println(">>> ¡ERROR CRÍTICO!: La validación fue ignorada y entró al controlador.");
+
         String authHeader = httpRequest.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token ausente o inválido");
@@ -47,11 +65,10 @@ public class EmployeesController {
         String token = authHeader.substring(7);
         String currentTenantId = jwtService.extractTenant(token);
 
-        // 2. Ejecución de la Transacción Distribuida
-        onboardingService.onboardNewEmployee(request, currentTenantId);
+        // MODIFICACIÓN: Pasamos el 'token' como tercer parámetro
+        onboardingService.onboardNewEmployee(request, currentTenantId, token);
 
-        // 3. (Opcional) Si tu ResponseFactory ya funciona, utilízalo aquí.
-        return ResponseEntity.status(HttpStatus.CREATED).body("Empleado registrado exitosamente en el sistema y en la clínica.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Empleado registrado exitosamente.");
     }
 
     @PutMapping("/update/{id}")

@@ -11,56 +11,53 @@ import com.nexushiscore.repositories.rrhh.IPositionsRepository;
 import com.nexushiscore.repositories.system.IStatusRepository;
 import com.nexussharedcore.security.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 
-import javax.sql.DataSource;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class EmployeeOnboardingService {
 
-    @Autowired
-    private DataSource dataSource; // CORRECCIÓN: camelCase
+    // Extraemos la URL base del application.yml (ej. http://localhost:8080)
+    @Value("${nexus.core.url:http://localhost:8080}")
+    private String coreServiceUrl;
 
-    @Autowired
-    private IStatusRepository statusRepository;
+    @Autowired private IStatusRepository statusRepository;
+    @Autowired private IDepartmentsRepository departmentsRepository;
+    @Autowired private IPositionsRepository positionsRepository;
+    @Autowired private IEmployeesRepository employeesRepository;
 
-    @Autowired
-    private IDepartmentsRepository departmentsRepository;
+    @Autowired private RestClient restClient;
 
-    @Autowired
-    private IPositionsRepository positionsRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private IEmployeesRepository employeesRepository;
-
-    public void onboardNewEmployee(EmployeeOnboardingRequestObject request, String tenantId) {
+    public void onboardNewEmployee(EmployeeOnboardingRequestObject request, String tenantId, String authToken) {
         String sharedUuid = UUID.randomUUID().toString();
-        JdbcTemplate masterJdbcTemplate = new JdbcTemplate(dataSource);
 
-        // BIFURCACIÓN ESTRATÉGICA
         if (request.getRequiresSystemAccess() != null && request.getRequiresSystemAccess()) {
-            // RUTA A: CON CREDENCIALES (Transacción Distribuida)
-            insertIntoMaster(request, sharedUuid, tenantId, masterJdbcTemplate);
+
+            // RUTA A: COMUNICACIÓN SÍNCRONA CON CORE
+            createSystemUserViaCore(request, authToken, tenantId);
 
             try {
                 TenantContext.setCurrentTenant(tenantId);
                 insertIntoTenantJPA(request, sharedUuid);
             } catch (Exception e) {
-                rollbackMasterInsertion(sharedUuid, masterJdbcTemplate);
+                // NOTA ARQUITECTÓNICA: Si falla aquí, el usuario ya se creó en CORE.
+                // En un futuro, aquí iría una llamada HTTP DELETE a CORE para hacer Rollback.
                 e.printStackTrace();
-                throw new RuntimeException("Fallo al guardar el perfil clínico. Credenciales revertidas.", e);
+                throw new RuntimeException("Fallo al guardar el perfil clínico local. Revisa la consistencia en CORE.", e);
             } finally {
                 TenantContext.clear();
             }
         } else {
-            // RUTA B: SIN CREDENCIALES (Operación Exclusiva de Tenant)
+            // RUTA B: EXCLUSIVO DE TENANT
             try {
                 TenantContext.setCurrentTenant(tenantId);
                 insertIntoTenantJPA(request, sharedUuid);
@@ -70,31 +67,41 @@ public class EmployeeOnboardingService {
         }
     }
 
-    private void insertIntoMaster(EmployeeOnboardingRequestObject request, String uuid, String tenantId, JdbcTemplate masterJdbc) {
+    private void createSystemUserViaCore(EmployeeOnboardingRequestObject request, String authToken, String tenantId) {
         if (request.getUsername() == null || request.getPassword() == null || request.getRoleName() == null) {
             throw new IllegalArgumentException("Usuario, contraseña y rol son obligatorios si requiresSystemAccess es true");
         }
 
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
+        // 1. Limpieza criptográfica estricta
+        String cleanToken = authToken.replace("Bearer ", "").replaceAll("\\s+", "");
+        String endpoint = coreServiceUrl + "/api/core/v1/system-users/create";
 
-        String sqlUser = "INSERT INTO system_users (role_id, status_id, uuid, tenant_id, user_name, password) " +
-                "VALUES (" +
-                "(SELECT id_role FROM system_roles WHERE role_name = ? LIMIT 1), " +
-                "(SELECT id_status FROM status WHERE name = 'Active' LIMIT 1), " +
-                "?, ?, ?, ?)";
+        // 2. Construcción del Payload
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("userName", request.getUsername());
+        requestBody.put("password", request.getPassword());
+        requestBody.put("roleName", request.getRoleName());
+        requestBody.put("tenantId", tenantId);
 
-        masterJdbc.update(sqlUser,
-                request.getRoleName(),
-                uuid,
-                tenantId,
-                request.getUsername(),
-                hashedPassword
-        );
-    }
+        System.out.println("====== OUTBOUND HTTP DEBUG (RestClient) ======");
+        System.out.println("DESTINO: " + endpoint);
+        System.out.println("AUTHORIZATION HEADER: [Bearer " + cleanToken + "]");
+        System.out.println("==============================================");
 
-    private void rollbackMasterInsertion(String uuid, JdbcTemplate masterJdbc) {
-        String sqlDelete = "DELETE FROM system_users WHERE uuid = ?";
-        masterJdbc.update(sqlDelete, uuid);
+        // 3. Ejecución Fluida Síncrona
+        restClient.post()
+                .uri(endpoint)
+                .header("Authorization", "Bearer " + cleanToken)
+                .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                .body(requestBody)
+                .retrieve()
+                .onStatus(org.springframework.http.HttpStatusCode::isError, (req, res) -> {
+                    // Interceptamos cualquier error (4xx o 5xx) y extraemos el mensaje real de CORE
+                    // sin que Spring lo enmascare con excepciones genéricas.
+                    String coreErrorMessage = new String(res.getBody().readAllBytes());
+                    throw new RuntimeException("Rechazo de CORE [HTTP " + res.getStatusCode() + "]: " + coreErrorMessage);
+                })
+                .toBodilessEntity(); // Equivalente a esperar un 201 Created sin mapear un Body de retorno complejo
     }
 
     private void insertIntoTenantJPA(EmployeeOnboardingRequestObject request, String uuidString) {
@@ -117,8 +124,6 @@ public class EmployeeOnboardingService {
                 .orElseThrow(() -> new RuntimeException("Departamento no encontrado: " + request.getIdDepartment()));
         employee.setId_department(department);
 
-        // CORRECCIÓN: Búsqueda dinámica robusta en lugar de Hardcoding (1L)
-        // Asegúrate de tener un Optional<StatusModel> findByName(String name); en IStatusRepository
         StatusModel activeStatus = statusRepository.findByStatusNameIgnoreCase("Active")
                 .orElseThrow(() -> new RuntimeException("Estado 'Active' no encontrado en el diccionario."));
         employee.setId_status(activeStatus);

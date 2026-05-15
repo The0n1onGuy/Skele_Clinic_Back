@@ -50,7 +50,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
                 .orElseThrow(() -> new IllegalStateException("Fallo Crítico: El catálogo de estatus no fue sembrado por Flyway."));
 
         // 2. Aprovisionar Rol de Administración Global
-        SystemRolesModel masterRole = resolveRole("MASTER", activeStatus);
+        SystemRolesModel masterRole = resolveRole("ROLE_MASTER", activeStatus);
         SystemRolesModel adminRole = resolveRole("ROLE_ADMIN", activeStatus);
         // 3. Aprovisionar Usuario Administrador Global
         // Nota: tenantId se fija en 'his_master' referenciando la tabla system_tenants
@@ -60,7 +60,7 @@ public class SystemUsersDataLoader implements CommandLineRunner {
     }
 
     private SystemRolesModel resolveRole(String roleName, StatusModel status) {
-        return rolesRepository.findByRoleName(roleName)
+        return rolesRepository.findByRoleNameIgnoreCase(roleName)
                 .orElseGet(() -> {
                     SystemRolesModel role = new SystemRolesModel();
                     role.setRoleName(roleName);

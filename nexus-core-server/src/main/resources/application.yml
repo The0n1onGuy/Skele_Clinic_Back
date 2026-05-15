@@ -1,12 +1,13 @@
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /
 
 spring:
   application:
-    name: nexus-his-server
+    name: nexus-core-server
 
+  # Desactivar Flyway temporalmente según directiva de desarrollo
   flyway:
     enabled: false
 
@@ -16,9 +17,23 @@ spring:
     username: ${NEXUS_RABBITMQ_USER:nexus_admin}
     password: ${NEXUS_RABBITMQ_PASS:secure_local_pass}
     virtual-host: ${NEXUS_RABBITMQ_VHOST:nexus_tenant_vhost}
+    template:
+      retry:
+        enabled: true
+        initial-interval: 3000ms
+        max-interval: 15000ms
+        multiplier: 2.0
+        max-attempts: 5
+      listener:
+        simple:
+          retry:
+            enabled: true
+            initial-interval: 3000ms
+            max-attempts: 5
+            multiplier: 2.0
 
   datasource:
-    url: jdbc:mysql://${NEXUS_DB_HOST:localhost}:${NEXUS_DB_PORT:3306}/his_master?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://${NEXUS_DB_HOST:localhost}:${NEXUS_DB_PORT:3306}/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: ${NEXUS_DB_USER:his_master_admin}
     password: ${NEXUS_DB_PASS:Darick471}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,7 +44,7 @@ spring:
       idle-timeout: 30000
       max-lifetime: 2000000
       connection-timeout: 30000
-      pool-name: NexusHisTenantPool
+      pool-name: NexusCoreMasterPool
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -37,15 +52,14 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
-        # Activación del motor Multi-Tenant de Hibernate
-        multiTenancy: DATABASE
 
 logging:
   level:
     root: INFO
     org.springframework: INFO
-    org.hibernate: INFO
-    com.nexushiscore: INFO  # Obliga a mostrar los log.info() de tus clases
+    org.hibernate: WARN
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.springframework.web: WARN
+    com.nexusbusiness: INFO  # Obliga a mostrar los log.info() de tus clases
     org.flywaydb: INFO

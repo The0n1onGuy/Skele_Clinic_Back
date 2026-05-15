@@ -1,4 +1,4 @@
-package com.nexuscoreserver.controllers.system;
+package com.nexuscoreserver.controllers.security;
 
 import com.nexuscoreserver.services.system.AgentService;
 import org.springframework.http.ResponseEntity;

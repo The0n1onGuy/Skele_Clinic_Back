@@ -10,6 +10,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -39,7 +42,16 @@ public class NexusHisApplication extends SpringBootServletInitializer {
         System.out.println("..:: NEXUS HIS (CLINIC) INITIALIZED ::..");
         System.out.println("----------------------------------------");
     }
+    @Configuration
+    public class RestClientConfig {
 
+        @Bean
+        public RestClient restClient() {
+            // RestClient.create() inicializa el cliente con los convertidores de mensajes
+            // y configuraciones por defecto más seguras y modernas de Spring.
+            return RestClient.create();
+        }
+    }
     // Swagger exclusivo para el dominio clínico
     @Bean
     public OpenAPI clinicaOpenAPI() {

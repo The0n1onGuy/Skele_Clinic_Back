@@ -3,6 +3,7 @@ package com.nexuscoreserver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import jakarta.annotation.PostConstruct;
@@ -10,12 +11,16 @@ import jakarta.annotation.PostConstruct;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.Contact;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.TimeZone;
 
 // INSTRUCCIÓN CRÍTICA: Escaneo del módulo actual Y la librería compartida
-@SpringBootApplication(scanBasePackages = {"com.nexuscoreserver", "com.nexussharedcore"})
+@SpringBootApplication(scanBasePackages = {"com.nexuscoreserver", "com.nexussharedcore"},
+exclude = {UserDetailsServiceAutoConfiguration.class} )
 public class NexusCoreServerApplication extends SpringBootServletInitializer {
 
     @Override
@@ -35,7 +40,16 @@ public class NexusCoreServerApplication extends SpringBootServletInitializer {
         System.out.println("..:: NEXUS CORE (CONTROL) INITIALIZED ::..");
         System.out.println("----------------------------------------");
     }
+    @Configuration
+    public class RestClientConfig {
 
+        @Bean
+        public RestClient restClient() {
+            // RestClient.create() inicializa el cliente con los convertidores de mensajes
+            // y configuraciones por defecto más seguras y modernas de Spring.
+            return RestClient.create();
+        }
+    }
     // Swagger exclusivo para el dominio de Control Global
     @Bean
     public OpenAPI coreOpenAPI() {

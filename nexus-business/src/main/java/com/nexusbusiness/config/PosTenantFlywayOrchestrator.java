@@ -82,7 +82,7 @@ public class PosTenantFlywayOrchestrator implements ApplicationRunner {
                     .load();
 
             flywayTenant.migrate();
-            log.info(">>> [ÉXITO CLÍNICO] Estructura de tablas de negocio generada para: {}", tenantKey);
+            log.info(">>> [ÉXITO] Estructura de tablas de negocio generada para: {}", tenantKey);
 
         } catch (Exception e) {
             log.error(">>> [ERROR CRÍTICO] Fallo al materializar la estructura de negocio para {}. Causa: {}", tenantKey, e.getMessage());

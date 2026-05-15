@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ISystemRolesRepository extends JpaRepository<SystemRolesModel, Long> {
     // Metodo esencial para que Spring Security busque roles por su nombre
-    Optional<SystemRolesModel> findByRoleName(String roleName);
+    Optional<SystemRolesModel> findByRoleNameIgnoreCase(String roleName);
 }

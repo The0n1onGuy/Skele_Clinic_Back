@@ -10,11 +10,19 @@ spring:
   flyway:
     enabled: false
 
+  rabbitmq:
+    host: ${NEXUS_RABBITMQ_HOST:localhost}
+    port: ${NEXUS_RABBITMQ_PORT:5672}
+    username: ${NEXUS_RABBITMQ_USER:nexus_admin}
+    password: ${NEXUS_RABBITMQ_PASS:secure_local_pass}
+    virtual-host: ${NEXUS_RABBITMQ_VHOST:nexus_tenant_vhost}
+
   datasource:
-    url: jdbc:mysql://localhost:3306/his_master?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-    username: his_master_admin
-    password: Darick471
+    url: jdbc:mysql://${NEXUS_DB_HOST:localhost}:${NEXUS_DB_PORT:3306}/his_master?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: ${NEXUS_DB_USER:his_master_admin}
+    password: ${NEXUS_DB_PASS:Darick471}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
     hikari:
       minimum-idle: 5
       maximum-pool-size: 20
@@ -34,6 +42,8 @@ spring:
         multiTenancy: DATABASE
 logging:
   level:
-    root: WARN
-    org.springframework: WARN
-    org.hibernate: WARN
+    root: INFO
+    org.springframework: INFO
+    org.hibernate: INFO
+    com.nexusbusiness: INFO
+    org.flywaydb: INFO

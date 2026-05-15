@@ -73,7 +73,6 @@ create table system_users (
                               password varchar(255) not null,
                               user_name varchar(255) not null,
 
-    -- INYECCIÓN FASE 2: Columnas para TOTP (Google Authenticator)
                               totp_secret VARCHAR(64) DEFAULT NULL,
                               is_2fa_enabled BOOLEAN DEFAULT FALSE,
 

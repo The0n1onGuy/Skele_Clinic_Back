@@ -37,17 +37,27 @@ public class SecurityConfig {
                         .accessDeniedHandler(securityExceptionHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/error").permitAll()
+                        .requestMatchers("/api/core/v1/auth/**", "/error").permitAll()
+
+                        // Solo quien tenga un JWT válido con el rol de SETUP puede pedir un QR o enrolarse
+                        .requestMatchers("/api/core/v1/2fa/generate-qr").hasRole("PRE_AUTH_SETUP")
+                        .requestMatchers("/api/core/v1/2fa/verify-enrollment").hasRole("PRE_AUTH_SETUP")
+
+                        // Solo quien ya esté enrolado y necesite verificar su código para entrar
+                        .requestMatchers("/api/core/v1/2fa/verify-login").hasRole("PRE_AUTH_VERIFY")
+
+                        .requestMatchers("/api/core/v1/system-roles/**").hasAnyRole("MASTER")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").hasRole("DEVELOPMENT")
                         .requestMatchers("/api/master/tenants/**").hasAnyRole("MASTER")
-                        .requestMatchers("/api/his/v1/rpbi/**").hasAnyRole("ADMIN", "RPBI")
-                        .requestMatchers("/api/his/v1/rrhh/**").hasAnyRole("ADMIN", "RRHH")
-                        .requestMatchers("/api/his/v1/patients/**").hasAnyRole("ADMIN", "PATIENTS")
-                        .requestMatchers("/api/his/v1/emergencias/**").hasAnyRole("ADMIN", "EMERGENCIAS")
-                        .requestMatchers("/api/his/v1/morgue/**").hasAnyRole("ADMIN", "MORGUE")
-                        .requestMatchers("/api/his/v1/lyr/**").hasAnyRole("ADMIN", "LYR")
-                        .requestMatchers("/api/his/v1/appointments/**").hasAnyRole("ADMIN", "APPOINTMENTS")
-                        .requestMatchers("/api/his/v1/almacen/**").hasAnyRole("ADMIN", "ALMACEN")
+                        .requestMatchers("/api/core/v1/system-users/**").permitAll()
+                        .requestMatchers("/api/his/v1/rpbi/**").hasAnyRole("RPBI", "ADMIN")
+                        .requestMatchers("/api/his/v1/rrhh/**").hasAnyRole("RRHH", "ADMIN")
+                        .requestMatchers("/api/his/v1/patients/**").hasAnyRole("PATIENTS", "ADMIN")
+                        .requestMatchers("/api/his/v1/emergencias/**").hasAnyRole("EMERGENCIAS", "ADMIN")
+                        .requestMatchers("/api/his/v1/morgue/**").hasAnyRole("MORGUE", "ADMIN")
+                        .requestMatchers("/api/his/v1/lyr/**").hasAnyRole("LYR", "ADMIN")
+                        .requestMatchers("/api/his/v1/appointments/**").hasAnyRole("APPOINTMENTS", "ADMIN")
+                        .requestMatchers("/api/his/v1/almacen/**").hasAnyRole("ALMACEN", "ADMIN")
                         .requestMatchers("/api/system/logs/*").hasAnyRole("MASTER")
                         .anyRequest().denyAll()
                 )

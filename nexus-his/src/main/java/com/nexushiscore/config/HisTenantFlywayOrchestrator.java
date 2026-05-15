@@ -79,7 +79,7 @@ public class HisTenantFlywayOrchestrator implements ApplicationRunner {
                     .load();
 
             flywayTenant.migrate();
-            log.info(">>> [ÉXITO CLÍNICO] Estructura de tablas de salud generada para: {}", tenantKey);
+            log.info(">>> [ÉXITO] Estructura de tablas de salud generada para: {}", tenantKey);
 
         } catch (Exception e) {
             log.error(">>> [ERROR CRÍTICO] Fallo al materializar la estructura clínica para {}. Causa: {}", tenantKey, e.getMessage());
