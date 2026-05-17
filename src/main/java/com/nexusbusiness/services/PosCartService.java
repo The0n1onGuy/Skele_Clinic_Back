@@ -47,7 +47,7 @@ public class PosCartService {
             dto.setProduct_sku(p.getSku());
             dto.setNormal_price(p.getBase_price());
 
-            // Extract just the name of the category to hide the object structure
+            // Extract just t|he name of the category to hide the object structure
             if (p.getCategory_id() != null) {
                 dto.setCategory_name(p.getCategory_id().getName());
             }
@@ -55,6 +55,62 @@ public class PosCartService {
             return dto;
 
         }).toList();
+    }
+    @Transactional // Critical: All steps succeed or all fail
+    public SaleModel addproduct(CartRequestObject request) {
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        SaleModel sale = new SaleModel();
+        sale.setTicket_number("T-" + System.currentTimeMillis());
+        //TODO Multiple payments MORE CHANGES
+
+        sale.setPayment_method(request.getPaymentMethod());
+        StatusModel activeStatus = getStatusByName(Active);
+        sale.setStatus_id(activeStatus);
+        sale.setTotal_amount(BigDecimal.ZERO);
+        // Initial save to get an ID for details
+        sale = saleRepository.save(sale);
+
+        for (CartItemObject item : request.getItems()) {
+            // Fetch Product and Inventory
+            ProductModel product = productRepository.findByUuid(item.getProductUUID())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductUUID()));
+
+            InventoryModel inventory = inventoryRepository.findByProduct(product)
+                    .orElseThrow(() -> new RuntimeException("Inventory record missing for " + product.getName()));
+
+            // FINAL INVENTORY CHECK (The "Bounce" logic)
+            if (inventory.getCurrent_stock() < item.getQuantity()) {
+                throw new RuntimeException("Insufficient stock for " + product.getName() +
+                        ". Only " + inventory.getCurrent_stock() + " left.");
+            }
+
+            // Calculate financial data
+            BigDecimal subtotal = product.getBase_price().multiply(new BigDecimal(item.getQuantity()));
+            totalAmount = totalAmount.add(subtotal);
+
+            // Create Sale Detail (Historical Audit)
+            SaleDetailModel detail = new SaleDetailModel();
+            detail.setSale_id(sale);
+            detail.setProduct_id(product);
+            detail.setQuantity(item.getQuantity());
+            detail.setSold_price(product.getBase_price()); //Save current price for log
+            detail.setSubtotal(subtotal);
+            detailRepository.save(detail);
+
+            // Update Inventory and Create Audit Movement
+            inventory.setCurrent_stock(inventory.getCurrent_stock() - item.getQuantity());
+            inventoryRepository.save(inventory);
+
+            InventoryMovementModel movement = new InventoryMovementModel();
+            movement.setProduct_id(product);
+            movement.setType("SALE"); // REMOVE
+            movement.setQuantity(item.getQuantity());
+            movement.setReason("Checkout Ticket: " + sale.getTicket_number());
+            movementRepository.save(movement);
+        }
+
+        sale.setTotal_amount(totalAmount);
+        return saleRepository.save(sale);
     }
     @Transactional // Critical: All steps succeed or all fail
     public SaleModel processPurchase(CartRequestObject request) {
@@ -71,40 +127,40 @@ public class PosCartService {
         sale = saleRepository.save(sale);
 
         for (CartItemObject item : request.getItems()) {
-            // 1. Fetch Product and Inventory
+            // Fetch Product and Inventory
             ProductModel product = productRepository.findByUuid(item.getProductUUID())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + item.getProductUUID()));
 
             InventoryModel inventory = inventoryRepository.findByProduct(product)
                     .orElseThrow(() -> new RuntimeException("Inventory record missing for " + product.getName()));
 
-            // 2. FINAL INVENTORY CHECK (The "Bounce" logic)
+            // FINAL INVENTORY CHECK (The "Bounce" logic)
             if (inventory.getCurrent_stock() < item.getQuantity()) {
                 throw new RuntimeException("Insufficient stock for " + product.getName() +
                         ". Only " + inventory.getCurrent_stock() + " left.");
             }
 
-            // 3. Calculate financial data
+            // Calculate financial data
             BigDecimal subtotal = product.getBase_price().multiply(new BigDecimal(item.getQuantity()));
             totalAmount = totalAmount.add(subtotal);
 
-            // 4. Create Sale Detail (Historical Audit)
+            // Create Sale Detail (Historical Audit)
             SaleDetailModel detail = new SaleDetailModel();
             detail.setSale_id(sale);
             detail.setProduct_id(product);
             detail.setQuantity(item.getQuantity());
-            detail.setSold_price(product.getBase_price()); // Protection: Save current price
+            detail.setSold_price(product.getBase_price()); //Save current price for log
             detail.setSubtotal(subtotal);
             detailRepository.save(detail);
 
-            // 5. Update Inventory and Create Audit Movement
+            // Update Inventory and Create Audit Movement
             inventory.setCurrent_stock(inventory.getCurrent_stock() - item.getQuantity());
             inventoryRepository.save(inventory);
 
             InventoryMovementModel movement = new InventoryMovementModel();
             movement.setProduct_id(product);
             movement.setType("SALE"); // REMOVE
-            movement.setQuantity(-item.getQuantity());
+            movement.setQuantity(item.getQuantity());
             movement.setReason("Checkout Ticket: " + sale.getTicket_number());
             movementRepository.save(movement);
         }
