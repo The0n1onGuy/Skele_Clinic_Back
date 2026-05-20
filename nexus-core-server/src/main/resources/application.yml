@@ -33,9 +33,12 @@ spring:
             multiplier: 2.0
 
   datasource:
-    url: jdbc:mysql://${NEXUS_DB_HOST:localhost}:${NEXUS_DB_PORT:3306}/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-    username: ${NEXUS_DB_USER:his_master_admin}
-    password: ${NEXUS_DB_PASS:Darick471}
+    #url: jdbc:mysql://${NEXUS_DB_HOST:localhost}:${NEXUS_DB_PORT:3306}/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://${NEXUS_DB_HOST:localhost}:${NEXUS_DB_PORT:3306}/his_master?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    #username: ${NEXUS_DB_USER:his_master_admin}
+    username: ${NEXUS_DB_USER:Olan}
+    #password: ${NEXUS_DB_PASS:Darick471}
+    password: ${NEXUS_DB_PASS:Xb0xisCool.}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:

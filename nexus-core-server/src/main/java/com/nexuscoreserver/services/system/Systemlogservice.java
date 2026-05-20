@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import com.nexuscore.services.system.AgentService;
+import com.nexuscoreserver.services.system.AgentService;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

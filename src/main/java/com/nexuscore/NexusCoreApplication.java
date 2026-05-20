@@ -20,18 +20,18 @@ import java.util.Date;
 import java.util.TimeZone;
 
 @EnableWebMvc
-@SpringBootApplication(scanBasePackages = {
-		"com.nexuscore",      // Existing clinic logic
-		"com.nexusbusiness"   // New POS shopping cart logic
-})
-@EnableJpaRepositories(basePackages = {
-		"com.nexuscore.repositories",
-		"com.nexusbusiness.repositories"
-})
-@EntityScan(basePackages = {
-		"com.nexuscore.models",
-		"com.nexusbusiness.models"
-})
+//@SpringBootApplication(scanBasePackages = {
+//		"com.nexuscore",      // Existing clinic logic
+//		"com.nexusbusiness"   // New POS shopping cart logic
+//})
+//@EnableJpaRepositories(basePackages = {
+//		"com.nexuscore.repositories",
+//		"com.nexusbusiness.repositories"
+//})
+//@EntityScan(basePackages = {
+//		"com.nexuscore.models",
+//		"com.nexusbusiness.models"
+//})
 public class NexusCoreApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	@Override
