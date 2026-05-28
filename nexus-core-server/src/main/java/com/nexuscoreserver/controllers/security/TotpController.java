@@ -16,9 +16,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controlador REST para la gestión del ciclo de vida del factor de autenticación TOTP (MFA 2FA).
+ * Robustecido contra vectores de sobreescritura de secreto y excepciones no controladas de desbordamiento de cadenas.
+ */
 @RestController
 @RequestMapping("/api/core/v1/2fa")
 @RequiredArgsConstructor
@@ -26,31 +31,37 @@ public class TotpController {
 
     private final ISystemUsersRepository usersRepository;
     private final JwtService jwtService;
-    private final CodeVerifier totpVerifier; // Inyectado por la librería
+    private final CodeVerifier totpVerifier;
 
-    // 1. Endpoint para generar el Secreto y el QR (Enrollment)
+    // 1. Endpoint para generar el Secreto y el código QR (Enrollment)
     @GetMapping("/generate-qr")
     public ResponseEntity<Map<String, Object>> generateQr(HttpServletRequest httpRequest) throws QrGenerationException {
-        // Asumimos que validaste el token y extrajiste el UUID o username del usuario temporal
-        String token = httpRequest.getHeader("Authorization").substring(7);
+        
+        // Validación de Robustez: Evita StringIndexOutOfBoundsException si la cabecera está ausente o mal formateada
+        String authHeader = httpRequest.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ") || authHeader.length() < 8) {
+            return ResponseFactory.unauthorized("Token de autorización ausente o inválido.");
+        }
+        String token = authHeader.substring(7);
         String username = jwtService.extractUsername(token);
 
         SystemUsersModel user = usersRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        // Si ya tiene el candado activo, bloqueamos la generación de nuevos códigos
         if (user.getIs2faEnabled()) {
             return ResponseFactory.badRequest("El usuario ya tiene el 2FA habilitado.");
         }
 
-        // Generamos un nuevo secreto de 32 caracteres en Base32
+        // Generamos un nuevo secreto seguro de 32 caracteres en Base32
         SecretGenerator secretGenerator = new DefaultSecretGenerator();
         String secret = secretGenerator.generate();
 
-        // IMPORTANTE: Guardamos el secreto pero NO habilitamos la bandera aún
+        // IMPORTANTE: Guardamos el secreto en estado 'en proceso', pero NO activamos el flag de habilitado aún
         user.setTotpSecret(secret);
         usersRepository.save(user);
 
-        // Generamos la data para la app (Google Auth, Authy)
+        // Generamos la data necesaria para la app autenticadora (Google Auth, Authy, Microsoft Authenticator)
         QrData data = new QrData.Builder()
                 .label(user.getUserName())
                 .secret(secret)
@@ -60,7 +71,7 @@ public class TotpController {
                 .period(30)
                 .build();
 
-        // Convertimos a imagen PNG en Base64 para que el FrontEnd la dibuje
+        // Convertimos a imagen física en Base64 para visualización directa en el Frontend
         QrGenerator generator = new ZxingPngQrGenerator();
         byte[] imageData = generator.generate(data);
         String mimeType = generator.getImageMimeType();
@@ -68,28 +79,40 @@ public class TotpController {
 
         return ResponseFactory.successMessage("Escanee este código en su aplicación de autenticación.", Map.of(
                 "qrImage", base64Image,
-                "manualSecret", secret // Por si no puede escanear la cámara
+                "manualSecret", secret
         ));
     }
 
+    // 2. Endpoint para verificar el primer código de enrolamiento y activar el 2FA definitivamente
     @PostMapping("/verify-enrollment")
     public ResponseEntity<Map<String, Object>> verifyEnrollment(
             @RequestBody Map<String, String> request,
             HttpServletRequest httpRequest) {
 
-        String token = httpRequest.getHeader("Authorization").substring(7);
+        // Validación de Robustez de Cabecera
+        String authHeader = httpRequest.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ") || authHeader.length() < 8) {
+            return ResponseFactory.unauthorized("Token de autorización ausente o inválido.");
+        }
+        String token = authHeader.substring(7);
         String username = jwtService.extractUsername(token);
         String code = request.get("code");
 
         SystemUsersModel user = usersRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Validación criptográfica del primer código
+        // MITIGACIÓN DE SOBREESCRITURA: Evitamos que una cuenta enrolada pueda ser re-configurada
+        if (user.getIs2faEnabled()) {
+            return ResponseFactory.badRequest("El usuario ya tiene el 2FA habilitado.");
+        }
+
+        // Validación criptográfica del código de 6 dígitos ingresado por el usuario
         if (totpVerifier.isValidCode(user.getTotpSecret(), code)) {
             user.setIs2faEnabled(true); // SE ACTIVA EL CANDADO DEFINITIVAMENTE
+            user.setLast2faVerifiedAt(LocalDateTime.now()); // Inicializamos la marca de tiempo de validación exitosa de la sesión
             usersRepository.save(user);
 
-            // Ahora sí, entregamos el Token Maestro con sus roles reales
+            // Generamos y emitimos el Token Maestro final con sus roles y reclamos reales
             String finalToken = jwtService.generateToken(
                     Map.of("roles", List.of(user.getRole().getRoleName()), "tenant", user.getTenantId()),
                     user.getUserName()
@@ -104,14 +127,20 @@ public class TotpController {
         return ResponseFactory.badRequest("Código de verificación inválido. Intente de nuevo.");
     }
 
+    // 3. Endpoint para validar el código de 6 dígitos en inicios de sesión subsecuentes
     @PostMapping("/verify-login")
     public ResponseEntity<Map<String, Object>> verifyLogin(
             @RequestBody Map<String, String> request,
             HttpServletRequest httpRequest) {
 
-        String token = httpRequest.getHeader("Authorization").substring(7);
+        // Validación de Cabecera
+        String authHeader = httpRequest.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ") || authHeader.length() < 8) {
+            return ResponseFactory.unauthorized("Token de autorización ausente o inválido.");
+        }
+        String token = authHeader.substring(7);
 
-        // Extraemos la identidad del token efímero
+        // Extraemos la identidad del token efímero de pre-autenticación
         String username = jwtService.extractUsername(token);
         String code = request.get("code");
 
@@ -122,10 +151,14 @@ public class TotpController {
         SystemUsersModel user = usersRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Validamos criptográficamente el código de 6 dígitos
+        // Validación criptográfica
         if (totpVerifier.isValidCode(user.getTotpSecret(), code)) {
+            
+            // Éxito: Actualizamos la marca de tiempo de la sesión 2FA para el control de la ventana deslizante
+            user.setLast2faVerifiedAt(LocalDateTime.now());
+            usersRepository.save(user);
 
-            // Éxito: Destruimos (lógicamente) el estado efímero y emitimos el Token Maestro
+            // Emitimos el Token Maestro final con sus roles y credenciales reales
             String finalToken = jwtService.generateToken(
                     Map.of("roles", List.of(user.getRole().getRoleName()), "tenant", user.getTenantId()),
                     user.getUserName()

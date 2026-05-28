@@ -53,6 +53,7 @@ create unique index UKjqmwxxxugx1rpdw7dl1y35kbc on rrhh_clinic_details (professi
 alter table status add constraint UKjay9oq3tlp3u1t3ly2rryl7aw unique (uuid);
 alter table status add constraint UKreccgx9nr0a8dwv201t44l6pd unique (name);
 alter table patient add constraint UKmx9n36weavbf3f9rudp1d4kxq unique (curp);
+alter table rrhh_employees add constraint UK_employees_curp unique (curp);
 alter table rpbi_cat_clasification add constraint UKkokft60e2mt5nnljb1f03fny1 unique (uuid);
 alter table rpbi_cat_containers add constraint UKtaeq2xafjm9o7mp6n4srf10km unique (uuid);
 alter table rpbi_cat_phyisical_state add constraint UK1ju7tdjpal3am5ir3bamrop unique (uuid);
@@ -129,3 +130,14 @@ VALUES (1, UUID(), 'Cloro', '10/12/2028', 'ml', 20, 50);
 
 INSERT INTO http_status_codes (id, code, name, description)
 VALUES (200, 200, 'OK', 'Solicitud exitosa');
+
+-- ==================================================================================================
+-- FASE 7: TABLAS DE RESILIENCIA Y MENSAJERÍA (Outbox / Idempotencia)
+-- ==================================================================================================
+-- Tabla de Idempotencia para registrar los eventos de mensajería ya procesados (Idempotent Consumer).
+-- Evita ejecuciones duplicadas de scripts de Flyway o transacciones redundantes ante re-entregas de RabbitMQ.
+CREATE TABLE processed_events (
+    event_id VARCHAR(36) PRIMARY KEY,
+    event_type VARCHAR(255) NOT NULL,
+    processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

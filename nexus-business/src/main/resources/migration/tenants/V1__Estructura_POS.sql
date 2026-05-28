@@ -9,3 +9,14 @@ INSERT INTO status (id_status, uuid, name) VALUES (2, 'D4B2C4B1-4F23-5D21-9B62-2
 INSERT INTO status (id_status, uuid, name) VALUES (3, 'E5C3D5C2-5034-6E32-AC73-3C4D5E6F7082', 'Edited');
 INSERT INTO status (id_status, uuid, name) VALUES (4, 'F6D4E6D3-6145-7F43-BD84-4D5E6F708193', 'Deleted');
 INSERT INTO status (id_status, uuid, name) VALUES (5, '07E5F7E4-7256-8054-CE95-5E6F708192A4', 'Added');
+
+-- ==============================================================================
+-- FASE 2: RESILIENCIA E IDEMPOTENCIA
+-- ==============================================================================
+-- Tabla de Idempotencia para registrar los eventos de mensajería ya procesados (Idempotent Consumer).
+-- Evita ejecuciones duplicadas de scripts de Flyway o transacciones redundantes ante re-entregas de RabbitMQ.
+CREATE TABLE processed_events (
+    event_id VARCHAR(36) PRIMARY KEY,
+    event_type VARCHAR(255) NOT NULL,
+    processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,6 +1,7 @@
 package com.nexuscoreserver.controllers.system;
 
 import com.nexuscoreserver.beans.system.SystemUsersRequestObject;
+import com.nexuscoreserver.beans.system.EmployeeOnboardRequestObject;
 import com.nexuscoreserver.models.system.SystemRolesModel;
 import com.nexuscoreserver.models.system.SystemUsersModel;
 import com.nexuscoreserver.repositories.system.ISystemRolesRepository;
@@ -80,6 +81,62 @@ public class SystemUsersController {
         return ResponseFactory.created("Usuario creado exitosamente.", Map.of(
                 "userName", createdUser.getUserName(),
                 "assignedTenant", createdUser.getTenantId()
+        ));
+    }
+
+    /**
+     * Endpoint central para iniciar el proceso asíncrono SAGA de Onboarding de Empleados.
+     * Crea de manera atómica las credenciales locales (si se requiere) y registra el evento Outbox.
+     */
+    @PostMapping("/onboard")
+    public ResponseEntity<Map<String, Object>> onboardEmployee(
+            @Valid @RequestBody EmployeeOnboardRequestObject request,
+            HttpServletRequest httpRequest) {
+
+        // 1. Auditoría y extracción de permisos
+        org.springframework.security.core.Authentication authentication =
+                org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isMaster = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().trim().equalsIgnoreCase("ROLE_MASTER"));
+
+        boolean isAdminClinica = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().trim().equalsIgnoreCase("ROLE_ADMIN"));
+
+        String token = httpRequest.getHeader("Authorization").substring(7);
+        String userTenant = jwtService.extractTenant(token);
+        String targetTenant = request.getTenantId() != null ? request.getTenantId() : "his_master";
+
+        // 2. Control de Acceso Estricto (Seguridad contra escalamiento y cruce de Tenants)
+        if (!isMaster) {
+            if (isAdminClinica) {
+                // El administrador de la clínica solo puede registrar empleados para su propia clínica
+                if (!userTenant.equalsIgnoreCase(targetTenant)) {
+                    return ResponseFactory.forbidden("No tiene privilegios para registrar empleados en otra clínica.");
+                }
+                // Si requiere credenciales, no puede asignar roles de control master
+                if (request.getRequiresSystemAccess() != null && request.getRequiresSystemAccess()) {
+                    if (request.getRoleName().equalsIgnoreCase("MASTER") ||
+                            request.getRoleName().equalsIgnoreCase("DEVELOPER") ||
+                            request.getRoleName().equalsIgnoreCase("ADMIN")) {
+                        return ResponseFactory.forbidden("No tiene permisos para asignar roles de infraestructura crítica.");
+                    }
+                }
+            } else {
+                return ResponseFactory.forbidden("Acceso denegado: Privilegios insuficientes.");
+            }
+        }
+
+        // Forzamos el tenant destino resuelto
+        request.setTenantId(targetTenant);
+
+        // 3. Ejecución del flujo transaccional y Outbox
+        systemUsersService.onboardEmployee(request);
+
+        return ResponseFactory.created("Proceso de onboarding de empleado iniciado de forma segura.", Map.of(
+                "curp", request.getCurp(),
+                "tenantId", targetTenant,
+                "requiresSystemAccess", request.getRequiresSystemAccess() != null ? request.getRequiresSystemAccess() : false
         ));
     }
 }

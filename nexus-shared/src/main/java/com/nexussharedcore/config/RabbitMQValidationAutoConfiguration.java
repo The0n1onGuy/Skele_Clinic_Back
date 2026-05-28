@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpConnectException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.rabbitmq.client.Channel;
 
 @Configuration
-@ConditionalOnBean(RabbitTemplate.class)
+@ConditionalOnClass(RabbitTemplate.class)
 public class RabbitMQValidationAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(RabbitMQValidationAutoConfiguration.class);
