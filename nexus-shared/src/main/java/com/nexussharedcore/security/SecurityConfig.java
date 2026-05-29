@@ -59,6 +59,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/his/v1/appointments/**").hasAnyRole("APPOINTMENTS", "ADMIN")
                         .requestMatchers("/api/his/v1/almacen/**").hasAnyRole("ALMACEN", "ADMIN")
                         .requestMatchers("/api/system/logs/*").hasAnyRole("MASTER")
+
+                        //We'll use temporaly ADMIN to work both user and actual admin, ADD A USER
+                        //Dedicated POS roles: ROLE_POSCOLLABORATOR and ROLE_POSMANAGER
+                        .requestMatchers("/api/pos/v1/cart/**").hasAnyRole("POSMANAGER", "ADMIN")
+
                         .anyRequest().denyAll()
                 )
                 // Se eliminó .authenticationProvider(). La librería no hace Logins.
