@@ -13,6 +13,7 @@ import com.nexussharedcore.models.common.OutboxMessage;
 import com.nexussharedcore.events.UserOnboardRequestedEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +31,12 @@ public class SystemUsersService {
     private final ISystemRolesRepository systemRolesRepository;
     private final IOutboxMessageRepository outboxRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JdbcTemplate jdbcTemplate;
 
     @Transactional
     public SystemUsersModel createSystemUsers(SystemUsersRequestObject requestObject, SystemRolesModel assignedRole, String tenantId) {
+        // Validación de existencia de Tenant para evitar registrar identidades huérfanas
+        validateTenantExists(tenantId);
 
         SystemUsersModel sysUser = new SystemUsersModel();
 
@@ -60,6 +64,9 @@ public class SystemUsersService {
      */
     @Transactional
     public void onboardEmployee(EmployeeOnboardRequestObject request) {
+        // Validación de existencia de Tenant para evitar registrar identidades huérfanas
+        validateTenantExists(request.getTenantId());
+
         String eventId = java.util.UUID.randomUUID().toString();
         
         // 1. Si requiere acceso al sistema, creamos las credenciales de forma transaccional local
@@ -134,6 +141,22 @@ public class SystemUsersService {
 
         } catch (Exception e) {
             throw new RuntimeException("Error al registrar de forma atómica el Outbox de alta de empleado.", e);
+        }
+    }
+
+    /**
+     * Valida de forma rigurosa la existencia del inquilino (Tenant) en la base maestra del Core.
+     * Si no se encuentra registrado en 'system_tenants', aborta la operación para impedir
+     * inconsistencias distributivas de datos en la plataforma.
+     */
+    private void validateTenantExists(String tenantId) {
+        if (tenantId == null) {
+            throw new IllegalArgumentException("El identificador de inquilino (tenantId) no puede ser nulo.");
+        }
+        String sql = "SELECT COUNT(*) FROM system_tenants WHERE tenant_key = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, tenantId);
+        if (count == null || count == 0) {
+            throw new IllegalArgumentException("Operación abortada: El inquilino '" + tenantId + "' no está registrado en la base maestra del Core.");
         }
     }
 }
