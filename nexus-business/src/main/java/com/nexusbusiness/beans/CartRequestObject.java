@@ -12,7 +12,6 @@ public class CartRequestObject {
     public static class CartItemRequest {
         private String sku;
         private int quantity;
-        // Getters and Setters
     }
 }
 

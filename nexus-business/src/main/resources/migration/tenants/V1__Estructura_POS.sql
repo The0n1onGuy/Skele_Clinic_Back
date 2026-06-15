@@ -15,6 +15,7 @@ CREATE TABLE pos_products (
                               sku varchar(50) NOT NULL, -- Barcode index for scanners
                               name varchar(150) NOT NULL,
                               base_price decimal(10, 2) NOT NULL, -- Precision for financial safety
+                              base_description TEXT,
                               category_id bigint NOT NULL,
                               status_id bigint NOT NULL,
                               PRIMARY KEY (id),

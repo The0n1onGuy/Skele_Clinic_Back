@@ -16,6 +16,7 @@ import java.util.Map;
 public class PosCartController {
     @Autowired
     private PosCartService cartService;
+    //private CartRequestObject
 
 
     // Consult products with their availability
@@ -37,7 +38,7 @@ public class PosCartController {
         }
     }
     @PostMapping("/calculate")
-    public ResponseEntity<CartCalculationResponseObject> calculateCart(@RequestBody CartRequestObject request) {
+    public ResponseEntity<CartCalculationResponseObject> calculateTotals(@RequestBody CartRequestObject request) {
 
         CartCalculationResponseObject response = cartService.calculateTotals(request);
         return ResponseEntity.ok(response);

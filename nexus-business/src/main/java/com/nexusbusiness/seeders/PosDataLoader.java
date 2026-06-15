@@ -67,6 +67,10 @@ public class PosDataLoader implements CommandLineRunner {
                 seedProductsAndInventory(activeStatus);
             }
 
+            if (offerRepository.count() == 0) {
+                seedOffers();
+            }
+
             log.info(">>> POS Data: Initial test data loaded correctly into ''." + TenantContext.getCurrentTenant());
         } catch (Exception e) {
             log.error(">>> POS Data Error: Failed to seed POS logic.", e);
@@ -82,15 +86,17 @@ public class PosDataLoader implements CommandLineRunner {
         log.info("-> Categories seeded.");
     }
 
+    //product1[2] = {"qamous", "sus"};
+
     private void seedProductsAndInventory(StatusModel status) {
         // Fetch categories to link them
         PosCategoryModel groceries = categoryRepository.findByNameIgnoreCase("Groceries").orElse(null);
         PosCategoryModel pharmacy = categoryRepository.findByNameIgnoreCase("Pharmacy").orElse(null);
 
         // Seed Products
-        ProductModel chips = saveProduct("SKU-001", "Doritos Nachos 60g", new BigDecimal("15.50"), groceries, status);
-        ProductModel aspirin = saveProduct("SKU-002", "Aspirina 500mg", new BigDecimal("45.00"), pharmacy, status);
-        ProductModel water = saveProduct("SKU-003", "Agua Purificada 1L", new BigDecimal("12.00"), groceries, status);
+        ProductModel chips = saveProduct("SKU-001", "Doritos Nachos 60g", "Sabritas famosas", new BigDecimal("15.50"), groceries, status);
+        ProductModel aspirin = saveProduct("SKU-002", "Aspirina 500mg", "Medicamente para dolor, fiebre, inflamaciones y problemas cardiacos", new BigDecimal("45.00"), pharmacy, status);
+        ProductModel water = saveProduct("SKU-003", "Agua Purificada 1L", "Agua potable bebible",  new BigDecimal("12.00"), groceries, status);
 
         // Seed Inventory for these products[cite: 3]
         saveInventory(chips, 100, 10);
@@ -108,12 +114,13 @@ public class PosDataLoader implements CommandLineRunner {
         categoryRepository.save(cat);
     }
 
-    private ProductModel saveProduct(String sku, String name, BigDecimal price, PosCategoryModel cat, StatusModel status) {
+    private ProductModel saveProduct(String sku, String name,String description, BigDecimal price,PosCategoryModel cat, StatusModel status) {
         ProductModel product = new ProductModel();
         product.setUuid(UUID.randomUUID());
         product.setSku(sku);
         product.setName(name);
         product.setBase_price(price);
+        product.setBase_description(description);
         product.setCategory_id(cat);
         product.setStatus_id(status);
         return productRepository.save(product);
@@ -127,6 +134,37 @@ public class PosDataLoader implements CommandLineRunner {
         inventoryRepository.save(inv);
     }
 
+    private void seedOffers() {
+        // 1. Recuperamos los objetos de la base de datos
+        ProductModel aspirin = productRepository.findBySku("SKU-002").orElse(null);
+        PosCategoryModel groceries = categoryRepository.findByNameIgnoreCase("Groceries").orElse(null);
+
+        // 2. Creamos la oferta para Farmacia (Aspirina)
+        if (aspirin != null) {
+            OfferModel healthOffer = new OfferModel();
+            healthOffer.setName("Descuento Salud 15%");
+            healthOffer.setDiscount_type("PERCENTAGE");
+            healthOffer.setDiscount_value(new BigDecimal("15.00"));
+            healthOffer.setActive(true);
+            healthOffer.setProducts(List.of(aspirin));
+            offerRepository.save(healthOffer);
+        }
+
+        // 3. Creamos la oferta para Abarrotes (Categoría entera)
+        if (groceries != null) {
+            OfferModel groceryOffer = new OfferModel();
+            groceryOffer.setName("Abarrotes 10% Off");
+            groceryOffer.setDiscount_type("PERCENTAGE");
+            groceryOffer.setDiscount_value(new BigDecimal("10.00"));
+            groceryOffer.setActive(true);
+            groceryOffer.setCategories(List.of(groceries));
+            offerRepository.save(groceryOffer);
+        }
+
+        log.info("-> Promotion logic and discounts seeded.");
+    }
+
+    /*
     private void seedOffers(ProductModel aspirin, PosCategoryModel groceries) {
         // Create the Offer for Pharmacy (15% off Aspirin specifically)
         OfferModel healthOffer = new OfferModel();
@@ -138,7 +176,6 @@ public class PosDataLoader implements CommandLineRunner {
         healthOffer.setProducts(List.of(aspirin));
 
         offerRepository.save(healthOffer); // Hibernate automatically writes to pos_offer_products
-
         // Create the Offer for Groceries (10% off entire Category)
         OfferModel groceryOffer = new OfferModel();
         groceryOffer.setName("Abarrotes 10% Off");
@@ -147,9 +184,10 @@ public class PosDataLoader implements CommandLineRunner {
         groceryOffer.setActive(true);
         // Link the category directly to the offer list
         groceryOffer.setCategories(List.of(groceries));
-
         offerRepository.save(groceryOffer); // Hibernate automatically writes to pos_offer_categories
 
         log.info("-> Promotion logic and discounts seeded.");
     }
+    */
+
 }

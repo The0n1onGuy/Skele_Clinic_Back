@@ -25,8 +25,11 @@ public class ProductModel {
     @Column(nullable = false, length = 150)
     private String name;
 
+    @Column(nullable = true, length = 150)
+    private String base_description;
+
     // precision 10, scale 2 = 12345678.99
-    @Column(name = "base_price", precision = 10, scale = 2, nullable = false)
+    @Column( precision = 10, scale = 2, nullable = false)
     private java.math.BigDecimal base_price;
 
     @ManyToOne

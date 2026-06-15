@@ -9,6 +9,7 @@ public class ProductObject {
     private UUID uuid;
     private String sku;
     private String name;
+    private String baseDescription;
     private BigDecimal basePrice;
     private String categoryName;
     private String statusName;

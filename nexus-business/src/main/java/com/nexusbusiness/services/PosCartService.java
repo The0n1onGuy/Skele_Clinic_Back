@@ -44,13 +44,53 @@ public class PosCartService {
             dto.setUuid(p.getUuid());
             dto.setProduct_name(p.getName());
             dto.setProduct_sku(p.getSku());
+            dto.setProduct_description(p.getBase_description());
             dto.setNormal_price(p.getBase_price());
 
-            // Extract just t|he name of the category to hide the object structure
+            // Extract just the name of the category to hide the object structure
             if (p.getCategory_id() != null) {
                 dto.setCategory_name(p.getCategory_id().getName());
             }
             dto.setStatus_name(p.getStatus_id().getStatusName());
+
+            List<OfferModel> applicableOffers = offerRepository.findActiveOffersForProduct(p, p.getCategory_id());
+
+            BigDecimal bestDiscountValue = null;
+            String bestDiscountType = null;
+            BigDecimal lowestPrice = p.getBase_price(); // As default use the normal value
+
+            // Multiple Offers Logic check one by one
+            for (OfferModel offer : applicableOffers) {
+                BigDecimal potentialDiscount = BigDecimal.ZERO;
+                //Check this offer type
+                //Percentage when its in a scale of 1 to 100
+                if ("PERCENTAGE".equalsIgnoreCase(offer.getDiscount_type())) {
+                    potentialDiscount = p.getBase_price()
+                            .multiply(offer.getDiscount_value())
+                            .divide(new BigDecimal("100"));
+                } // FIXED when the value its in funds or positive balance
+                else if ("FIXED".equalsIgnoreCase(offer.getDiscount_type())) {
+                    potentialDiscount = offer.getDiscount_value();
+                }
+
+                BigDecimal testPrice = p.getBase_price().subtract(potentialDiscount);
+                if (testPrice.compareTo(BigDecimal.ZERO) < 0) testPrice = BigDecimal.ZERO;
+
+                // Save this price
+                if (testPrice.compareTo(lowestPrice) < 0) {
+                    lowestPrice = testPrice;
+                    bestDiscountValue = offer.getDiscount_value();
+                    bestDiscountType = offer.getDiscount_type();
+                }
+            }
+
+            // Use this value if its lower for what we'll send to front
+            if (lowestPrice.compareTo(p.getBase_price()) < 0) {
+                dto.setDiscountPrice(lowestPrice);
+                dto.setDiscount_value(bestDiscountValue);
+                dto.setDiscount_type(bestDiscountType);
+            }
+
             return dto;
 
         }).toList();
@@ -70,10 +110,9 @@ public class PosCartService {
             BigDecimal qty = new BigDecimal(item.getQuantity());
             BigDecimal itemBaseSubtotal = product.getBase_price().multiply(qty);
 
-            // 1. Fetch applicable offers
+            // Fetch applicable offers
             List<OfferModel> applicableOffers = offerRepository.findActiveOffersForProduct(product, product.getCategory_id());
 
-            // 2. Strategy: Find the Highest Value Discount per unit
             BigDecimal bestDiscountPerUnit = BigDecimal.ZERO;
             String appliedOfferName = "None";
 
@@ -96,7 +135,7 @@ public class PosCartService {
                 }
             }
 
-            // 3. Apply the winning discount
+            // Apply the winning discount
             BigDecimal finalUnitPrice = product.getBase_price().subtract(bestDiscountPerUnit);
             BigDecimal totalItemDiscount = bestDiscountPerUnit.multiply(qty);
 
@@ -106,11 +145,11 @@ public class PosCartService {
                 totalItemDiscount = product.getBase_price().multiply(qty);
             }
 
-            // 4. Update Global Totals
+            // Update Global Totals
             globalSubtotal = globalSubtotal.add(itemBaseSubtotal);
             globalDiscount = globalDiscount.add(totalItemDiscount);
 
-            // 5. Build the detailed receipt for the frontend
+            // Build the detailed receipt for the frontend
             CartCalculationResponseObject.CalculatedItem detail = new CartCalculationResponseObject.CalculatedItem();
             detail.setSku(product.getSku());
             detail.setName(product.getName());
