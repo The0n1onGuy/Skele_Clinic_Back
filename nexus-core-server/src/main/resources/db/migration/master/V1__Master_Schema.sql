@@ -33,6 +33,7 @@ create table system_tenants (
                                 tenant_key VARCHAR(100) NOT NULL UNIQUE,
                                 display_name VARCHAR(255) NOT NULL,
                                 contact_email VARCHAR(255),
+                                totp_validity_hours INT DEFAULT 24 NOT NULL, -- Control dinámico del tiempo de validez del TOTP por inquilino/módulo (ej. 24h para turnos de guardia, 8h para turnos estándar)
                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -75,6 +76,7 @@ create table system_users (
 
                               totp_secret VARCHAR(64) DEFAULT NULL,
                               is_2fa_enabled BOOLEAN DEFAULT FALSE,
+                              last_2fa_verified_at TIMESTAMP NULL DEFAULT NULL, -- Almacena la fecha y hora de la última validación exitosa de TOTP del usuario para controlar la ventana de expiración
 
                               primary key (id_user)
 );
@@ -129,3 +131,39 @@ INSERT INTO system_services (status_id, service_code, service_name, description)
 
 -- Inquilino Maestro
 INSERT INTO system_tenants (status_id, tenant_key, display_name) VALUES (1, 'his_master', 'Sistema Central Nexus');
+
+-- ==============================================================================
+-- 6. OUTBOX Y RESILIENCIA MULTIMÓDULO
+-- ==============================================================================
+-- Tabla de catálogo de eventos válidos para el Outbox. Garantiza integridad de tipo a nivel de base de datos.
+CREATE TABLE outbox_event_catalog (
+    event_code VARCHAR(100) PRIMARY KEY, -- ej: 'TenantCreatedEvent'
+    event_class_name VARCHAR(255) NOT NULL, -- ej: 'com.nexussharedcore.events.TenantCreatedEvent'
+    description VARCHAR(255)
+);
+
+-- Tabla Outbox para garantizar transaccionalidad atómica y consistencia eventual (Pub/Sub)
+-- al aprovisionar inquilinos de manera dinámica, evitando el problema del doble guardado (Dual-Write).
+CREATE TABLE outbox_messages (
+    id VARCHAR(36) PRIMARY KEY,
+    aggregate_type VARCHAR(255) NOT NULL,
+    aggregate_id VARCHAR(255) NOT NULL,
+    event_type VARCHAR(100) NOT NULL, -- Longitud ajustada al tipo del catálogo
+    payload JSON NOT NULL,
+    routing_key VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL, -- PENDING, SENT, FAILED
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    processed_at TIMESTAMP NULL,
+    CONSTRAINT FK_outbox_event_type FOREIGN KEY (event_type) REFERENCES outbox_event_catalog (event_code)
+);
+
+-- Sembrado base de eventos de integración válidos
+INSERT INTO outbox_event_catalog (event_code, event_class_name, description) 
+VALUES ('TenantCreatedEvent', 'com.nexussharedcore.events.TenantCreatedEvent', 'Evento emitido al aprovisionar físicamente un nuevo inquilino en la base maestra');
+
+-- NUEVOS EVENTOS SAGA: Onboarding de empleados clínico cruzado (Maestro a Tenant / Inquilino)
+INSERT INTO outbox_event_catalog (event_code, event_class_name, description) 
+VALUES ('UserOnboardRequestedEvent', 'com.nexussharedcore.events.UserOnboardRequestedEvent', 'Evento asíncrono para iniciar el onboarding clínico del empleado en el tenant');
+
+INSERT INTO outbox_event_catalog (event_code, event_class_name, description) 
+VALUES ('UserOnboardFailedEvent', 'com.nexussharedcore.events.UserOnboardFailedEvent', 'Evento de compensación SAGA para revertir credenciales si falla la inserción en el inquilino');

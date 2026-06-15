@@ -18,9 +18,16 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Date;
 import java.util.TimeZone;
 
-// INSTRUCCIÓN CRÍTICA: Escaneo del módulo actual Y la librería compartida
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
+
+// INSTRUCCIÓN CRÍTICA: Escaneo de componentes, repositorios y entidades del módulo actual Y la librería compartida
 @SpringBootApplication(scanBasePackages = {"com.nexuscoreserver", "com.nexussharedcore"},
 exclude = {UserDetailsServiceAutoConfiguration.class} )
+@EnableScheduling // Habilita la ejecución periódica para despachar el Outbox transaccional
+@EnableJpaRepositories(basePackages = {"com.nexuscoreserver.repositories", "com.nexussharedcore.repositories"})
+@EntityScan(basePackages = {"com.nexuscoreserver.models", "com.nexussharedcore.models"})
 public class NexusCoreServerApplication extends SpringBootServletInitializer {
 
     @Override

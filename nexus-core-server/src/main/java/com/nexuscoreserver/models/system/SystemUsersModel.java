@@ -45,4 +45,8 @@ public class SystemUsersModel {
 
     @Column(name = "is_2fa_enabled")
     private Boolean is2faEnabled = false;
+
+    // Almacena la marca de tiempo de la última verificación exitosa de TOTP del usuario
+    @Column(name = "last_2fa_verified_at")
+    private java.time.LocalDateTime last2faVerifiedAt;
 }

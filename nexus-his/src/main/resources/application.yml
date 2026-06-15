@@ -49,3 +49,5 @@ logging:
     org.hibernate: INFO
     com.nexushiscore: INFO  # Obliga a mostrar los log.info() de tus clases
     org.flywaydb: INFO
+    # Suprimir ruidos excesivos de reconexión de RabbitMQ manteniendo solo alertas críticas
+    org.springframework.amqp: FATAL
